@@ -1,0 +1,10 @@
+P001,Luxury Apartment,125000.00,Apartment,Colombo
+P002,Ocean View Villa,550000.00,Villa,Galle
+P003,Modern Studio,85000.00,Studio,Kandy
+P004,Skyline Penthouse,300000.00,Apartment,Colombo
+P005,Heritage House,420000.00,House,Jaffna
+P006,Riverside Cabin,150000.00,House,Ratnapura
+P007,City Center Flat,95000.00,Apartment,Colombo 03
+P008,Mountain Retreat,280000.00,Villa,Nuwara Eliya
+P009,Beachside Bungalow,480000.00,House,Negombo
+P010,Garden View Studio,75000.00,Studio,Battaramulla

@@ -1,3 +1,6 @@
+<%@ page import="com.realestate.portal.model.Property" %>
+<%@ page import="java.util.List" %>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -873,7 +876,39 @@ input, select, textarea { font-family: var(--font-sans); outline: none; }
         <button class="filter-btn" onclick="filterHome(this,'house')">Houses</button>
         <button class="filter-btn" onclick="filterHome(this,'villa')">Villas</button>
       </div>
-      <div class="prop-grid" id="home-prop-grid"></div>
+      <div class="prop-grid" id="home-prop-grid">
+          <%
+              // 1. Retrieve the list from the request
+              List<Property> propertyList = (List<Property>) request.getAttribute("propertyList");
+
+              if (propertyList != null && !propertyList.isEmpty()) {
+                  for (Property p : propertyList) {
+          %>
+              <div class="prop-card" onclick="openDetail(<%= p.getId() %>)">
+                  <div class="prop-img-wrap">
+                      <img src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=800&q=80" alt="Property Image"/>
+                      <div class="prop-tags">
+                          <span class="prop-tag tag-sale"><%= p.getType() %></span>
+                      </div>
+                  </div>
+                  <div class="prop-body">
+                      <div class="prop-price">$<%= String.format("%.2f", p.getPrice()) %></div>
+                      <div class="prop-name"><%= p.getTitle() %></div>
+                      <div class="prop-loc">
+                          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>
+                          <%= p.getLocation() %>
+                      </div>
+                  </div>
+              </div>
+          <%
+                  }
+              } else {
+          %>
+              <p>No properties available at the moment. Please check back later!</p>
+          <%
+              }
+          %>
+      </div>
       <button class="load-more-btn" onclick="showPage('listings')">View All Properties →</button>
     </div>
   </section>

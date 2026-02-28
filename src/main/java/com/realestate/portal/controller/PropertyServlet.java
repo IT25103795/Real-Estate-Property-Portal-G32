@@ -1,46 +1,35 @@
 package com.realestate.portal.controller;
 
-import com.realestate.portal.model.Property;
-import jakarta.servlet.ServletException;
-import jakarta.servlet.annotation.WebServlet;
-import jakarta.servlet.http.HttpServlet;
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
+import javax.servlet.*;
+import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.*;
 import java.io.*;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
+import com.realestate.portal.model.Property;
 
 @WebServlet("/properties")
 public class PropertyServlet extends HttpServlet {
-    protected void doGet(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-
-        String searchQuery = request.getParameter("location");
-
-        List<Property> filteredList = new ArrayList<>();
-        String filePath = getServletContext().getRealPath("/") + "properties.txt";
+    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        List<Property> propertyList = new ArrayList<>();
+        // This path works because we moved properties.txt to the webapp folder
+        String filePath = getServletContext().getRealPath("/properties.txt");
 
         try (BufferedReader br = new BufferedReader(new FileReader(filePath))) {
             String line;
+            String searchLocation = request.getParameter("location");
+
             while ((line = br.readLine()) != null) {
                 String[] data = line.split(",");
-                if (data.length == 5) {
-                    Property prop = new Property(data[0], data[1],
-                            Double.parseDouble(data[2]), data[3], data[4]);
-
-                    if (searchQuery == null || searchQuery.trim().isEmpty() ||
-                            prop.getTitle().toLowerCase().contains(searchQuery.toLowerCase()) ||
-                            prop.getLocation().toLowerCase().contains(searchQuery.toLowerCase())) {
-
-                        filteredList.add(prop);
-                    }
+                // Linear Search Logic
+                if (searchLocation == null || searchLocation.isEmpty() || data[4].equalsIgnoreCase(searchLocation)) {
+                    propertyList.add(new Property(data[0], data[1], Double.parseDouble(data[2]), data[3], data[4]));
                 }
             }
         } catch (Exception e) {
             e.printStackTrace();
         }
 
-        request.setAttribute("propertyList", filteredList);
+        request.setAttribute("properties", propertyList);
         request.getRequestDispatcher("index.jsp").forward(request, response);
     }
 }

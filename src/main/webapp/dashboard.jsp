@@ -22,7 +22,7 @@
         <p>You are logged in as: <strong><%= (user != null) ? user.getRole() : "" %></strong></p>
         <hr>
         <p>This is the central hub for Group G32's Real Estate Portal.</p>
-        <a href="index.jsp">Logout</a>
+        <a href="logout">Logout</a>
     </div>
 </body>
 </html>

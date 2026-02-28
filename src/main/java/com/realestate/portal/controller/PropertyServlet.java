@@ -15,7 +15,9 @@ public class PropertyServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 
-        List<Property> propertyList = new ArrayList<>();
+        String searchQuery = request.getParameter("location");
+
+        List<Property> filteredList = new ArrayList<>();
         String filePath = getServletContext().getRealPath("/") + "properties.txt";
 
         try (BufferedReader br = new BufferedReader(new FileReader(filePath))) {
@@ -23,16 +25,22 @@ public class PropertyServlet extends HttpServlet {
             while ((line = br.readLine()) != null) {
                 String[] data = line.split(",");
                 if (data.length == 5) {
-                    propertyList.add(new Property(data[0], data[1],
-                            Double.parseDouble(data[2]), data[3], data[4]));
+                    Property prop = new Property(data[0], data[1],
+                            Double.parseDouble(data[2]), data[3], data[4]);
+
+                    if (searchQuery == null || searchQuery.trim().isEmpty() ||
+                            prop.getTitle().toLowerCase().contains(searchQuery.toLowerCase()) ||
+                            prop.getLocation().toLowerCase().contains(searchQuery.toLowerCase())) {
+
+                        filteredList.add(prop);
+                    }
                 }
             }
         } catch (Exception e) {
             e.printStackTrace();
         }
 
-
-        request.setAttribute("propertyList", propertyList);
+        request.setAttribute("propertyList", filteredList);
         request.getRequestDispatcher("index.jsp").forward(request, response);
     }
 }

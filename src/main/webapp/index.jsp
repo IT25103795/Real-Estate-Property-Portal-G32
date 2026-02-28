@@ -791,34 +791,38 @@ input, select, textarea { font-family: var(--font-sans); outline: none; }
       <h1 class="hero-title">Find Your Perfect<br/><em>Place to Call Home</em></h1>
       <p class="hero-sub">Discover thousands of verified properties across the country. Buy, rent, or sell — we make every step effortless.</p>
 
-      <div class="hero-search">
-        <div class="hero-search-field">
-          <label>Location</label>
-          <input type="text" placeholder="City, neighborhood..." id="heroLocation"/>
-        </div>
-        <div class="hero-search-field" style="max-width:140px">
-          <label>Type</label>
-          <select id="heroType">
-            <option value="">Any Type</option>
-            <option>Apartment</option>
-            <option>House</option>
-            <option>Villa</option>
-            <option>Studio</option>
-          </select>
-        </div>
-        <div class="hero-search-field" style="max-width:140px">
-          <label>Status</label>
-          <select id="heroStatus">
-            <option value="">Buy or Rent</option>
-            <option value="sale">For Sale</option>
-            <option value="rent">For Rent</option>
-          </select>
-        </div>
-        <button class="hero-search-btn" onclick="doHeroSearch()">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
-          Search
-        </button>
-      </div>
+      <form action="properties" method="get" class="hero-search">
+
+          <div class="hero-search-field">
+            <label>Location</label>
+            <input type="text" name="location" placeholder="City, neighborhood..." id="heroLocation"/>
+          </div>
+
+          <div class="hero-search-field" style="max-width:140px">
+            <label>Type</label>
+            <select id="heroType">
+              <option value="">Any Type</option>
+              <option>Apartment</option>
+              <option>House</option>
+              <option>Villa</option>
+              <option>Studio</option>
+            </select>
+          </div>
+
+          <div class="hero-search-field" style="max-width:140px">
+            <label>Status</label>
+            <select id="heroStatus">
+              <option value="">Buy or Rent</option>
+              <option value="sale">For Sale</option>
+              <option value="rent">For Rent</option>
+            </select>
+          </div>
+
+          <button type="submit" class="hero-search-btn">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+            Search
+          </button>
+      </form>
 
       <div class="hero-stats">
         <div class="hstat">

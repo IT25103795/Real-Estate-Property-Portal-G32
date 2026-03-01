@@ -11,22 +11,23 @@ import com.realestate.portal.model.Property;
 public class PropertyServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         List<Property> propertyList = new ArrayList<>();
-        // This path works because we moved properties.txt to the webapp folder
         String filePath = getServletContext().getRealPath("/properties.txt");
 
-        try (BufferedReader br = new BufferedReader(new FileReader(filePath))) {
-            String line;
-            String searchLocation = request.getParameter("location");
-
-            while ((line = br.readLine()) != null) {
-                String[] data = line.split(",");
-                // Linear Search Logic
-                if (searchLocation == null || searchLocation.isEmpty() || data[4].equalsIgnoreCase(searchLocation)) {
-                    propertyList.add(new Property(data[0], data[1], Double.parseDouble(data[2]), data[3], data[4]));
+        // Check if file exists to avoid yellow warning/error
+        File file = new File(filePath);
+        if (file.exists()) {
+            try (BufferedReader br = new BufferedReader(new FileReader(file))) {
+                String line;
+                while ((line = br.readLine()) != null) {
+                    String[] d = line.split(",");
+                    if (d.length >= 5) {
+                        propertyList.add(new Property(d[0], d[1], Double.parseDouble(d[2]), d[3], d[4]));
+                    }
                 }
+            } catch (Exception e) {
+                // Keep this - it's fine for your lab work!
+                e.printStackTrace();
             }
-        } catch (Exception e) {
-            e.printStackTrace();
         }
 
         request.setAttribute("properties", propertyList);

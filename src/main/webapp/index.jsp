@@ -45,6 +45,42 @@
   --font-serif: 'Playfair Display', Georgia, serif;
   --font-sans:  'Outfit', system-ui, sans-serif;
 }
+
+/* ── DARK MODE OVERRIDES ── */
+[data-theme="dark"] {
+  --bg:       #0f1117;
+  --bg2:      #1a1d27;
+  --bg3:      #232736;
+  --ink:      #ffffff;
+  --ink2:     #e8eaee;
+  --ink3:     #9198a8;
+  --ink4:     #5a5f70;
+  --line:     #232736;
+  --line2:    #2d3243;
+  --accent-l: rgba(26,86,219,.2);
+  --green-l:  rgba(13,158,110,.2);
+  --amber-l:  rgba(217,119,6,.2);
+}
+
+/* Fix stubborn hardcoded white backgrounds */
+[data-theme="dark"] .navbar {
+  background: rgba(15, 17, 23, 0.92);
+  border-bottom: 1px solid var(--line);
+}
+
+[data-theme="dark"] .hero-card-float,
+[data-theme="dark"] .auth-social-btn,
+[data-theme="dark"] .testi-card:hover {
+  background: var(--bg2);
+}
+
+[data-theme="dark"] input:focus,
+[data-theme="dark"] select:focus,
+[data-theme="dark"] textarea:focus,
+[data-theme="dark"] .contact-form-input:focus {
+  background: var(--bg);
+}
+
 *, *::before, *::after { box-sizing: border-box; margin:0; padding:0; }
 html { scroll-behavior: smooth; font-size: 16px; }
 body {
@@ -224,7 +260,7 @@ input, select, textarea { font-family: var(--font-sans); outline: none; }
   animation: floatCard 4s ease-in-out infinite;
 }
 @keyframes floatCard { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-8px); } }
-.hcf-1 { bottom: 120px; left: -24px; min-width: 220px; }
+.hcf-1 { bottom: 120px; left: 24px; min-width: 220px; }
 .hcf-2 { top: 100px; right: 24px; min-width: 180px; animation-delay: 1.5s; }
 .hcf-label { font-size: .65rem; font-weight: 600; letter-spacing: 1px; text-transform: uppercase; color: var(--ink4); margin-bottom: 4px; }
 .hcf-value { font-size: 1rem; font-weight: 600; color: var(--ink); }
@@ -485,31 +521,63 @@ input, select, textarea { font-family: var(--font-sans); outline: none; }
 .ac-stat-val { font-size: 1.1rem; font-weight: 700; color: var(--ink); }
 .ac-stat-label { font-size: .68rem; color: var(--ink4); font-weight: 400; margin-top: 2px; }
 
-/* ── AUTH PAGES ── */
+/* ── AUTH PAGES (FIXED BULLETPROOF) ── */
+/* ── AUTH PAGES (FOOLPROOF HTML FIX) ── */
 .auth-page {
-  min-height: 100vh; display: grid; grid-template-columns: 1fr 1fr;
+  min-height: 100vh;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  padding-top: 68px;
 }
+
 .auth-left {
-  background: var(--ink);
-  position: relative; overflow: hidden;
-  display: flex; flex-direction: column; justify-content: flex-end;
+  background-color: #1a1d27;
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
   padding: 60px;
 }
-.auth-left-img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; opacity: .4; }
-.auth-left-content { position: relative; z-index: 1; }
-.auth-left-logo {
-  font-family: var(--font-serif);
-  font-size: 1.8rem; font-weight: 700; color: white;
-  position: absolute; top: 40px; left: 60px; z-index: 1;
-  display: flex; align-items: center; gap: 8px;
+
+/* These control the physical HTML images */
+.auth-bg-img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  z-index: 0;
+  transition: opacity 0.5s ease;
 }
-.auth-left-logo .dot { width: 8px; height: 8px; background: var(--accent); border-radius: 50%; }
+
+.auth-dark-img { display: none; }
+[data-theme="dark"] .auth-light-img { display: none; }
+[data-theme="dark"] .auth-dark-img { display: block; }
+
+/* The Dark Glass Overlay */
+.auth-left::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: rgba(15, 17, 23, 0.4);
+  z-index: 1;
+}
+
+.auth-left-content {
+  position: relative;
+  z-index: 10;
+}
+
 .auth-quote {
   font-family: var(--font-serif);
   font-size: 2.2rem; font-weight: 400; font-style: italic;
   color: white; line-height: 1.3; margin-bottom: 20px;
+  text-shadow: 0 2px 8px rgba(0,0,0,0.6); /* Adds a shadow so text is always readable */
 }
-.auth-quote-attr { font-size: .875rem; color: rgba(255,255,255,.6); }
+
+.auth-quote-attr { font-size: .875rem; color: rgba(255,255,255,.9); }
+
 .auth-right {
   display: flex; align-items: center; justify-content: center;
   padding: 60px 80px; background: var(--bg);
@@ -767,14 +835,31 @@ input, select, textarea { font-family: var(--font-sans); outline: none; }
     <li><a href="#" onclick="showPage('agents')">Agents</a></li>
     <li><a href="#" onclick="showPage('home')">About</a></li>
   </ul>
+
   <div class="nav-actions">
-    <button class="btn-ghost" onclick="showPage('login')">Sign In</button>
-    <button class="btn-primary" onclick="showPage('register')">
-      <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2"><path d="M8 2v12M2 8h12"/></svg>
-      List Property
-    </button>
-  </div>
-</nav>
+
+      <button class="btn-ghost" id="theme-toggle" onclick="toggleTheme()" style="padding: 8px 12px; font-size: 1.1rem; border-color: transparent;" title="Toggle Dark Mode">🌙</button>
+
+      <c:choose>
+          <c:when test="${not empty sessionScope.loggedUser}">
+              <span style="font-weight: 600; color: var(--ink); margin-right: 15px;">
+                  👋 Welcome, ${sessionScope.loggedUser}
+                  <span style="font-size: 0.7rem; background: var(--accent-l); color: var(--accent); padding: 2px 8px; border-radius: 99px;">${sessionScope.loggedRole}</span>
+              </span>
+              <form action="logout" method="post" style="display:inline;">
+                  <button type="submit" class="btn-ghost">Logout</button>
+              </form>
+          </c:when>
+          <c:otherwise>
+              <button class="btn-ghost" onclick="showPage('login')">Sign In</button>
+              <button class="btn-primary" onclick="showPage('register')">
+                <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2"><path d="M8 2v12M2 8h12"/></svg>
+                List Property
+              </button>
+          </c:otherwise>
+      </c:choose>
+    </div>
+  </nav>
 
 <div class="page active" id="page-home">
 
@@ -1198,44 +1283,49 @@ input, select, textarea { font-family: var(--font-sans); outline: none; }
 <div class="page" id="page-login">
   <div class="auth-page">
     <div class="auth-left">
-      <img src="https://images.unsplash.com/photo-1600607687644-c7171b42498b?w=900&q=80" class="auth-left-img" alt=""/>
-      <div class="auth-left-logo"><span class="dot"></span>NESTIQ</div>
-      <div class="auth-left-content">
-        <p class="auth-quote">"The best investment on earth is earth."</p>
-        <p class="auth-quote-attr">— Louis Glickman</p>
-      </div>
+          <img src="images/day.jpg" class="auth-bg-img auth-light-img" alt="Day House"/>
+          <img src="images/night.jpg" class="auth-bg-img auth-dark-img" alt="Night House"/>
+
+          <div class="auth-left-content">
+            <p class="auth-quote">"The best investment on earth is earth."</p>
+            <p class="auth-quote-attr">— Louis Glickman</p>
+          </div>
     </div>
+
     <div class="auth-right">
       <div class="auth-box">
         <h2 class="auth-title">Welcome back</h2>
         <p class="auth-sub">Sign in to your Nestiq account</p>
 
+        <p style="color: var(--green); font-size: 0.9rem; margin-bottom: 10px; font-weight: 600; text-align: center;">
+            ${successMessage}
+        </p>
+
         <div class="auth-social">
           <button class="auth-social-btn">🔵 Google</button>
           <button class="auth-social-btn">🍎 Apple</button>
         </div>
-   <div class="auth-divider"><span>or continue with email</span></div>
+        <div class="auth-divider"><span>or continue with email</span></div>
 
-   <form action="login" method="post">
+        <form action="login" method="post">
+           <p style="color: var(--red); font-size: 0.8rem; margin-bottom: 10px; font-weight: 500;">
+               ${errorMessage}
+           </p>
 
-       <p style="color: var(--red); font-size: 0.8rem; margin-bottom: 10px; font-weight: 500;">
-           ${errorMessage}
-       </p>
+           <div class="auth-field">
+             <label>Username</label>
+             <input class="auth-input" type="text" name="username" placeholder="you@example.com" required/>
+           </div>
 
-       <div class="auth-field">
-         <label>Username</label>
-         <input class="auth-input" type="text" name="username" placeholder="admin" required/>
-       </div>
+           <div class="auth-field">
+             <label>Password</label>
+             <input class="auth-input" type="password" name="password" placeholder="••••••••" required/>
+           </div>
 
-       <div class="auth-field">
-         <label>Password</label>
-         <input class="auth-input" type="password" name="password" placeholder="••••••••" required/>
-       </div>
+           <button type="submit" class="auth-submit">Sign In →</button>
+        </form>
 
-       <button type="submit" class="auth-submit">Sign In →</button>
-   </form>
-
-   <p class="auth-switch">Don't have an account? <a onclick="showPage('register')">Create one free</a></p>
+        <p class="auth-switch">Don't have an account? <a onclick="showPage('register')">Create one free</a></p>
       </div>
     </div>
   </div>
@@ -1244,38 +1334,45 @@ input, select, textarea { font-family: var(--font-sans); outline: none; }
 <div class="page" id="page-register">
   <div class="auth-page">
     <div class="auth-left">
-      <img src="https://images.unsplash.com/photo-1560185127-6ed189bf02f4?w=900&q=80" class="auth-left-img" alt=""/>
-      <div class="auth-left-logo"><span class="dot"></span>NESTIQ</div>
-      <div class="auth-left-content">
-        <p class="auth-quote">"Home is where love resides and memories are created."</p>
-      </div>
+          <img src="images/day.jpg" class="auth-bg-img auth-light-img" alt="Day House"/>
+          <img src="images/night.jpg" class="auth-bg-img auth-dark-img" alt="Night House"/>
+
+          <div class="auth-left-content">
+            <p class="auth-quote">"The best investment on earth is earth."</p>
+            <p class="auth-quote-attr">— Louis Glickman</p>
+          </div>
     </div>
+
     <div class="auth-right">
       <div class="auth-box">
         <h2 class="auth-title">Create account</h2>
         <p class="auth-sub">Join 50,000+ users on Nestiq</p>
 
-        <div class="filter-section-title" style="margin-bottom:10px">I am a...</div>
-        <div class="auth-role-grid" id="role-grid">
-          <div class="role-btn selected" onclick="selectRole(this,'BUYER')"><span class="ri">🏠</span>Buyer</div>
-          <div class="role-btn" onclick="selectRole(this,'SELLER')"><span class="ri">💼</span>Seller</div>
-          <div class="role-btn" onclick="selectRole(this,'AGENT')"><span class="ri">🤝</span>Agent</div>
-        </div>
+        <form action="register" method="post">
+            <div class="filter-section-title" style="margin-bottom:10px">I am a...</div>
+            <div class="auth-role-grid" id="role-grid">
+              <div class="role-btn selected" onclick="selectRole(this,'BUYER')"><span class="ri">🏠</span>Buyer</div>
+              <div class="role-btn" onclick="selectRole(this,'SELLER')"><span class="ri">💼</span>Seller</div>
+              <div class="role-btn" onclick="selectRole(this,'ADMIN')"><span class="ri">🤝</span>Admin</div>
+            </div>
 
-        <div class="auth-field">
-          <label>Full Name</label>
-          <input class="auth-input" type="text" placeholder="John Smith" id="reg-name"/>
-        </div>
-        <div class="auth-field">
-          <label>Email Address</label>
-          <input class="auth-input" type="email" placeholder="you@example.com" id="reg-email"/>
-        </div>
-        <div class="auth-field">
-          <label>Password</label>
-          <input class="auth-input" type="password" placeholder="Min 8 characters" id="reg-password"/>
-        </div>
+            <input type="hidden" name="role" id="hiddenRole" value="BUYER"/>
 
-        <button class="auth-submit" onclick="doRegister()">Create Account →</button>
+            <div class="auth-field">
+              <label>Full Name</label>
+              <input class="auth-input" type="text" name="fullName" placeholder="John Smith" required/>
+            </div>
+            <div class="auth-field">
+              <label>Email Address</label>
+              <input class="auth-input" type="email" name="email" placeholder="you@example.com" required/>
+            </div>
+            <div class="auth-field">
+              <label>Password</label>
+              <input class="auth-input" type="password" name="password" placeholder="Min 8 characters" required minlength="8"/>
+            </div>
+
+            <button type="submit" class="auth-submit">Create Account →</button>
+        </form>
         <p class="auth-switch">Already have an account? <a onclick="showPage('login')">Sign in</a></p>
       </div>
     </div>

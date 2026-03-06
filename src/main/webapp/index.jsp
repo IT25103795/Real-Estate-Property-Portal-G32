@@ -7,7 +7,7 @@
 <head>
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<title>NESTIQ — Real Estate</title>
+<title>NESTIQ Real Estate</title>
 <link rel="preconnect" href="https://fonts.googleapis.com"/>
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet"/>
 <style>
@@ -84,7 +84,7 @@ input, select, textarea { font-family: var(--font-sans); outline: none; }
   font-size: 1.5rem;
   font-weight: 700;
   letter-spacing: -0.5px;
-  color: var(--ink);
+  color: #1a56db;
   display: flex; align-items: center; gap: 8px;
 }
 .nav-logo .dot { width: 8px; height: 8px; background: var(--accent); border-radius: 50%; display: inline-block; }
@@ -566,7 +566,7 @@ input, select, textarea { font-family: var(--font-sans); outline: none; }
 }
 .filter-section { margin-bottom: 28px; }
 .filter-section-title { font-size: .75rem; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; color: var(--ink3); margin-bottom: 12px; }
-.price-range { display: flex; gap: 8px; }
+.price-range { gap: 8px; }
 .price-input {
   flex:1; background: var(--bg2); border: 1.5px solid transparent;
   border-radius: var(--r); padding: 9px 12px;
@@ -649,9 +649,9 @@ input, select, textarea { font-family: var(--font-sans); outline: none; }
 .testi-role { font-size: .75rem; color: var(--ink4); margin-top: 1px; }
 
 /* ── FOOTER ── */
-.footer { background: var(--bg2); border-top: 1px solid var(--line); padding: 64px 40px 32px; }
+.footer { background: #060606; border-top: 1px solid var(--line); padding: 64px 40px 32px; }
 .footer-top { display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 48px; margin-bottom: 48px; }
-.footer-logo { font-family: var(--font-serif); font-size: 1.5rem; font-weight: 700; color: var(--ink); margin-bottom: 12px; display: flex; align-items: center; gap: 6px; }
+.footer-logo { font-family: var(--font-serif); font-size: 1.5rem; font-weight: 700; color: #fff; margin-bottom: 12px; display: flex; align-items: center; gap: 6px; }
 .footer-desc { font-size: .875rem; color: var(--ink3); line-height: 1.7; max-width: 280px; margin-bottom: 20px; }
 .footer-socials { display: flex; gap: 8px; }
 .social-btn {
@@ -785,7 +785,7 @@ input, select, textarea { font-family: var(--font-sans); outline: none; }
         Trusted by 50,000+ home buyers
       </div>
       <h1 class="hero-title">Find Your Perfect<br/><em>Place to Call Home</em></h1>
-      <p class="hero-sub">Discover thousands of verified properties across the country. Buy, rent, or sell — we make every step effortless.</p>
+      <p class="hero-sub">Discover thousands of verified properties across the country. Buy, rent, or sell we make every step effortless.</p>
 
       <form action="properties" method="get" class="hero-search">
 

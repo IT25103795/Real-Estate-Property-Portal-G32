@@ -1,3 +1,27 @@
+// ── DARK MODE LOGIC ───────────────────────────────────
+// Check if the user previously chose Dark Mode
+if (localStorage.getItem('nestiq_theme') === 'dark') {
+  document.documentElement.setAttribute('data-theme', 'dark');
+  document.addEventListener("DOMContentLoaded", () => {
+      document.getElementById('theme-toggle').textContent = '☀️';
+  });
+}
+
+function toggleTheme() {
+  const html = document.documentElement;
+  const btn = document.getElementById('theme-toggle');
+
+  if (html.getAttribute('data-theme') === 'dark') {
+      html.removeAttribute('data-theme');
+      localStorage.setItem('nestiq_theme', 'light');
+      btn.textContent = '🌙'; // Change back to Moon
+  } else {
+      html.setAttribute('data-theme', 'dark');
+      localStorage.setItem('nestiq_theme', 'dark');
+      btn.textContent = '☀️'; // Change to Sun
+  }
+}
+
 // ── DATA ──────────────────────────────────────────────
 const PROPERTIES = [
   { id:1, title:"The Meridian Penthouse", price:2850000, status:"sale", type:"apartment", beds:4, baths:3, area:3200, city:"New York", address:"1 Central Park West, New York, NY 10023", desc:"A spectacular penthouse with panoramic city views, designer interiors, and a private rooftop terrace. Fully furnished with premium appliances and smart home technology throughout.", features:["Rooftop Terrace","Smart Home System","24h Concierge","Private Gym","Indoor Pool","Panoramic Views","Wine Cellar","Guest Suite"], images:["https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?w=1200&q=80","https://images.unsplash.com/photo-1600607687644-c7171b42498b?w=800&q=80","https://images.unsplash.com/photo-1560185127-6ed189bf02f4?w=800&q=80","https://images.unsplash.com/photo-1484154218962-a197022b5858?w=800&q=80"], agentId:1, views:342, featured:true },
@@ -349,23 +373,16 @@ function doHeroSearch() {
 
 // ── AUTH ───────────────────────────────
 function selectRole(el, role) {
+
   document.querySelectorAll('.role-btn').forEach(b => b.classList.remove('selected'));
   el.classList.add('selected');
+  document.getElementById('hiddenRole').value = role;
 }
 function doLogin() {
   const e = document.getElementById('login-email').value;
   const p = document.getElementById('login-password').value;
   if (!e || !p) { showToast('⚠', 'Please fill in all fields', true); return; }
   showToast('✓', 'Welcome back! Signed in successfully.');
-  setTimeout(() => showPage('home'), 800);
-}
-function doRegister() {
-  const n = document.getElementById('reg-name').value;
-  const e = document.getElementById('reg-email').value;
-  const p = document.getElementById('reg-password').value;
-  if (!n || !e || !p) { showToast('⚠', 'Please fill in all fields', true); return; }
-  if (p.length < 8)    { showToast('⚠', 'Password must be at least 8 characters', true); return; }
-  showToast('✓', 'Account created! Welcome to Nestiq 🏡');
   setTimeout(() => showPage('home'), 800);
 }
 

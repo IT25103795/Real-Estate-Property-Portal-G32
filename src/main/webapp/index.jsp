@@ -681,7 +681,7 @@ input, select, textarea { font-family: var(--font-sans); outline: none; }
 .view-btn.active { background: var(--accent-l); color: var(--accent); border-color: rgba(26,86,219,.25); }
 
 /* ── WHY SECTION ── */
-.why-section { background: var(--ink); padding: 96px 40px; }
+.why-section { background: #0f1117; padding: 96px 40px; }
 .why-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 2px; }
 .why-card {
   background: rgba(255,255,255,.04);
@@ -716,30 +716,30 @@ input, select, textarea { font-family: var(--font-sans); outline: none; }
 .testi-name { font-size: .875rem; font-weight: 600; color: var(--ink); }
 .testi-role { font-size: .75rem; color: var(--ink4); margin-top: 1px; }
 
-/* ── FOOTER ── */
-.footer { background: var(--bg2); border-top: 1px solid var(--line); padding: 64px 40px 32px; }
+/* ── FOOTER (PREMIUM DARK) ── */
+.footer { background: #0f1117; border-top: 1px solid #1a1d27; padding: 64px 40px 32px; }
 .footer-top { display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 48px; margin-bottom: 48px; }
-.footer-logo { font-family: var(--font-serif); font-size: 1.5rem; font-weight: 700; color: var(--ink); margin-bottom: 12px; display: flex; align-items: center; gap: 6px; }
-.footer-desc { font-size: .875rem; color: var(--ink3); line-height: 1.7; max-width: 280px; margin-bottom: 20px; }
+.footer-logo { font-family: var(--font-serif); font-size: 1.5rem; font-weight: 700; color: #ffffff; margin-bottom: 12px; display: flex; align-items: center; gap: 6px; }
+.footer-desc { font-size: .875rem; color: #9198a8; line-height: 1.7; max-width: 280px; margin-bottom: 20px; }
 .footer-socials { display: flex; gap: 8px; }
 .social-btn {
   width: 36px; height: 36px; border-radius: var(--r);
-  background: var(--bg3); border: 1px solid var(--line);
+  background: #1a1d27; border: 1px solid #232736;
   display: flex; align-items: center; justify-content: center;
-  color: var(--ink3); font-size: .875rem;
+  color: #9198a8; font-size: .875rem;
   transition: all var(--t); cursor: pointer;
 }
 .social-btn:hover { background: var(--accent); color: white; border-color: var(--accent); }
-.footer-col-title { font-size: .75rem; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase; color: var(--ink3); margin-bottom: 16px; }
+.footer-col-title { font-size: .75rem; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase; color: #ffffff; margin-bottom: 16px; }
 .footer-links { list-style: none; }
 .footer-links li { margin-bottom: 10px; }
-.footer-links a { font-size: .875rem; color: var(--ink3); transition: color var(--t); }
+.footer-links a { font-size: .875rem; color: #9198a8; transition: color var(--t); }
 .footer-links a:hover { color: var(--accent); }
-.footer-bottom { border-top: 1px solid var(--line); padding-top: 24px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px; }
-.footer-copy { font-size: .8rem; color: var(--ink4); }
+.footer-bottom { border-top: 1px solid #1a1d27; padding-top: 24px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px; }
+.footer-copy { font-size: .8rem; color: #5a5f70; }
 .footer-legal { display: flex; gap: 20px; }
-.footer-legal a { font-size: .8rem; color: var(--ink4); transition: color var(--t); }
-.footer-legal a:hover { color: var(--accent); }
+.footer-legal a { font-size: .8rem; color: #5a5f70; transition: color var(--t); }
+.footer-legal a:hover { color: #ffffff; }
 
 /* ── TOAST ── */
 .toast {
@@ -797,6 +797,45 @@ input, select, textarea { font-family: var(--font-sans); outline: none; }
 .skeleton { background: linear-gradient(90deg, var(--bg2) 25%, var(--bg3) 50%, var(--bg2) 75%); background-size: 200% 100%; animation: shimmer 1.5s infinite; border-radius: var(--r); }
 @keyframes shimmer { 0% { background-position: 200% 0; } 100% { background-position: -200% 0; } }
 
+/* ── TELEGRAM STYLE THEME TOGGLE ── */
+.theme-switch {
+  position: relative;
+  width: 54px;
+  height: 30px;
+  background-color: var(--line); /* Light gray track in day mode */
+  border-radius: 30px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  padding: 4px;
+  transition: background-color 0.4s ease;
+  margin-right: 12px;
+}
+
+.theme-switch-thumb {
+  width: 22px;
+  height: 22px;
+  background-color: white;
+  border-radius: 50%;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.75rem;
+  /* This creates that bouncy, smooth Telegram slide effect */
+  transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+/* Dark Mode State: Turns the track blue and slides the circle to the right */
+[data-theme="dark"] .theme-switch {
+  background-color: var(--accent);
+}
+
+[data-theme="dark"] .theme-switch-thumb {
+  transform: translateX(24px);
+  background-color: var(--bg2);
+}
+
 /* ── RESPONSIVE ── */
 @media (max-width: 1024px) {
   .hero { grid-template-columns: 1fr; }
@@ -836,29 +875,45 @@ input, select, textarea { font-family: var(--font-sans); outline: none; }
     <li><a href="#" onclick="showPage('home')">About</a></li>
   </ul>
 
-  <div class="nav-actions">
+      <div class="nav-actions">
 
-      <button class="btn-ghost" id="theme-toggle" onclick="toggleTheme()" style="padding: 8px 12px; font-size: 1.1rem; border-color: transparent;" title="Toggle Dark Mode">🌙</button>
+            <div class="theme-switch" onclick="toggleTheme()" title="Toggle Dark Mode">
+                <div class="theme-switch-thumb" id="theme-toggle">🌙</div>
+            </div>
 
-      <c:choose>
-          <c:when test="${not empty sessionScope.loggedUser}">
-              <span style="font-weight: 600; color: var(--ink); margin-right: 15px;">
-                  👋 Welcome, ${sessionScope.loggedUser}
-                  <span style="font-size: 0.7rem; background: var(--accent-l); color: var(--accent); padding: 2px 8px; border-radius: 99px;">${sessionScope.loggedRole}</span>
-              </span>
-              <form action="logout" method="post" style="display:inline;">
-                  <button type="submit" class="btn-ghost">Logout</button>
-              </form>
-          </c:when>
-          <c:otherwise>
-              <button class="btn-ghost" onclick="showPage('login')">Sign In</button>
-              <button class="btn-primary" onclick="showPage('register')">
-                <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2"><path d="M8 2v12M2 8h12"/></svg>
-                List Property
-              </button>
-          </c:otherwise>
-      </c:choose>
-    </div>
+            <c:choose>
+                <c:when test="${not empty sessionScope.loggedUser}">
+                    <span style="font-weight: 600; color: var(--ink); margin-right: 15px;">
+                        👋 Welcome, ${sessionScope.loggedUser}
+                        <span style="font-size: 0.7rem; background: var(--accent-l); color: var(--accent); padding: 2px 8px; border-radius: 99px;">${sessionScope.loggedRole}</span>
+                    </span>
+
+                    <c:if test="${sessionScope.loggedRole == 'SELLER'}">
+                        <button class="btn-primary" onclick="window.location.href='sellerDashboard'" style="margin-right: 10px;">
+                            My Dashboard
+                        </button>
+                    </c:if>
+
+                    <c:if test="${sessionScope.loggedRole == 'ADMIN'}">
+                        <button class="btn-primary" onclick="window.location.href='adminDashboard'" style="margin-right: 10px;">
+                            Admin Panel
+                        </button>
+                    </c:if>
+
+                    <form action="logout" method="post" style="display:inline;">
+                        <button type="submit" class="btn-ghost">Logout</button>
+                    </form>
+                </c:when>
+
+                <c:otherwise>
+                    <button class="btn-ghost" onclick="showPage('login')">Sign In</button>
+                    <button class="btn-primary" onclick="showPage('register')">
+                      <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" style="width:14px; height:14px;"><path d="M8 2v12M2 8h12"/></svg>
+                      List Property
+                    </button>
+                </c:otherwise>
+            </c:choose>
+      </div>
   </nav>
 
 <div class="page active" id="page-home">

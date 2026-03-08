@@ -1,66 +1,30 @@
 package com.realestate.portal.model;
 
-import java.io.Serializable;
-
-public class Property implements Serializable {
+public class Property {
     private String id;
     private String title;
     private double price;
-    private String type;
     private String location;
+    private String type;
+    private String status;
+    private String sellerName;
 
-
-    public Property() {
-    }
-
-
-    public Property(String id, String title, double price, String type, String location) {
+    public Property(String id, String title, double price, String location, String type, String status, String sellerName) {
         this.id = id;
         this.title = title;
         this.price = price;
-        this.type = type;
         this.location = location;
-    }
-
-
-    public String getId() {
-        return id;
-    }
-
-    public String getTitle() {
-        return title;
-    }
-
-    public double getPrice() {
-        return price;
-    }
-
-    public String getType() {
-        return type;
-    }
-
-    public String getLocation() {
-        return location;
-    }
-
-
-    public void setId(String id) {
-        this.id = id;
-    }
-
-    public void setTitle(String title) {
-        this.title = title;
-    }
-
-    public void setPrice(double price) {
-        this.price = price;
-    }
-
-    public void setType(String type) {
         this.type = type;
+        this.status = status;
+        this.sellerName = sellerName;
     }
 
-    public void setLocation(String location) {
-        this.location = location;
-    }
+    // Getters so your index.jsp can read these values
+    public String getId() { return id; }
+    public String getTitle() { return title; }
+    public double getPrice() { return price; }
+    public String getLocation() { return location; }
+    public String getType() { return type; }
+    public String getStatus() { return status; }
+    public String getSellerName() { return sellerName; }
 }

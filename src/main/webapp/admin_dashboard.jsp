@@ -41,7 +41,6 @@ return;
         .main-content { flex: 1; padding: 40px; overflow-y: auto; }
         .header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 40px; }
         .title { font-size: 1.8rem; font-weight: 700; }
-        .user-badge { background: var(--bg); padding: 8px 16px; border-radius: 99px; border: 1px solid var(--line); font-weight: 600; font-size: 0.9rem; }
 
         /* Dashboard Cards */
         .stats-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; margin-bottom: 40px; }
@@ -89,8 +88,8 @@ return;
 <div class="sidebar">
     <div class="logo">NESTIQ Admin</div>
     <button class="nav-btn active">📊 Dashboard</button>
-    <button class="nav-btn">👥 Manage Users</button>
-    <button class="nav-btn">🏠 Manage Properties</button>
+    <button class="nav-btn" onclick="document.querySelector('.data-box').scrollIntoView({ behavior: 'smooth' });">👥 Manage Users</button>
+    <button class="nav-btn" onclick="window.location.href='index.jsp'">🏠 Manage Properties</button>
     <button class="nav-btn" id="theme-toggle" onclick="toggleTheme()">🌙 Toggle Theme</button>
 
     <form action="logout" method="post" class="logout-form">
@@ -101,17 +100,24 @@ return;
 <div class="main-content">
     <div class="header">
         <h1 class="title">System Overview</h1>
-        <div class="user-badge">🛡️ God Mode: ${sessionScope.loggedUser}</div>
+
+        <div style="display: flex; gap: 15px; align-items: center;">
+            <button class="btn" onclick="window.location.href='index.jsp'" style="background: #e8eaee; color: #0f1117; border: none; padding: 8px 16px; border-radius: 6px; cursor: pointer; font-weight: 600;">🏠 Go to Homepage</button>
+            <span class="god-mode-badge" style="background: #eef2ff; color: #1a56db; padding: 8px 16px; border-radius: 50px; font-weight: 600; display: flex; align-items: center; gap: 6px;">
+                🛡️ God Mode: ${sessionScope.loggedUser}
+            </span>
+        </div>
+
     </div>
 
     <div class="stats-grid">
         <div class="stat-card">
             <div class="stat-title">Total Users</div>
-            <div class="stat-value">12</div>
+            <div class="stat-value">${totalUsers}</div>
         </div>
         <div class="stat-card">
             <div class="stat-title">Total Properties</div>
-            <div class="stat-value">34</div>
+            <div class="stat-value">${totalProperties}</div>
         </div>
         <div class="stat-card">
             <div class="stat-title">Active Reports</div>
@@ -131,12 +137,19 @@ return;
             </tr>
             </thead>
             <tbody>
-            <tr>
-                <td>Example User</td>
-                <td>example@nestiq.com</td>
-                <td>BUYER</td>
-                <td><button class="action-btn">Delete</button></td>
-            </tr>
+                <c:forEach var="u" items="${userList}">
+                     <tr>
+                         <td>${u[1]}</td>
+                         <td>${u[2]}</td>
+                         <td style="font-weight: 600;">${u[0]}</td>
+                         <td>
+                             <form action="deleteUser" method="post" style="margin: 0;" onsubmit="return confirm('Are you sure you want to permanently delete this user?');">
+                                  <input type="hidden" name="userEmail" value="${u[2]}">
+                                  <button type="submit" class="action-btn">Delete</button>
+                             </form>
+                         </td>
+                     </tr>
+                </c:forEach>
             </tbody>
         </table>
     </div>

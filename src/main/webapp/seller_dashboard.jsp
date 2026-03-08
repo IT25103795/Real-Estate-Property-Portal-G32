@@ -1,156 +1,178 @@
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-
-<%-- SECURITY CHECK: Kick out anyone who isn't a Seller --%>
-<%
-String role = (String) session.getAttribute("loggedRole");
-if (role == null || !"SELLER".equalsIgnoreCase(role)) {
-response.sendRedirect("properties"); // Send them away!
-return;
-}
-%>
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8"/>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-    <title>Seller Dashboard — NESTIQ</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com"/>
-    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Outfit:wght@400;500;600;700&display=swap" rel="stylesheet"/>
+    <meta charset="UTF-8">
+    <title>Seller Dashboard - NESTIQ</title>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet"/>
     <style>
+        /* Reusing your slick NESTIQ variables */
         :root {
-          --ink: #0f1117; --ink2: #2a2d35; --ink3: #5a5f70; --line: #e8eaee;
-          --bg: #ffffff; --bg2: #f7f8fa; --accent: #1a56db; --green: #0d9e6e;
-          --font-sans: 'Outfit', sans-serif; --font-serif: 'Playfair Display', serif;
+            --bg: #ffffff; --bg2: #f7f8fa; --ink: #0f1117; --line: #e8eaee;
+            --accent: #1a56db; --font-sans: 'Outfit', sans-serif; --r: 10px;
         }
-        * { box-sizing: border-box; margin: 0; padding: 0; }
-        body { font-family: var(--font-sans); background: var(--bg2); color: var(--ink); display: flex; min-height: 100vh; }
-
-        /* Sidebar */
-        .sidebar { width: 260px; background: var(--bg); border-right: 1px solid var(--line); padding: 24px; display: flex; flex-direction: column; }
-        .logo { font-family: var(--font-serif); font-size: 1.5rem; font-weight: 700; color: var(--accent); margin-bottom: 40px; }
-        .nav-btn { display: block; width: 100%; text-align: left; padding: 12px 16px; margin-bottom: 8px; border-radius: 8px; border: none; background: transparent; font-family: var(--font-sans); font-size: 1rem; font-weight: 500; color: var(--ink3); cursor: pointer; transition: 0.2s; }
-        .nav-btn:hover { background: var(--bg2); color: var(--ink); }
-        .nav-btn.active { background: rgba(26,86,219,0.1); color: var(--accent); font-weight: 600; }
-        .logout-form { margin-top: auto; }
-        .logout-btn { width: 100%; padding: 12px; border-radius: 8px; border: 1px solid var(--line); background: transparent; color: #e02828; font-weight: 600; cursor: pointer; transition: 0.2s; }
-        .logout-btn:hover { background: #e02828; color: white; border-color: #e02828; }
-
-        /* Main Content */
-        .main-content { flex: 1; padding: 40px; overflow-y: auto; max-width: 1000px; margin: 0 auto; }
-        .header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 40px; }
-        .title { font-size: 1.8rem; font-weight: 700; }
-        .user-badge { background: var(--bg); padding: 8px 16px; border-radius: 99px; border: 1px solid var(--line); font-weight: 600; font-size: 0.9rem; color: var(--green); }
-
-        /* Form Container */
-        .form-box { background: var(--bg); border: 1px solid var(--line); border-radius: 12px; padding: 32px; box-shadow: 0 4px 12px rgba(0,0,0,0.03); }
-        .form-box h3 { font-family: var(--font-serif); font-size: 1.4rem; margin-bottom: 24px; }
-        .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
-        .form-group { margin-bottom: 16px; }
-        .form-group.full-width { grid-column: span 2; }
-        label { display: block; font-size: 0.85rem; font-weight: 600; color: var(--ink2); margin-bottom: 6px; }
-        input, select, textarea { width: 100%; padding: 12px; border-radius: 8px; border: 1px solid var(--line); background: var(--bg2); font-family: var(--font-sans); font-size: 0.95rem; transition: 0.2s; }
-        input:focus, select:focus, textarea:focus { outline: none; border-color: var(--accent); background: white; }
-        .submit-btn { background: var(--accent); color: white; border: none; padding: 14px 24px; border-radius: 8px; font-size: 1rem; font-weight: 600; cursor: pointer; width: 100%; margin-top: 10px; transition: 0.2s; }
-        .submit-btn:hover { background: #1041b0; }
-
-        .success-msg { color: var(--green); font-weight: 600; margin-bottom: 20px; text-align: center; }
-
-        /* ── DARK MODE OVERRIDES ── */
         [data-theme="dark"] {
-          --bg:       #0f1117;
-          --bg2:      #1a1d27;
-          --bg3:      #232736;
-          --ink:      #ffffff;
-          --ink2:     #e8eaee;
-          --ink3:     #9198a8;
-          --ink4:     #5a5f70;
-          --line:     #232736;
-          --line2:    #2d3243;
+            --bg: #0f1117; --bg2: #1a1d27; --ink: #ffffff; --line: #232736;
         }
-        [data-theme="dark"] .sidebar, [data-theme="dark"] .form-box,
-        [data-theme="dark"] .stat-card, [data-theme="dark"] .data-box {
-          background: var(--bg);
-        }
-        [data-theme="dark"] input, [data-theme="dark"] select, [data-theme="dark"] textarea {
-          background: var(--bg2);
-          color: var(--ink);
-        }
-        [data-theme="dark"] th, [data-theme="dark"] td {
-          border-bottom-color: var(--line);
-        }
+        body { font-family: var(--font-sans); background: var(--bg2); color: var(--ink); margin: 0; padding: 40px; transition: background 0.3s, color 0.3s; }
+
+        .dashboard-container { max-width: 1000px; margin: 0 auto; }
+        .header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 30px; }
+
+        .card { background: var(--bg); border: 1px solid var(--line); border-radius: var(--r); padding: 30px; margin-bottom: 30px; box-shadow: 0 4px 16px rgba(0,0,0,.04); }
+        .card-title { font-size: 1.2rem; font-weight: 600; margin-bottom: 20px; margin-top: 0; }
+
+        /* Forms & Buttons */
+        .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+        .form-group { display: flex; flex-direction: column; gap: 6px; }
+        label { font-size: 0.85rem; font-weight: 500; }
+        input, select { padding: 10px; border: 1.5px solid var(--line); border-radius: 6px; background: var(--bg); color: var(--ink); font-family: var(--font-sans); outline: none; }
+        input:focus, select:focus { border-color: var(--accent); }
+        .btn { background: var(--accent); color: white; padding: 10px 20px; border: none; border-radius: 6px; font-weight: 600; cursor: pointer; transition: 0.2s; }
+        .btn:hover { opacity: 0.9; }
+
+        /* The Data Table */
+        table { width: 100%; border-collapse: collapse; text-align: left; font-size: 0.9rem; }
+        th, td { padding: 14px; border-bottom: 1px solid var(--line); }
+        th { font-weight: 600; color: var(--accent); }
+        .btn-edit { background: none; border: 1px solid var(--accent); color: var(--accent); padding: 6px 12px; border-radius: 4px; cursor: pointer; font-size: 0.8rem; }
+        .btn-edit:hover { background: var(--accent); color: white; }
+
+        /* The Edit Modal */
+        .modal-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.6); display: none; align-items: center; justify-content: center; z-index: 1000; }
+        .modal-overlay.open { display: flex; }
+        .modal-box { background: var(--bg); padding: 30px; border-radius: var(--r); width: 100%; max-width: 500px; }
+        .close-btn { float: right; cursor: pointer; font-weight: bold; font-size: 1.2rem; color: var(--ink); }
+
+       /* ── TELEGRAM STYLE THEME TOGGLE ── */
+               .theme-switch {
+                   position: relative; width: 54px; height: 30px; background-color: var(--line);
+                   border-radius: 30px; cursor: pointer; display: flex; align-items: center;
+                   padding: 4px; transition: background-color 0.4s ease; box-sizing: border-box;
+               }
+               .theme-switch-thumb {
+                   width: 22px; height: 22px; background-color: white; border-radius: 50%;
+                   box-shadow: 0 2px 5px rgba(0,0,0,0.2); display: flex; align-items: center;
+                   justify-content: center; font-size: 0.75rem;
+                   transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+               }
+               [data-theme="dark"] .theme-switch { background-color: var(--accent); }
+               [data-theme="dark"] .theme-switch-thumb { transform: translateX(24px); background-color: var(--bg2); }
     </style>
 </head>
-<body>
+<body data-theme="light" id="body-theme">
 
-<div class="sidebar">
-    <div class="logo">NESTIQ Seller</div>
-    <button class="nav-btn active">➕ Add Property</button>
-    <button class="nav-btn" onclick="window.location.href='properties'">🏠 View All Listings</button>
-    <button class="nav-btn" id="theme-toggle" onclick="toggleTheme()">🌙 Toggle Theme</button>
-
-    <form action="logout" method="post" class="logout-form">
-        <button type="submit" class="logout-btn">Logout</button>
-    </form>
-</div>
-
-<div class="main-content">
+<div class="dashboard-container">
     <div class="header">
-        <h1 class="title">Seller Dashboard</h1>
-        <div class="user-badge">💼 Logged in as: ${sessionScope.loggedUser}</div>
+            <h2>👋 Welcome, ${sessionScope.loggedUser}</h2>
+            <div style="display: flex; align-items: center; gap: 15px;">
+
+                <div class="theme-switch" onclick="toggleTheme()" title="Toggle Dark Mode">
+                    <div class="theme-switch-thumb" id="theme-toggle">🌙</div>
+                </div>
+
+                <button class="btn" onclick="window.location.href='index.jsp'" style="background: var(--line); color: var(--ink);">🏠 Go to Homepage</button>
+                <form action="logout" method="post" style="display:inline;">
+                    <button type="submit" class="btn" style="background: #e02828;">Logout</button>
+                </form>
+            </div>
     </div>
 
-    <div class="form-box">
-        <h3>List a New Property</h3>
-
-        <c:if test="${not empty successMessage}">
-            <div class="success-msg">✓ ${successMessage}</div>
-        </c:if>
-
-        <form action="addProperty" method="post">
-            <div class="form-grid">
-
-                <div class="form-group full-width">
-                    <label>Property Title</label>
-                    <input type="text" name="title" placeholder="e.g. Luxury Oceanview Villa" required />
-                </div>
-
-                <div class="form-group">
-                    <label>Price ($)</label>
-                    <input type="number" name="price" placeholder="e.g. 450000" required />
-                </div>
-
-                <div class="form-group">
-                    <label>Location (City)</label>
-                    <input type="text" name="location" placeholder="e.g. Miami" required />
-                </div>
-
-                <div class="form-group">
-                    <label>Property Type</label>
-                    <select name="type" required>
-                        <option value="House">House</option>
-                        <option value="Apartment">Apartment</option>
-                        <option value="Villa">Villa</option>
-                        <option value="Studio">Studio</option>
-                    </select>
-                </div>
-
-                <div class="form-group">
-                    <label>Listing Status</label>
-                    <select name="status" required>
-                        <option value="Sale">For Sale</option>
-                        <option value="Rent">For Rent</option>
-                    </select>
-                </div>
-
+    <div class="card">
+        <h3 class="card-title">List a New Property</h3>
+        <p style="color: #0d9e6e; font-weight: bold;">${successMessage}</p>
+        <form action="addProperty" method="post" class="form-grid">
+            <div class="form-group"><label>Property Title</label><input type="text" name="title" required></div>
+            <div class="form-group"><label>Price ($)</label><input type="number" name="price" required></div>
+            <div class="form-group"><label>Location / City</label><input type="text" name="location" required></div>
+            <div class="form-group"><label>Type</label>
+                <select name="type"><option>Apartment</option><option>House</option><option>Villa</option></select>
             </div>
+            <div class="form-group"><label>Status</label>
+                <select name="status"><option>For Sale</option><option>For Rent</option></select>
+            </div>
+            <div class="form-group" style="display: flex; align-items: flex-end;">
+                <button type="submit" class="btn" style="width: 100%;">➕ Add Property</button>
+            </div>
+        </form>
+    </div>
 
-            <button type="submit" class="submit-btn">Publish Listing →</button>
+    <div class="card">
+        <h3 class="card-title">My Managed Properties</h3>
+        <table>
+            <thead>
+                <tr><th>ID</th><th>Title</th><th>Price</th><th>Location</th><th>Type</th><th>Actions</th></tr>
+            </thead>
+            <tbody>
+                <c:choose>
+                    <c:when test="${not empty myProperties}">
+                        <c:forEach var="p" items="${myProperties}">
+                            <tr>
+                                <td><small>${p.id}</small></td>
+                                <td>${p.title}</td>
+                                <td>$${p.price}</td>
+                                <td>${p.location}</td>
+                                <td>${p.type}</td>
+                                <td style="display: flex; gap: 8px;">
+                                   <button class="btn-edit" onclick="openEditModal('${p.id}', '${p.title}', '${p.price}', '${p.location}', '${p.type}', '${p.status}')">✏️ Edit</button>
+
+                                   <form action="deleteProperty" method="post" style="margin: 0;" onsubmit="return confirm('Are you absolutely sure you want to delete this property? This cannot be undone!');">
+                                       <input type="hidden" name="propertyId" value="${p.id}">
+                                       <button type="submit" class="btn-edit" style="color: var(--red); border-color: var(--red);">🗑️ Delete</button>
+                                   </form>
+                                </td>
+                            </tr>
+                        </c:forEach>
+                    </c:when>
+                    <c:otherwise>
+                        <tr><td colspan="6" style="text-align:center;">You haven't listed any properties yet.</td></tr>
+                    </c:otherwise>
+                </c:choose>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<div class="modal-overlay" id="editModal">
+    <div class="modal-box">
+        <span class="close-btn" onclick="closeEditModal()">×</span>
+        <h3 class="card-title">Update Property</h3>
+        <form action="updateProperty" method="post" style="display: flex; flex-direction: column; gap: 16px;">
+            <input type="hidden" name="propertyId" id="edit-id">
+
+            <div class="form-group"><label>Title</label><input type="text" name="title" id="edit-title" required></div>
+            <div class="form-group"><label>Price ($)</label><input type="number" name="price" id="edit-price" required></div>
+            <div class="form-group"><label>Location</label><input type="text" name="location" id="edit-location" required></div>
+            <div class="form-grid">
+                <div class="form-group"><label>Type</label>
+                    <select name="type" id="edit-type"><option>Apartment</option><option>House</option><option>Villa</option></select>
+                </div>
+                <div class="form-group"><label>Status</label>
+                    <select name="status" id="edit-status"><option>For Sale</option><option>For Rent</option></select>
+                </div>
+            </div>
+            <button type="submit" class="btn">💾 Save Changes</button>
         </form>
     </div>
 </div>
+
 <script src="app.js"></script>
+<script>
+    function openEditModal(id, title, price, location, type, status) {
+        document.getElementById('edit-id').value = id;
+        document.getElementById('edit-title').value = title;
+        document.getElementById('edit-price').value = price;
+        document.getElementById('edit-location').value = location;
+        document.getElementById('edit-type').value = type;
+        document.getElementById('edit-status').value = status;
+        document.getElementById('editModal').classList.add('open');
+    }
+
+    function closeEditModal() {
+        document.getElementById('editModal').classList.remove('open');
+    }
+</script>
 
 </body>
 </html>

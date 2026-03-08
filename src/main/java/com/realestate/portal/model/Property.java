@@ -8,8 +8,10 @@ public class Property {
     private String type;
     private String status;
     private String sellerName;
+    private String imageUrl; // <-- THE 8TH ITEM!
 
-    public Property(String id, String title, double price, String location, String type, String status, String sellerName) {
+    // Upgraded Constructor to accept all 8 pieces of data
+    public Property(String id, String title, double price, String location, String type, String status, String sellerName, String imageUrl) {
         this.id = id;
         this.title = title;
         this.price = price;
@@ -17,9 +19,11 @@ public class Property {
         this.type = type;
         this.status = status;
         this.sellerName = sellerName;
+        this.imageUrl = imageUrl;
     }
 
-    // Getters so your index.jsp can read these values
+    // Getters for the JSP to read the data
+    public String getImageUrl() { return imageUrl; }
     public String getId() { return id; }
     public String getTitle() { return title; }
     public double getPrice() { return price; }

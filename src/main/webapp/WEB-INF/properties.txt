@@ -1,3 +1,14 @@
 PROP_1772770669697,Colombo Beach Villa,600000.0,Colombo,Villa,null,De Silva
 PROP_1772773352306,Kaduwela Beach view,800000.0,Kaduwela,House,For Rent,De Silva
 PROP_1772777000956,Koswatta new Building,500000,Colombo,Apartment,For Rent,De Silva
+PROP_1772947911735,Kadawatha New Apartment,900000,Kadawatha,Apartment,For Rent,De Silva
+PROP_1772952129371,Kurunegala New Building,300000,Kurunegala,Apartment,For Rent,De Silva
+PROP_1772952132304,Kurunegala New Building,300000,Kurunegala,Apartment,For Rent,De Silva
+PROP_1772952134817,Kurunegala New Building,300000,Kurunegala,Apartment,For Rent,De Silva
+PROP_1772952140040,Kurunegala New Building,300000,Kurunegala,Apartment,For Rent,De Silva
+PROP_1772952219672,Kurunegala New Building,400000,Kurunegala,Apartment,For Rent,De Silva
+PROP_1772952224327,Kurunegala New Building,400000,Kurunegala,Apartment,For Rent,De Silva
+PROP_1772952563995,Kurunrgala New Building,400000,Kurunegala,Apartment,For Rent,De Silva
+1f48f435,Kurunegala New Building,500000.0,Kurunegala,Apartment,For Rent,De Silva
+d4ef95b0,Galle New Building,500000,Galle,Apartment,For Rent,De Silva,assets/images/property-types/apartment.jpg
+409980b9,Colombo Apartment,1000000,Colombo,Apartment,For Sale,De Silva,assets/images/property-types/apartment.jpg

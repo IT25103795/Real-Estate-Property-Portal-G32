@@ -190,6 +190,22 @@ input, select, textarea { font-family: var(--font-sans); outline: none; }
   font-size: 1.05rem; color: var(--ink3); font-weight: 300;
   line-height: 1.7; max-width: 460px; margin-bottom: 40px;
 }
+
+/* 🔥 THE NEW SEARCH BAR CSS ENGINE 🔥 */
+.hero-search-form {
+  display: flex;
+  gap: 15px;
+  align-items: flex-end;
+  background: var(--bg2);
+  padding: 24px;
+  border-radius: var(--r);
+  box-shadow: var(--shadow);
+  border: 1px solid var(--line);
+  margin-top: 30px;
+  position: relative;
+  z-index: 10;
+}
+
 .hero-search {
   background: var(--bg);
   border: 1.5px solid var(--line);
@@ -927,37 +943,25 @@ input, select, textarea { font-family: var(--font-sans); outline: none; }
       <h1 class="hero-title">Find Your Perfect<br/><em>Place to Call Home</em></h1>
       <p class="hero-sub">Discover thousands of verified properties across the country. Buy, rent, or sell — we make every step effortless.</p>
 
-      <form action="properties" method="get" class="hero-search">
-
+      <form action="search" method="get" class="hero-search-form">
           <div class="hero-search-field">
-            <label>Location</label>
-            <input type="text" name="location" placeholder="City, neighborhood..." id="heroLocation"/>
+              <label style="font-weight: 600;">Location</label>
+              <input type="text" name="location" placeholder="e.g. Colombo, Kandy"
+                     style="background: var(--bg); border: 1px solid var(--line); padding: 10px; border-radius: 4px; color: var(--ink);">
           </div>
 
-          <div class="hero-search-field" style="max-width:140px">
-            <label>Type</label>
-            <select id="heroType">
-              <option value="">Any Type</option>
-              <option>Apartment</option>
-              <option>House</option>
-              <option>Villa</option>
-              <option>Studio</option>
-            </select>
+          <div class="hero-search-field" style="max-width: 150px;">
+              <label style="font-weight: 600;">Type</label>
+              <select name="type" style="background: var(--bg); border: 1px solid var(--line); padding: 10px; border-radius: 4px; color: var(--ink);">
+                  <option value="">Any Type</option>
+                  <option value="Apartment">Apartment</option>
+                  <option value="House">House</option>
+                  <option value="Villa">Villa</option>
+                  <option value="Studio">Studio</option>
+              </select>
           </div>
 
-          <div class="hero-search-field" style="max-width:140px">
-            <label>Status</label>
-            <select id="heroStatus">
-              <option value="">Buy or Rent</option>
-              <option value="sale">For Sale</option>
-              <option value="rent">For Rent</option>
-            </select>
-          </div>
-
-          <button type="submit" class="hero-search-btn">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
-            Search
-          </button>
+          <button type="submit" class="btn-primary" style="height: 44px; padding: 0 30px; font-weight: bold;">Search</button>
       </form>
 
       <div class="hero-stats">
@@ -1004,6 +1008,11 @@ input, select, textarea { font-family: var(--font-sans); outline: none; }
         <div>
           <div class="section-tag">Hand-Picked</div>
           <h2 class="section-title">Featured Properties</h2>
+
+                  <c:if test="${not empty searchMessage}">
+                      <p style="color: var(--accent); font-weight: 600; margin-bottom: 20px;">${searchMessage}</p>
+                  </c:if>
+
         </div>
         <button class="btn-ghost" onclick="showPage('listings')">View all listings →</button>
       </div>
@@ -1016,31 +1025,31 @@ input, select, textarea { font-family: var(--font-sans); outline: none; }
         <button class="filter-btn" onclick="filterHome(this,'villa')">Villas</button>
       </div>
       <div class="prop-grid" id="home-prop-grid">
-                <c:choose>
-                    <c:when test="${not empty properties}">
-                        <c:forEach var="p" items="${properties}">
-                            <div class="prop-card" onclick="openDetail('${p.id}')">
-                                <div class="prop-img-wrap">
-                                    <img src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=800&q=80" alt="Property Image"/>
-                                    <div class="prop-tags">
-                                        <span class="prop-tag tag-sale">${p.type}</span>
-                                    </div>
-                                </div>
-                                <div class="prop-body">
-                                    <div class="prop-price">$<fmt:formatNumber value="${p.price}" pattern="#,##0.00" /></div>
-                                    <div class="prop-name">${p.title}</div>
-                                    <div class="prop-loc">
-                                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>
-                                        ${p.location}
-                                    </div>
-                                </div>
-                            </div>
-                        </c:forEach>
-                    </c:when>
-                    <c:otherwise>
-                        <p>No properties available at the moment. Please check back later!</p>
-                    </c:otherwise>
-                </c:choose>
+                      <c:choose>
+                          <c:when test="${not empty propertyList}">
+                              <c:forEach var="p" items="${propertyList}">
+                                  <div class="prop-card">
+                                      <div class="prop-img-wrap">
+                                          <img src="${p.imageUrl}" alt="${p.title}"/>
+                                          <div class="prop-tags">
+                                              <span class="prop-tag tag-sale">${p.type}</span>
+                                          </div>
+                                      </div>
+                                      <div class="prop-body">
+                                          <div class="prop-price">$<fmt:formatNumber value="${p.price}" pattern="#,##0.00" /></div>
+                                          <div class="prop-name">${p.title}</div>
+                                          <div class="prop-loc">
+                                              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>
+                                              ${p.location}
+                                          </div>
+                                      </div>
+                                  </div>
+                              </c:forEach>
+                          </c:when>
+                          <c:otherwise>
+                              <p style="grid-column: 1 / -1; text-align: center; color: var(--ink3); padding: 40px;">No properties available at the moment. Please check back later!</p>
+                          </c:otherwise>
+                      </c:choose>
       </div>
     </div>
   </section>

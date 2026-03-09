@@ -23,30 +23,20 @@ function toggleTheme() {
 }
 
 // ── DATA ──────────────────────────────────────────────
-const PROPERTIES = [
-  { id:1, title:"The Meridian Penthouse", price:2850000, status:"sale", type:"apartment", beds:4, baths:3, area:3200, city:"New York", address:"1 Central Park West, New York, NY 10023", desc:"A spectacular penthouse with panoramic city views, designer interiors, and a private rooftop terrace. Fully furnished with premium appliances and smart home technology throughout.", features:["Rooftop Terrace","Smart Home System","24h Concierge","Private Gym","Indoor Pool","Panoramic Views","Wine Cellar","Guest Suite"], images:["https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?w=1200&q=80","https://images.unsplash.com/photo-1600607687644-c7171b42498b?w=800&q=80","https://images.unsplash.com/photo-1560185127-6ed189bf02f4?w=800&q=80","https://images.unsplash.com/photo-1484154218962-a197022b5858?w=800&q=80"], agentId:1, views:342, featured:true },
-  { id:2, title:"Tuscany Villa Estate", price:5200000, status:"sale", type:"villa", beds:6, baths:5, area:7800, city:"Los Angeles", address:"500 Bel Air Road, Los Angeles, CA 90077", desc:"Breathtaking Mediterranean-style villa set on 2 private acres with sweeping views of the Bel Air hills. Features a private pool, vineyard, 7-car garage, and guest house.", features:["Private Pool","Vineyard","7-Car Garage","Guest House","Tennis Court","Wine Cellar","Outdoor Kitchen","Home Theatre"], images:["https://images.unsplash.com/photo-1613977257363-707ba9348227?w=1200&q=80","https://images.unsplash.com/photo-1512917774080-9991f1c4c750?w=800&q=80","https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?w=800&q=80"], agentId:2, views:891, featured:true },
-  { id:3, title:"Riverfront Loft", price:4800, status:"rent", type:"apartment", beds:2, baths:2, area:1650, city:"Chicago", address:"123 W Fulton Market, Chicago, IL 60607", desc:"Industrial-chic loft in a converted warehouse with exposed brick, soaring 14-ft ceilings, and spectacular river views. Walk to the best restaurants and galleries in the city.", features:["River Views","Exposed Brick","Doorman","Parking Included","Pet Friendly","In-unit Laundry","Rooftop Deck"], images:["https://images.unsplash.com/photo-1502672260266-1c1ef2d93688?w=1200&q=80","https://images.unsplash.com/photo-1484154218962-a197022b5858?w=800&q=80"], agentId:3, views:210, featured:false },
-  { id:4, title:"The Oaks Residence", price:1250000, status:"sale", type:"house", beds:5, baths:4, area:4100, city:"San Francisco", address:"2800 Pacific Ave, San Francisco, CA 94115", desc:"Stunning Craftsman home on a generous lot with original hardwood floors, a gourmet chef's kitchen, and a serene backyard with mature oak trees.", features:["Chef's Kitchen","Hardwood Floors","Backyard Garden","Solar Panels","3-Car Garage","Home Office","Butler's Pantry"], images:["https://images.unsplash.com/photo-1570129477492-45c003edd2be?w=1200&q=80","https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=800&q=80","https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=800&q=80"], agentId:1, views:456, featured:true },
-  { id:5, title:"Harbour View Studio", price:2900, status:"rent", type:"studio", beds:0, baths:1, area:550, city:"Miami", address:"100 Harbour Dr, Miami, FL 33132", desc:"A refined studio in the heart of Brickell with floor-to-ceiling windows and unobstructed harbour views. Ideal for professionals seeking a prestigious address.", features:["Harbour Views","Concierge","Infinity Pool","Fitness Center","Furnished Option","Valet Parking"], images:["https://images.unsplash.com/photo-1554995207-c18c203602cb?w=1200&q=80"], agentId:2, views:178, featured:false },
-  { id:6, title:"Highland Manor", price:8750000, status:"sale", type:"house", beds:8, baths:7, area:12000, city:"Houston", address:"2500 River Oaks Blvd, Houston, TX 77019", desc:"Grand colonial manor on a private gated estate with equestrian facilities, formal gardens, and a guest cottage. Extraordinary period details throughout.", features:["Equestrian Facilities","Guest Cottage","Formal Gardens","Indoor Pool","Home Theatre","Staff Quarters","Helicopter Pad"], images:["https://images.unsplash.com/photo-1505843490538-5133c6c7d0e1?w=1200&q=80","https://images.unsplash.com/photo-1523217582562-09d0def993a6?w=800&q=80"], agentId:3, views:623, featured:true },
-  { id:7, title:"SoHo Design Apartment", price:7200, status:"rent", type:"apartment", beds:3, baths:2, area:1900, city:"New York", address:"120 Spring St, New York, NY 10012", desc:"Chic 3-bedroom apartment in coveted SoHo with designer finishes, private terrace, and access to the building's curated art collection.", features:["Private Terrace","Art Collection","Doorman","Storage Unit","Bicycle Storage","Resident Lounge"], images:["https://images.unsplash.com/photo-1493809842364-78817add7ffb?w=1200&q=80"], agentId:1, views:387, featured:false },
-  { id:8, title:"Desert Oasis Villa", price:3100000, status:"sale", type:"villa", beds:5, baths:4, area:5600, city:"Palm Springs", address:"888 Vista Chino, Palm Springs, CA 92262", desc:"Iconic mid-century modern villa with an infinity pool overlooking the Coachella Valley. Featured in Architectural Digest. An entertainer's paradise.", features:["Infinity Pool","Mountain Views","Outdoor Kitchen","Fire Pit","Smart Home","Guest Casita"], images:["https://images.unsplash.com/photo-1600047509807-ba8f99d2cdde?w=1200&q=80","https://images.unsplash.com/photo-1600573472591-ee6b68d14c68?w=800&q=80"], agentId:2, views:741, featured:true },
-];
 
 const AGENTS = [
-  { id:1, name:"Alexandra Stone", title:"Senior Luxury Specialist", agency:"Nestiq Manhattan", phone:"+1 (555) 101-2020", email:"a.stone@nestiq.com", img:"https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=400&q=80", listings:24, sold:187, rating:4.9, spec:"luxury", years:12 },
-  { id:2, name:"Marcus Chen", title:"Investment & Commercial", agency:"Nestiq Beverly Hills", phone:"+1 (555) 202-3030", email:"m.chen@nestiq.com", img:"https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400&q=80", listings:18, sold:143, rating:4.8, spec:"investment", years:9 },
-  { id:3, name:"Sophia Laurent", title:"Residential Expert", agency:"Nestiq Chicago", phone:"+1 (555) 303-4040", email:"s.laurent@nestiq.com", img:"https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=400&q=80", listings:31, sold:210, rating:4.9, spec:"residential", years:15 },
-  { id:4, name:"James Okafor", title:"Commercial Specialist", agency:"Nestiq Houston", phone:"+1 (555) 404-5050", email:"j.okafor@nestiq.com", img:"https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=400&q=80", listings:12, sold:98, rating:4.7, spec:"commercial", years:7 },
-  { id:5, name:"Isabella Kim", title:"Luxury Condo Specialist", agency:"Nestiq Miami", phone:"+1 (555) 505-6060", email:"i.kim@nestiq.com", img:"https://images.unsplash.com/photo-1487412720507-e7ab37603c6f?w=400&q=80", listings:20, sold:156, rating:4.8, spec:"luxury", years:10 },
-  { id:6, name:"David Mercer", title:"Investment Properties", agency:"Nestiq San Francisco", phone:"+1 (555) 606-7070", email:"d.mercer@nestiq.com", img:"https://images.unsplash.com/photo-1560250097-0b93528c311a?w=400&q=80", listings:15, sold:121, rating:4.7, spec:"investment", years:8 },
+  { id:1, name:"Senuri Fernando", title:"Senior Luxury Specialist", agency:"Nestiq Colombo 07", phone:"+94 77 101 2020", email:"s.fernando@nestiq.lk", img:"https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=400&q=80", listings:24, sold:187, rating:4.9, spec:"luxury", years:12 },
+  { id:2, name:"Dinesh Perera", title:"Investment & Commercial", agency:"Nestiq Kandy", phone:"+94 71 202 3030", email:"d.perera@nestiq.lk", img:"https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400&q=80", listings:18, sold:143, rating:4.8, spec:"investment", years:9 },
+  { id:3, name:"Kavindi De Silva", title:"Residential Expert", agency:"Nestiq Kurunegala", phone:"+94 70 303 4040", email:"k.desilva@nestiq.lk", img:"https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=400&q=80", listings:31, sold:210, rating:4.9, spec:"residential", years:15 },
+  { id:4, name:"Nuwan Rathnayake", title:"Commercial Specialist", agency:"Nestiq Galle", phone:"+94 76 404 5050", email:"n.rathnayake@nestiq.lk", img:"https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=400&q=80", listings:12, sold:98, rating:4.7, spec:"commercial", years:7 },
+  { id:5, name:"Anjali Jayasooriya", title:"Luxury Condo Specialist", agency:"Nestiq Mount Lavinia", phone:"+94 77 505 6060", email:"a.jayasooriya@nestiq.lk", img:"https://images.unsplash.com/photo-1487412720507-e7ab37603c6f?w=400&q=80", listings:20, sold:156, rating:4.8, spec:"luxury", years:10 },
+  { id:6, name:"Mohammed Rizwan", title:"Investment Properties", agency:"Nestiq Negombo", phone:"+94 75 606 7070", email:"m.rizwan@nestiq.lk", img:"https://images.unsplash.com/photo-1560250097-0b93528c311a?w=400&q=80", listings:15, sold:121, rating:4.7, spec:"investment", years:8 },
 ];
 
 const TESTIMONIALS = [
-  { name:"Emily Harrington", role:"Bought in Manhattan", img:"https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=100&q=80", text:"Nestiq made finding our dream penthouse effortless. Alexandra guided us with exceptional patience and expertise — we couldn't be happier.", stars:5 },
-  { name:"David & Priya Nair", role:"Sold in Beverly Hills", img:"https://images.unsplash.com/photo-1552374196-c4e7ffc6e126?w=100&q=80", text:"Sold our villa in under two weeks for above asking price. Marcus's market knowledge and professional network are truly unmatched.", stars:5 },
-  { name:"Jonathan Bray", role:"Renting in Chicago", img:"https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=100&q=80", text:"The entire process was transparent, fast and stress-free. Sophia found us the perfect loft. Exceptional service from start to finish.", stars:5 },
+  { name:"Chamathka Silva", role:"Bought in Colombo 07", img:"https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=100&q=80", text:"Nestiq made finding our dream apartment effortless. Senuri guided us with exceptional patience and expertise — we couldn't be happier.", stars:5 },
+  { name:"Kasun & Tharushi", role:"Sold in Kurunegala", img:"https://images.unsplash.com/photo-1552374196-c4e7ffc6e126?w=100&q=80", text:"Sold our villa in under two weeks for above the asking price. Dinesh's market knowledge and professional network are truly unmatched.", stars:5 },
+  { name:"Ashan Dias", role:"Renting in Malabe", img:"https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=100&q=80", text:"The entire process was transparent, fast and stress-free. Kavindi found us the perfect annex near the campus. Exceptional service from start to finish.", stars:5 },
 ];
 
 // ── STATE ─────────────────────────────
@@ -317,6 +307,11 @@ function openDetail(id) {
   document.getElementById('detail-agent-title').textContent = agent.title;
   document.getElementById('detail-agent-rating').textContent = `${agent.rating} (${agent.sold} sales)`;
 
+
+  if (document.getElementById('inq-prop-id')) document.getElementById('inq-prop-id').value = p.id;
+  if (document.getElementById('inq-prop-title')) document.getElementById('inq-prop-title').value = p.title;
+  if (document.getElementById('inq-agent-name')) document.getElementById('inq-agent-name').value = agent.name;
+
   showPage('detail');
   p.views++;
 }
@@ -403,3 +398,220 @@ window.addEventListener('scroll', () => {
 
 // ── INIT ───────────────────────────────
 initHome();
+
+// OVERRIDE: Bulletproof Homepage Filter Engine
+function filterHome(btn, filterType) {
+    // 1. Switch the blue active button color
+    document.querySelectorAll('.filter-bar .filter-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+
+    // 2. Scan every Java-generated card on the homepage
+    const cards = document.querySelectorAll('#home-prop-grid .prop-card');
+
+    cards.forEach(card => {
+        // Read all the text on the card (like "Apartment", "Colombo", etc.)
+        const cardText = card.innerText.toLowerCase();
+
+        // If they clicked "All", show everything
+        if (filterType === 'all') {
+            card.style.display = 'block';
+        }
+        // Otherwise, check if the card contains the filter word
+        else if (cardText.includes(filterType.toLowerCase())) {
+            card.style.display = 'block';
+        }
+        // If it doesn't match, hide it!
+        else {
+            card.style.display = 'none';
+        }
+    });
+}
+
+// ==========================================
+// 🔥 MASTER BROWSE ENGINE OVERRIDE 🔥
+// ==========================================
+
+let currentFilters = { status: 'all', type: 'all', city: 'all', beds: 'any', minPrice: '', maxPrice: '' };
+
+// 1. Bulletproof Filter Memory
+function toggleChip(btn, category, value) {
+    let siblings = btn.parentElement.querySelectorAll('.filter-chip');
+    siblings.forEach(s => s.classList.remove('active'));
+    btn.classList.add('active');
+    currentFilters[category] = value;
+    applyFilters();
+}
+
+// 2. Bulletproof Bed Button Memory
+function setBeds(btn, value) {
+    let siblings = btn.parentElement.querySelectorAll('.bed-btn');
+    siblings.forEach(s => s.classList.remove('active'));
+    btn.classList.add('active');
+    currentFilters.beds = value;
+    applyFilters();
+}
+
+// 3. The Reset Switch
+function resetFilters() {
+    currentFilters = { status: 'all', type: 'all', city: 'all', beds: 'any', minPrice: '', maxPrice: '' };
+
+    // Reset visual buttons
+    document.querySelectorAll('.filter-chip, .bed-btn').forEach(b => b.classList.remove('active'));
+    document.querySelectorAll('.filter-chip[onclick*="\'all\'"]').forEach(c => c.classList.add('active'));
+    document.querySelectorAll('.bed-btn[onclick*="\'any\'"]').forEach(b => b.classList.add('active'));
+
+    // Clear Price Boxes
+    if(document.getElementById('filterMinPrice')) document.getElementById('filterMinPrice').value = '';
+    if(document.getElementById('filterMaxPrice')) document.getElementById('filterMaxPrice').value = '';
+
+    applyFilters();
+}
+
+// 4. Bulletproof Filtering Logic
+function applyFilters() {
+    const minInput = document.getElementById('filterMinPrice');
+    const maxInput = document.getElementById('filterMaxPrice');
+    if (minInput) currentFilters.minPrice = minInput.value;
+    if (maxInput) currentFilters.maxPrice = maxInput.value;
+
+    let filtered = PROPERTIES.filter(p => {
+        // Safe, case-insensitive matching
+        let matchStatus = currentFilters.status === 'all' || (p.status && p.status.toLowerCase() === currentFilters.status.toLowerCase());
+        let matchType = currentFilters.type === 'all' || (p.type && p.type.toLowerCase() === currentFilters.type.toLowerCase());
+        let matchCity = currentFilters.city === 'all' || (p.city && p.city.toLowerCase() === currentFilters.city.toLowerCase());
+
+        let matchBeds = true;
+        if (currentFilters.beds !== 'any' && p.beds) {
+            matchBeds = p.beds >= parseInt(currentFilters.beds);
+        }
+
+        // Price matching (strips out any $ or commas safely!)
+        let matchPrice = true;
+        let numPrice = typeof p.price === 'string' ? parseInt(p.price.replace(/[^0-9]/g, '')) : p.price;
+        if (currentFilters.minPrice && numPrice < parseInt(currentFilters.minPrice)) matchPrice = false;
+        if (currentFilters.maxPrice && numPrice > parseInt(currentFilters.maxPrice)) matchPrice = false;
+
+        return matchStatus && matchType && matchCity && matchBeds && matchPrice;
+    });
+
+    renderListings(filtered);
+}
+
+// 5. Bulletproof Render Engine
+// 5. Bulletproof Render Engine
+function renderListings(list) {
+    const grid = document.getElementById('listings-grid');
+    if (!grid) return; // Stop safely if we aren't on the Browse page
+
+    const countEl = document.getElementById('listings-count');
+
+    if (list.length === 0) {
+        grid.innerHTML = '<p style="grid-column: 1/-1; text-align: center; color: var(--ink3); padding: 40px; font-weight: 500;">No properties match your exact filters. Try clearing some!</p>';
+        if (countEl) countEl.innerText = "0";
+        return;
+    }
+
+    grid.innerHTML = list.map(p => {
+        const agent = AGENTS.find(a => a.id === p.agentId) || AGENTS[0];
+        const displayPrice = typeof p.price === 'number' ? p.price.toLocaleString() : p.price;
+        const safeStatus = p.status ? p.status.toLowerCase() : 'sale';
+
+        return `
+        <div class="prop-card" onclick="openDetail('${p.id}')" style="cursor: pointer;">
+            <div class="prop-img-wrap">
+                <img src="${p.img}" alt="${p.title}">
+                <div class="prop-tags">
+                    <span class="prop-tag tag-sale">${safeStatus === 'rent' ? 'For Rent' : 'For Sale'}</span>
+                    ${p.featured ? '<span class="prop-tag tag-feat">Featured</span>' : ''}
+                </div>
+            </div>
+            <div class="prop-body">
+                <div class="prop-price">$${displayPrice} ${safeStatus === 'rent' ? '<span style="font-size:0.6em; color:var(--ink4)">/mo</span>' : ''}</div>
+                <div class="prop-name">${p.title}</div>
+                <div class="prop-loc">📍 ${p.city}, ${p.location}</div>
+                <div class="prop-divider"></div>
+                <div class="prop-meta">
+                    <div class="prop-meta-item">🛏️ ${p.beds || 0} Beds</div>
+                    <div class="prop-meta-item">🛁 ${p.baths || 0} Baths</div>
+                    <div class="prop-meta-item">📐 ${p.sqft || 0} sqft</div>
+                </div>
+                <div class="prop-agent-row">
+                    <div class="prop-agent">
+                        <img src="${agent.img}" alt="${agent.name}">
+                        <div class="prop-agent-name">${agent.name}</div>
+                    </div>
+                    <div class="prop-views">👁️ ${p.views || 342}</div>
+                </div>
+            </div>
+        </div>`;
+    }).join('');
+
+    if (countEl) countEl.innerText = list.length;
+}
+// ==========================================
+// 🔥 MASTER DETAIL PAGE ENGINE 🔥
+// ==========================================
+function openDetail(id) {
+    // 1. Find the exact property from our Live Data Bridge
+    // (We use String(id) just in case Java passed it as a weird format!)
+    const p = PROPERTIES.find(prop => String(prop.id) === String(id));
+
+    if (!p) {
+        console.error("Bro! Couldn't find the property ID: " + id);
+        return;
+    }
+
+    // 2. Populate the massive Hero Image and Text
+    document.getElementById('detail-main-img').src = p.img;
+    document.getElementById('detail-title').innerText = p.title;
+    document.getElementById('detail-address-text').innerText = p.city + ", " + p.location;
+
+    // Format the price beautifully with commas
+    const displayPrice = typeof p.price === 'number' ? p.price.toLocaleString() : p.price;
+    document.getElementById('detail-price').innerText = "$" + displayPrice;
+
+    // Wire the hidden input to the current property ID!
+    const favInput = document.getElementById('fav-property-id');
+    if (favInput) favInput.value = String(id);
+
+    // 3. Find the matching Sri Lankan agent and populate the sidebar
+    const agent = AGENTS.find(a => a.id === p.agentId) || AGENTS[0];
+    document.getElementById('detail-agent-img').src = agent.img;
+    document.getElementById('detail-agent-name').innerText = agent.name;
+    document.getElementById('detail-agent-title').innerText = agent.title;
+
+    // 4. Fill in the specific specs (Beds, Baths, Sqft)
+    const specsContainer = document.getElementById('detail-specs');
+    if (specsContainer) {
+        specsContainer.innerHTML = `
+            <div class="spec-box"><div class="spec-icon">🛏️</div><div class="spec-value">${p.beds || 3}</div><div class="spec-label">Bedrooms</div></div>
+            <div class="spec-box"><div class="spec-icon">🛁</div><div class="spec-value">${p.baths || 2}</div><div class="spec-label">Bathrooms</div></div>
+            <div class="spec-box"><div class="spec-icon">📐</div><div class="spec-value">${p.sqft || 1500}</div><div class="spec-label">Square Feet</div></div>
+            <div class="spec-box"><div class="spec-icon">🏠</div><div class="spec-value">${p.type.charAt(0).toUpperCase() + p.type.slice(1)}</div><div class="spec-label">Property Type</div></div>
+        `;
+    }
+
+    // 5. Finally, visually swap to the detail page and scroll to the top!
+    showPage('detail');
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+// 🔥 BULLETPROOF INQUIRY DATA SCRAPER 🔥
+    setTimeout(() => {
+        // 1. Set the Property ID
+        const propIdInput = document.getElementById('inq-prop-id');
+        if (propIdInput) propIdInput.value = String(id);
+
+        // 2. Scrape the Title directly from the UI text
+        const propTitleInput = document.getElementById('inq-prop-title');
+        const titleElement = document.getElementById('detail-title') || document.querySelector('.detail-title') || document.querySelector('h1');
+        if (propTitleInput) {
+            propTitleInput.value = titleElement ? titleElement.innerText : 'Premium Property';
+        }
+
+        // 3. Scrape the Agent Name directly from the UI text
+        const agentNameInput = document.getElementById('inq-agent-name');
+        const agentElement = document.getElementById('detail-agent-name');
+        if (agentNameInput) {
+            agentNameInput.value = agentElement ? agentElement.innerText : 'Assigned Agent';
+        }
+    }, 400); // Give the UI 400 milliseconds to draw before scraping!

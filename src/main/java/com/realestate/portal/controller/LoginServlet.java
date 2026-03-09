@@ -50,16 +50,27 @@ public class LoginServlet extends HttpServlet {
             session.setAttribute("loggedUser", fullName);
             session.setAttribute("loggedRole", role);
 
-            // ── THE TRAFFIC COP LOGIC ──
+            // --- THE TRAFFIC COP LOGIC (BUYER & SELLER ONLY) ---
 
             if ("ADMIN".equalsIgnoreCase(role)) {
-                response.sendRedirect("admin_dashboard.jsp");
-            } else if ("SELLER".equalsIgnoreCase(role)) {
-                response.sendRedirect("seller_dashboard.jsp");
-            } else {
+                // If an Admin tries to sneak in, kill the session and kick them to the login screen!
+                session.invalidate();
+                request.setAttribute("errorMessage", "Admin access has been permanently disabled.");
+                request.getRequestDispatcher("/index.jsp").forward(request, response);
+                return;
 
+            } else if ("SELLER".equalsIgnoreCase(role)) {
+                // Send to the Servlet Engine, NOT the raw JSP!
+                response.sendRedirect("sellerDashboard");
+
+            } else if ("BUYER".equalsIgnoreCase(role)) {
+                // Send to the Servlet Engine, NOT the raw JSP!
+                response.sendRedirect("buyerDashboard");
+
+            } else {
                 response.sendRedirect("properties");
             }
+
         } else {
 
             request.setAttribute("errorMessage", "Invalid email or password!");

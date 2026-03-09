@@ -241,7 +241,9 @@ input, select, textarea { font-family: var(--font-sans); outline: none; }
 .hero-search-btn:hover { background: var(--accent2); }
 .hero-search-btn svg { width: 16px; height: 16px; }
 .hero-stats {
-  display: flex; gap: 32px;
+  display: flex;
+  gap: 32px;
+  margin-top: 50px;
 }
 .hstat { }
 .hstat-num {
@@ -899,26 +901,32 @@ input, select, textarea { font-family: var(--font-sans); outline: none; }
 
             <c:choose>
                 <c:when test="${not empty sessionScope.loggedUser}">
-                    <span style="font-weight: 600; color: var(--ink); margin-right: 15px;">
-                        👋 Welcome, ${sessionScope.loggedUser}
-                        <span style="font-size: 0.7rem; background: var(--accent-l); color: var(--accent); padding: 2px 8px; border-radius: 99px;">${sessionScope.loggedRole}</span>
-                    </span>
+                    <div style="display: flex; align-items: center; gap: 15px;">
 
-                    <c:if test="${sessionScope.loggedRole == 'SELLER'}">
-                        <button class="btn-primary" onclick="window.location.href='sellerDashboard'" style="margin-right: 10px;">
-                            My Dashboard
-                        </button>
-                    </c:if>
+                        <c:choose>
+                            <%-- 1. IF SELLER IS LOGGED IN --%>
+                            <c:when test="${sessionScope.loggedRole == 'SELLER'}">
+                                <a href="sellerDashboard" style="display: flex; align-items: center; gap: 10px; padding: 5px 15px 5px 8px; border: 1.5px solid var(--line); border-radius: 30px; text-decoration: none; transition: 0.3s; cursor: pointer;">
+                                    <div style="background: var(--bg2); border-radius: 50%; padding: 4px; font-size: 1.1rem; display: flex; align-items: center; justify-content: center;">💼</div>
+                                    <span style="font-weight: 600; color: var(--ink); font-size: 0.95rem;">${sessionScope.loggedUser}</span>
+                                    <span style="background: rgba(13, 158, 110, 0.1); color: #0d9e6e; padding: 3px 8px; border-radius: 12px; font-size: 0.7rem; font-weight: bold; text-transform: uppercase;">SELLER</span>
+                                </a>
+                            </c:when>
 
-                    <c:if test="${sessionScope.loggedRole == 'ADMIN'}">
-                        <button class="btn-primary" onclick="window.location.href='adminDashboard'" style="margin-right: 10px;">
-                            Admin Panel
-                        </button>
-                    </c:if>
+                            <%-- 2. DEFAULT: BUYER IS LOGGED IN --%>
+                            <c:otherwise>
+                                <a href="buyerDashboard" style="display: flex; align-items: center; gap: 10px; padding: 5px 15px 5px 8px; border: 1.5px solid var(--line); border-radius: 30px; text-decoration: none; transition: 0.3s; cursor: pointer;">
+                                    <div style="background: var(--bg2); border-radius: 50%; padding: 4px; font-size: 1.1rem; display: flex; align-items: center; justify-content: center;">👤</div>
+                                    <span style="font-weight: 600; color: var(--ink); font-size: 0.95rem;">${sessionScope.loggedUser}</span>
+                                    <span style="background: rgba(26, 86, 219, 0.1); color: var(--accent); padding: 3px 8px; border-radius: 12px; font-size: 0.7rem; font-weight: bold; text-transform: uppercase;">BUYER</span>
+                                </a>
+                            </c:otherwise>
+                        </c:choose>
 
-                    <form action="logout" method="post" style="display:inline;">
-                        <button type="submit" class="btn-ghost">Logout</button>
-                    </form>
+                        <form action="logout" method="post" style="margin: 0;">
+                            <button type="submit" style="background: transparent; border: 1px solid var(--line); color: var(--ink); padding: 6px 16px; border-radius: 20px; font-weight: 500; cursor: pointer; transition: 0.2s;" onmouseover="this.style.borderColor='var(--red)'; this.style.color='var(--red)'" onmouseout="this.style.borderColor='var(--line)'; this.style.color='var(--ink)'">Logout</button>
+                        </form>
+                    </div>
                 </c:when>
 
                 <c:otherwise>
@@ -987,10 +995,10 @@ input, select, textarea { font-family: var(--font-sans); outline: none; }
       <div class="hero-img-overlay"></div>
 
       <div class="hero-card-float hcf-1">
-        <div class="hcf-label">Latest Listing</div>
-        <div class="hcf-value">The Meridian Loft</div>
-        <div class="hcf-sub">Downtown Manhattan, NY</div>
-        <span class="hcf-badge badge-green">✓ Just Listed</span>
+              <div class="hcf-label">Latest Listing</div>
+              <div class="hcf-value">Luxury Lakeview Villa</div>
+              <div class="hcf-sub">Kurunegala, NWP</div>
+              <span class="hcf-badge badge-green">✓ Just Listed</span>
       </div>
 
       <div class="hero-card-float hcf-2">
@@ -1028,11 +1036,12 @@ input, select, textarea { font-family: var(--font-sans); outline: none; }
                       <c:choose>
                           <c:when test="${not empty propertyList}">
                               <c:forEach var="p" items="${propertyList}">
-                                  <div class="prop-card">
+                                  <div class="prop-card" onclick="openDetail('${p.id}')" style="cursor: pointer;">
                                       <div class="prop-img-wrap">
                                           <img src="${p.imageUrl}" alt="${p.title}"/>
                                           <div class="prop-tags">
-                                              <span class="prop-tag tag-sale">${p.type}</span>
+                                                  <span class="prop-tag tag-feat">${p.status}</span>
+                                                  <span class="prop-tag tag-sale">${p.type}</span>
                                           </div>
                                       </div>
                                       <div class="prop-body">
@@ -1225,11 +1234,11 @@ input, select, textarea { font-family: var(--font-sans); outline: none; }
       <div class="filter-section">
         <div class="filter-section-title">City</div>
         <div class="filter-chips">
-          <div class="filter-chip active" onclick="toggleChip(this,'city','all')">All Cities</div>
-          <div class="filter-chip" onclick="toggleChip(this,'city','New York')">New York</div>
-          <div class="filter-chip" onclick="toggleChip(this,'city','Los Angeles')">Los Angeles</div>
-          <div class="filter-chip" onclick="toggleChip(this,'city','Miami')">Miami</div>
-          <div class="filter-chip" onclick="toggleChip(this,'city','Chicago')">Chicago</div>
+                  <div class="filter-chip active" onclick="toggleChip(this,'city','all')">All Cities</div>
+                  <div class="filter-chip" onclick="toggleChip(this,'city','Colombo')">Colombo</div>
+                  <div class="filter-chip" onclick="toggleChip(this,'city','Kandy')">Kandy</div>
+                  <div class="filter-chip" onclick="toggleChip(this,'city','Galle')">Galle</div>
+                  <div class="filter-chip" onclick="toggleChip(this,'city','Kurunegala')">Kurunegala</div>
         </div>
       </div>
 
@@ -1283,21 +1292,38 @@ input, select, textarea { font-family: var(--font-sans); outline: none; }
         <span id="detail-address-text"></span>
       </div>
 
-      <div class="detail-price-row">
-        <div>
-          <div class="detail-price-sub" id="detail-price-label">Listing Price</div>
-          <div class="detail-price" id="detail-price"></div>
-        </div>
-        <div id="detail-price-badges"></div>
+      <div class="detail-price-row" style="display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 30px; padding-bottom: 20px; border-bottom: 1px solid var(--line);">
+          <div>
+              <div class="detail-price-sub" id="detail-price-label">Listing Price</div>
+              <div class="detail-price" id="detail-price"></div>
+          </div>
+
+          <form action="saveFavorite" method="post" style="margin: 0;">
+              <input type="hidden" name="propertyId" id="fav-property-id">
+              <button type="submit" class="btn" style="background: rgba(13, 158, 110, 0.1); color: var(--green); border: 2px solid var(--green); display: flex; align-items: center; gap: 8px; font-size: 1.1rem; padding: 12px 24px; cursor: pointer; border-radius: 8px; font-weight: bold; transition: 0.3s;" onmouseover="this.style.background='var(--green)'; this.style.color='white'" onmouseout="this.style.background='rgba(13, 158, 110, 0.1)'; this.style.color='var(--green)'">
+                  ❤️ Save to Dashboard
+              </button>
+          </form>
       </div>
 
-      <div class="detail-specs" id="detail-specs"></div>
+      <div class="detail-specs" id="detail-specs" style="display: flex; flex-wrap: wrap; gap: 15px; margin-bottom: 40px;"></div>
 
-      <div class="detail-section-title">About This Property</div>
-      <p class="detail-desc" id="detail-desc"></p>
+      <div style="background: var(--bg2); padding: 30px; border-radius: var(--r); border: 1px solid var(--line); margin-bottom: 40px;">
+          <div class="detail-section-title" style="font-size: 1.4rem; margin-top: 0; margin-bottom: 15px;">📝 About This Property</div>
+          <p class="detail-desc" id="detail-desc" style="line-height: 1.8; color: var(--ink); opacity: 0.8; font-size: 1.05rem;">
+              Welcome to your luxurious new Sri Lankan retreat. This premium property boasts an expansive open-concept layout, state-of-the-art modern finishes, and breathtaking views. Perfectly situated in a highly sought-after neighborhood, it offers unparalleled convenience to top-tier schools, exclusive shopping, and fine dining.
+          </p>
 
-      <div class="detail-section-title">Features & Amenities</div>
-      <div class="features-grid" id="detail-features"></div>
+          <div class="detail-section-title" style="font-size: 1.4rem; margin-top: 40px; margin-bottom: 20px;">✨ Premium Amenities</div>
+          <div class="features-grid" id="detail-features" style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px; color: var(--ink); opacity: 0.8; font-size: 1.05rem;">
+              <div>✔️ Fully Air Conditioned</div>
+              <div>✔️ Imported Teak Floors</div>
+              <div>✔️ Smart Home Security</div>
+              <div>✔️ Backup Solar Power</div>
+              <div>✔️ Infinity Pool Access</div>
+              <div>✔️ 2-Car Private Parking</div>
+          </div>
+      </div>
     </div>
 
     <div class="detail-sidebar">
@@ -1311,12 +1337,20 @@ input, select, textarea { font-family: var(--font-sans); outline: none; }
           </div>
         </div>
 
-        <input class="contact-form-input" placeholder="Your Name" id="ci-name"/>
-        <input class="contact-form-input" placeholder="Email Address" id="ci-email"/>
-        <input class="contact-form-input" placeholder="Phone Number" id="ci-phone"/>
-        <textarea class="contact-form-input" rows="3" placeholder="I'm interested in this property..." id="ci-message"></textarea>
-        <button class="btn-contact" onclick="sendInquiry()">Send Message</button>
-        <button class="btn-contact-outline" onclick="scheduleViewing()">📅 Schedule Viewing</button>
+        <form action="submitInquiry" method="post" style="display: flex; flex-direction: column; gap: 10px;" onsubmit="return forceDataGrab();">
+            <input type="hidden" name="propertyId" id="inq-prop-id">
+            <input type="hidden" name="propertyTitle" id="inq-prop-title">
+            <input type="hidden" name="agentName" id="inq-agent-name">
+
+            <input type="text" name="senderName" class="contact-form-input" placeholder="Your Name" required/>
+            <input type="email" name="senderEmail" class="contact-form-input" placeholder="Email Address" required/>
+            <input type="tel" name="senderPhone" class="contact-form-input" placeholder="Phone Number"/>
+            <textarea name="message" class="contact-form-input" rows="3" placeholder="I'm interested in this property..." required></textarea>
+
+            <button type="submit" class="btn-contact">Send Message</button>
+
+            <button type="button" class="btn-contact-outline" onclick="alert('Viewing scheduler coming soon!')">📅 Schedule Viewing</button>
+        </form>
       </div>
     </div>
   </div>
@@ -1417,7 +1451,7 @@ input, select, textarea { font-family: var(--font-sans); outline: none; }
             <div class="auth-role-grid" id="role-grid">
               <div class="role-btn selected" onclick="selectRole(this,'BUYER')"><span class="ri">🏠</span>Buyer</div>
               <div class="role-btn" onclick="selectRole(this,'SELLER')"><span class="ri">💼</span>Seller</div>
-              <div class="role-btn" onclick="selectRole(this,'ADMIN')"><span class="ri">🤝</span>Admin</div>
+
             </div>
 
             <input type="hidden" name="role" id="hiddenRole" value="BUYER"/>
@@ -1448,7 +1482,68 @@ input, select, textarea { font-family: var(--font-sans); outline: none; }
   <span id="toast-msg"></span>
 </div>
 
+<script>
+    const PROPERTIES = [
+        <c:forEach var="p" items="${propertyList}">
+        {
+            id: "${p.id}",
+            title: "${p.title}",
+            city: "${p.location}",
+            location: "${p.location}",
+            price: ${p.price},
+            type: "${p.type}",
+            status: "${p.status}",
+            img: "${p.imageUrl}",
+            beds: Math.floor(Math.random() * 4) + 2,   /* Fake data since our txt file doesn't track beds */
+            baths: Math.floor(Math.random() * 3) + 1,  /* Fake data since our txt file doesn't track baths */
+            sqft: Math.floor(Math.random() * 2000) + 1000,
+            agentId: Math.floor(Math.random() * 6) + 1, /* Randomly assigns one of your 6 Sri Lankan agents! */
+            views: Math.floor(Math.random() * 900) + 100
+        },
+        </c:forEach>
+    ];
+</script>
+
 <script src="app.js"></script>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        const urlParams = new URLSearchParams(window.location.search);
+        const viewId = urlParams.get('viewId');
+
+        if (viewId) {
+            // Wait just half a second for the Java data to load, then auto-open the property!
+            setTimeout(() => {
+                if (typeof openDetail === 'function') {
+                    openDetail(viewId);
+                }
+            }, 300);
+        }
+    });
+</script>
+
+<script>
+    function forceDataGrab() {
+        // 1. Find the Agent Name on the screen
+        let agentEl = document.getElementById('detail-agent-name') || document.querySelector('.agent-profile-name');
+        let agentText = agentEl ? agentEl.innerText.trim() : "Agent Assigned";
+
+        // 2. Find the Title on the screen (Looks for ID, then Class, then H1)
+        let titleEl = document.getElementById('detail-title') || document.querySelector('.detail-title') || document.querySelector('h1');
+        let titleText = titleEl ? titleEl.innerText.trim() : "Premium Property";
+
+        // 3. Smash them into the hidden inputs right as the form flies to Java!
+        document.getElementById('inq-agent-name').value = agentText;
+        document.getElementById('inq-prop-title').value = titleText;
+
+        // Ensure the ID is caught too (from your URL if needed, or fallback to a default)
+        if(!document.getElementById('inq-prop-id').value) {
+             document.getElementById('inq-prop-id').value = "PROP-UNKNOWN";
+        }
+
+        return true; // Let the form fly!
+    }
+</script>
 
 </body>
 </html>

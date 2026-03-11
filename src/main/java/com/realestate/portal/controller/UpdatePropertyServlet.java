@@ -16,57 +16,65 @@ public class UpdatePropertyServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
-        // 1. SECURITY CHECK: Ensure it's a logged-in SELLER
-        HttpSession session = request.getSession();
-        String role = (String) session.getAttribute("loggedRole");
-        String sellerName = (String) session.getAttribute("loggedUser");
+        // 1. Force UTF-8 so we don't scramble Sinhala text during the update!
+        request.setCharacterEncoding("UTF-8");
 
-        if (role == null || !"SELLER".equalsIgnoreCase(role)) {
+        HttpSession session = request.getSession();
+        String loggedUser = (String) session.getAttribute("loggedUser");
+        String role = (String) session.getAttribute("loggedRole");
+
+        // Security Check
+        if (loggedUser == null || !"SELLER".equalsIgnoreCase(role)) {
             response.sendRedirect("login");
             return;
         }
 
-        // 2. Grab the updated data from the edit form
-        String id = request.getParameter("propertyId"); // We MUST have the ID to know which one to update!
-        String title = request.getParameter("title");
-        String price = request.getParameter("price");
-        String location = request.getParameter("location");
+        // Grab the incoming edits (Clean out any rogue commas so it doesn't break the DB!)
+        String propertyId = request.getParameter("propertyId"); // WE MUST KEEP THIS ID EXACTLY THE SAME!
+        String title = request.getParameter("title").replace(",", " ");
+        String price = request.getParameter("price").replace(",", "");
+        String location = request.getParameter("location").replace(",", " ");
         String type = request.getParameter("type");
         String status = request.getParameter("status");
 
-        // 3. Create the new, updated row
-        String updatedRecord = id + "," + title + "," + price + "," + location + "," + type + "," + status + "," + sellerName;
-        String filePath = getServletContext().getRealPath("/WEB-INF/properties.txt");
+        File propFile = new File(getServletContext().getRealPath("/WEB-INF/properties.txt"));
+        List<String> updatedLines = new ArrayList<>();
 
-        // 4. THE MAGIC FILE SWAP: Read everything, find the match, and replace it
-        List<String> allLines = new ArrayList<>();
+        if (propFile.exists() && propertyId != null) {
+            // 2. Read the entire database line by line
+            try (BufferedReader br = new BufferedReader(new InputStreamReader(new FileInputStream(propFile), "UTF-8"))) {
+                String line;
+                while ((line = br.readLine()) != null) {
+                    String[] data = line.split(",");
 
-        try (BufferedReader br = new BufferedReader(new FileReader(filePath))) {
-            String line;
-            while ((line = br.readLine()) != null) {
-                // Check if this line starts with the ID we are trying to update
-                if (line.startsWith(id + ",")) {
-                    allLines.add(updatedRecord); // MATCH! Swap in the new data
-                } else {
-                    allLines.add(line); // Not a match, keep the old data exactly as is
+                    // If we find the exact property we are trying to edit...
+                    if (data.length == 8 && data[0].equals(propertyId) && data[6].equals(loggedUser)) {
+
+                        // 🔥 THE MAGIC FIX: Carefully reconstruct the 8 pieces of data!
+                        // Notice how data[0] (ID), data[6] (Seller Name), and data[7] (Image) stay EXACTLY the same!
+                        String updatedRecord = data[0] + "," + title + "," + price + "," + location + "," + type + "," + status + "," + data[6] + "," + data[7];
+                        updatedLines.add(updatedRecord);
+
+                    } else {
+                        // Not the property we are editing? Keep it exactly as it was.
+                        updatedLines.add(line);
+                    }
                 }
+            } catch (Exception e) {
+                System.out.println("Error reading properties for update: " + e.getMessage());
             }
-        } catch (IOException e) {
-            System.out.println("Error reading properties for update: " + e.getMessage());
+
+            // 3. Overwrite the database file with the newly updated list
+            try (PrintWriter out = new PrintWriter(new OutputStreamWriter(new FileOutputStream(propFile, false), "UTF-8"))) {
+                for (String l : updatedLines) {
+                    out.println(l);
+                }
+            } catch (Exception e) {
+                System.out.println("Error saving updated properties: " + e.getMessage());
+            }
         }
 
-        // 5. Overwrite the file with the new list
-        // Notice the 'false' here! It means DO NOT append; completely overwrite the file!
-        try (PrintWriter out = new PrintWriter(new FileWriter(filePath, false))) {
-            for (String newLine : allLines) {
-                out.println(newLine);
-            }
-        } catch (IOException e) {
-            System.out.println("Error writing updated properties: " + e.getMessage());
-        }
-
-        // 6. Send them back to the dashboard with a success message
-        request.setAttribute("successMessage", "Property updated successfully!");
-        request.getRequestDispatcher("/sellerDashboard").forward(request, response);
+        // Send the Seller back to their dashboard!
+        response.sendRedirect("sellerDashboard");
     }
 }

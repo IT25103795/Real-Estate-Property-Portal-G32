@@ -1483,25 +1483,43 @@ input, select, textarea { font-family: var(--font-sans); outline: none; }
 </div>
 
 <script>
-    const PROPERTIES = [
-        <c:forEach var="p" items="${propertyList}">
-        {
+
+    window.properties = []; // Force it to attach to the global browser memory!
+
+    <c:forEach items="${propertyList}" var="p">
+        window.properties.push({
             id: "${p.id}",
             title: "${p.title}",
-            city: "${p.location}",
+            price: "${p.price}",
             location: "${p.location}",
-            price: ${p.price},
             type: "${p.type}",
             status: "${p.status}",
-            img: "${p.imageUrl}",
-            beds: Math.floor(Math.random() * 4) + 2,   /* Fake data since our txt file doesn't track beds */
-            baths: Math.floor(Math.random() * 3) + 1,  /* Fake data since our txt file doesn't track baths */
-            sqft: Math.floor(Math.random() * 2000) + 1000,
-            agentId: Math.floor(Math.random() * 6) + 1, /* Randomly assigns one of your 6 Sri Lankan agents! */
-            views: Math.floor(Math.random() * 900) + 100
-        },
-        </c:forEach>
-    ];
+            image: "${p.imageUrl}"
+        });
+    </c:forEach>
+
+    // Diagnostic tool to prove it works!
+    console.log("✅ DATA BRIDGE CONNECTED! Properties loaded:", window.properties.length);
+</script>
+
+<script>
+
+    var properties = [];
+
+    <c:forEach items="${propertyList}" var="p">
+        properties.push({
+            id: String(`${p.id}`),
+            title: `${p.title}`,
+            price: Number(`${p.price}`), // Safely converts it to a number for sorting!
+            location: `${p.location}`,
+            type: `${p.type}`,
+            status: `${p.status}`,
+            seller: `${p.sellerName}`,   // EXACT MATCH to getSellerName()
+            image: `${p.imageUrl}`       // EXACT MATCH to getImageUrl()
+        });
+    </c:forEach>
+
+    console.log("✅ DATA BRIDGE CONNECTED! Properties loaded:", properties.length);
 </script>
 
 <script src="app.js"></script>

@@ -10,9 +10,14 @@ PROP_1772952219672,Kurunegala New Building,400000,Kurunegala,Apartment,For Rent,
 PROP_1772952224327,Kurunegala New Building,400000,Kurunegala,Apartment,For Rent,De Silva
 PROP_1772952563995,Kurunrgala New Building,400000,Kurunegala,Apartment,For Rent,De Silva
 1f48f435,Kurunegala New Building,500000.0,Kurunegala,Apartment,For Rent,De Silva
-d4ef95b0,Galle New Building,500000,Galle,Apartment,For Rent,De Silva,assets/images/property-types/apartment.jpg
-409980b9,Colombo Apartment,1000000,Colombo,Apartment,For Sale,De Silva,assets/images/property-types/apartment.jpg
+d4ef95b0,Galle New Building,600000.0,Galle,Apartment,For Rent,De Silva,assets/images/property-types/apartment.jpg
 dff34ab2,Kiribathgoda Faltue,50000,Kiribathgoda,Apartment,For Rent,De Silva,assets/images/property-types/apartment.jpg
-ff6a54a5,Galle Villa,67000,Galle,Villa,For Rent,De Silva,assets/images/property-types/villa.jpg
-14684735,Kosgoda (Ã Â¶Â´Ã Â¶Â±Ã Â·ÂÃ Â·ÂÃ Â·ÂÃ Â¶Â³),1000000.0,Galle,House,For Sale,De Silva
-517c35d0,Kosgoda (පන්හිඳ),10000000,Galle,House,For Sale,De Silva,assets/images/property-types/house.jpg
+
+``
+699613a8,Galle New Villa,85000.0,Galle,Villa,For Rent,De Silva,assets/images/property-types/villa.jpg
+c66a23ca, Kurunegala Lake view,560000,Kurunegala,House,For Sale,De Silva,assets/images/property-types/house.jpg
+ba4ccf7e,Awissawella Pro State,5000000,Rathnapura,Apartment,For Sale,De Silva,assets/images/property-types/apartment.jpg
+2a2b0008,Kiribathgoda new building,1700000,Kiribathgoda,Apartment,For Sale,Dinesh,assets/images/property-types/apartment.jpg
+0a22dc7a,Hegalla beach Villa,95000,Galle,Villa,For Sale,Dinesh,assets/images/property-types/villa.jpg
+f62059d5,Nugegoda Real State,9000000,Colombo,Apartment,For Sale,Kavindi,assets/images/property-types/apartment.jpg
+3ea4a9d6,Kengalla Mount view,1000000,Kandy,House,For Sale,Kavindi,assets/images/property-types/house.jpg

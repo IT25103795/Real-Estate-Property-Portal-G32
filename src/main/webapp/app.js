@@ -281,7 +281,13 @@ window.addEventListener('scroll', () => {
     if(nav) nav.classList.toggle('scrolled', scrollY > 20);
 });
 
-// Boot the homepage on load!
+// ── SYSTEM BOOT ─────────────────────────────────
 document.addEventListener("DOMContentLoaded", () => {
     initHome();
+
+    // Force the Dark Mode button to listen for clicks safely!
+    const themeBtn = document.getElementById('theme-toggle');
+    if (themeBtn) {
+        themeBtn.onclick = toggleTheme;
+    }
 });

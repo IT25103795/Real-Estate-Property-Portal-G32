@@ -65,9 +65,101 @@
         }
         [data-theme="dark"] .theme-switch { background-color: var(--accent); }
         [data-theme="dark"] .theme-switch-thumb { transform: translateX(24px); background-color: var(--bg2); }
+
+        /* Container styling to match your dark theme */
+        /* Container styling adapting to Light/Dark Mode */
+                .profile-section {
+                    background: var(--bg); /* Automatically shifts between light/dark background */
+                    border: 1px solid var(--line); /* Adds a subtle, elegant outline */
+                    box-shadow: 0 4px 16px rgba(0,0,0,.04); /* Soft shadow to lift it off the page */
+                    padding: 25px;
+                    border-radius: var(--r);
+                    margin-bottom: 30px;
+                    color: var(--ink); /* Automatically shifts text color */
+                    max-width: 400px;
+                }
+
+                .profile-header {
+                    display: flex;
+                    justify-content: space-between;
+                    align-items: center;
+                    margin-bottom: 20px;
+                }
+
+                .profile-header h3 {
+                    margin: 0;
+                    font-size: 1.2rem;
+                }
+
+                /* Vertical stacking for the form */
+                .form-group {
+                    margin-bottom: 15px;
+                    display: flex;
+                    flex-direction: column;
+                }
+
+                .form-group label {
+                    margin-bottom: 5px;
+                    color: var(--ink4); /* Adaptive gray */
+                    font-size: 0.85rem;
+                    text-transform: uppercase;
+                    letter-spacing: 0.5px;
+                }
+
+                /* 1. How it looks normally (Read-Only) */
+                .readonly-input {
+                    background-color: transparent;
+                    border: 1px solid transparent;
+                    color: var(--ink); /* Adaptive text */
+                    font-size: 1rem;
+                    padding: 5px 0;
+                    outline: none;
+                }
+
+                /* 2. How it looks when editing */
+                .editable-input {
+                    background-color: var(--bg2); /* Adaptive input background */
+                    border: 1px solid var(--line);
+                    border-radius: 4px;
+                    color: var(--ink); /* Adaptive text */
+                    padding: 10px;
+                    font-size: 1rem;
+                    outline: none;
+                }
+
+                .editable-input:focus {
+                    border-color: var(--accent); /* Nestiq Blue highlight when typing */
+                }
+
+        /* Button Styling */
+        .edit-btn, .save-btn {
+            background-color: #3b82f6;
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: 0.2s;
+        }
+
+        .edit-btn:hover, .save-btn:hover {
+            background-color: #2563eb;
+        }
+
+        .save-btn {
+            width: 100%;
+            margin-top: 10px;
+            background-color: #10b981; /* Green color for saving */
+        }
+
+        .save-btn:hover {
+            background-color: #059669;
+        }
+
     </style>
 </head>
-<body data-theme="light">
+<body>
 
 <div class="dashboard-container">
     <div class="header">
@@ -84,6 +176,45 @@
                 <button type="submit" class="btn" style="background: var(--red);">Logout</button>
             </form>
         </div>
+    </div>
+
+    <div class="profile-section">
+        <div class="profile-header">
+            <h3>Personal Information</h3>
+            <button type="button" id="superEditBtn" class="edit-btn" onclick="toggleEditMode()">Edit</button>
+        </div>
+
+        <form action="UpdateProfileServlet" method="POST" id="profileForm">
+            <input type="hidden" name="oldEmail" value="<%= session.getAttribute("loggedEmail") %>">
+
+            <div class="form-group">
+                <label>NAME</label>
+                <input type="text" name="newName" value="<%= session.getAttribute("loggedUser") %>" readonly class="readonly-input">
+            </div>
+
+            <div class="form-group">
+                <label>EMAIL</label>
+                <input type="email" name="newEmail" value="<%= session.getAttribute("loggedEmail") %>" readonly class="readonly-input">
+            </div>
+
+            <div class="form-group" style="position: relative;">
+                <label>PASSWORD</label>
+                <input type="password" id="pwdInput" name="newPassword" value="<%= session.getAttribute("loggedPassword") %>" readonly class="readonly-input" style="padding-right: 35px;">
+
+                <span onclick="togglePassword()" style="position: absolute; right: 10px; top: 32px; cursor: pointer; color: #a0aabf; transition: 0.2s;">
+                    <svg id="eyeOpen" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+                        <circle cx="12" cy="12" r="3"></circle>
+                    </svg>
+                    <svg id="eyeClosed" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display: none;">
+                        <path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"></path>
+                        <line x1="1" y1="1" x2="23" y2="23"></line>
+                    </svg>
+                </span>
+            </div>
+
+            <button type="submit" id="saveProfileBtn" class="save-btn" style="display: none;">Save Changes</button>
+        </form>
     </div>
 
     <div class="card">
@@ -190,29 +321,62 @@
 </div>
 
 <script>
-    // Bulletproof Theme Toggle specific to this page
-    function toggleTheme() {
-        const body = document.body;
-        const toggleBtn = document.getElementById('theme-toggle');
+    // Bulletproof direct function - customized for superEditBtn and emoji-free text!
+    function toggleEditMode() {
+        const btn = document.getElementById('superEditBtn'); // Ensure ID matches!
+        const inputs = document.querySelectorAll('#profileForm input[type="text"], #profileForm input[type="email"], #profileForm input[type="password"]');
+        const saveBtn = document.getElementById('saveProfileBtn');
 
-        if (body.getAttribute('data-theme') === 'light') {
-            body.setAttribute('data-theme', 'dark');
-            toggleBtn.innerText = '☀️';
-            localStorage.setItem('nestiqTheme', 'dark');
+        // Check if the save button is currently visible
+        const isEditing = saveBtn.style.display === 'block';
+
+        if (!isEditing) {
+            // Switch TO Edit Mode
+            inputs.forEach(input => {
+                input.removeAttribute('readonly');
+                input.classList.remove('readonly-input');
+                input.classList.add('editable-input');
+            });
+            saveBtn.style.display = 'block';
+            btn.innerHTML = 'Cancel'; // Emoji-free text!
+            btn.style.backgroundColor = '#ef4444'; // Make button red
         } else {
-            body.setAttribute('data-theme', 'light');
-            toggleBtn.innerText = '🌙';
-            localStorage.setItem('nestiqTheme', 'light');
+            // Switch BACK to Read-Only Mode
+            inputs.forEach(input => {
+                input.setAttribute('readonly', true);
+                input.classList.remove('editable-input');
+                input.classList.add('readonly-input');
+            });
+            saveBtn.style.display = 'none';
+            btn.innerHTML = 'Edit'; // Emoji-free text!
+            btn.style.backgroundColor = '#3b82f6'; // Make button blue
+
+            // Revert changes if they click cancel without saving
+            document.getElementById('profileForm').reset();
         }
     }
+    // Show/Hide Password Toggle
+        function togglePassword() {
+            const pwdInput = document.getElementById('pwdInput');
+            const eyeOpen = document.getElementById('eyeOpen');
+            const eyeClosed = document.getElementById('eyeClosed');
 
-    // Load saved theme on boot
-    window.onload = () => {
-        const savedTheme = localStorage.getItem('nestiqTheme') || 'light';
-        document.body.setAttribute('data-theme', savedTheme);
-        document.getElementById('theme-toggle').innerText = savedTheme === 'dark' ? '☀️' : '🌙';
-    };
+            // If it's currently hidden, reveal it!
+            if (pwdInput.type === 'password') {
+                pwdInput.type = 'text';
+                eyeOpen.style.display = 'none';
+                eyeClosed.style.display = 'block';
+            }
+            // If it's revealed, hide it!
+            else {
+                pwdInput.type = 'password';
+                eyeOpen.style.display = 'block';
+                eyeClosed.style.display = 'none';
+            }
+        }
 </script>
+
+<script src="app.js"></script>
 
 </body>
 </html>

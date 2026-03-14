@@ -50,6 +50,11 @@ public class LoginServlet extends HttpServlet {
             session.setAttribute("loggedUser", fullName);
             session.setAttribute("loggedRole", role);
 
+            // --- NEW LINES ADDED HERE ---
+            session.setAttribute("loggedEmail", inputEmail);
+            session.setAttribute("loggedPassword", inputPassword);
+            // ----------------------------
+
             // --- THE TRAFFIC COP LOGIC (BUYER & SELLER ONLY) ---
 
             if ("ADMIN".equalsIgnoreCase(role)) {

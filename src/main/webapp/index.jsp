@@ -62,6 +62,10 @@
   --amber-l:  rgba(217,119,6,.2);
 }
 
+[data-theme="dark"] .detail-back-btn {
+  color: #0f1117;
+}
+
 /* Fix stubborn hardcoded white backgrounds */
 [data-theme="dark"] .navbar {
   background: rgba(15, 17, 23, 0.92);
@@ -974,17 +978,17 @@ input, select, textarea { font-family: var(--font-sans); outline: none; }
 
       <div class="hero-stats">
         <div class="hstat">
-          <div class="hstat-num" data-target="12400" id="stat0">0</div>
+          <div class="hstat-num counter-anim" data-target="12400" id="stat0">0</div>
           <div class="hstat-label">Active Listings</div>
         </div>
         <div class="hstat-divider"></div>
         <div class="hstat">
-          <div class="hstat-num" data-target="340" id="stat1">0</div>
+          <div class="hstat-num counter-anim" data-target="340" id="stat1">0</div>
           <div class="hstat-label">Expert Agents</div>
         </div>
         <div class="hstat-divider"></div>
         <div class="hstat">
-          <div class="hstat-num" data-target="98" id="stat2">0</div>
+          <div class="hstat-num counter-anim" data-target="98" id="stat2">0</div>
           <div class="hstat-label">% Client Satisfaction</div>
         </div>
       </div>
@@ -1561,6 +1565,34 @@ input, select, textarea { font-family: var(--font-sans); outline: none; }
 
         return true; // Let the form fly!
     }
+</script>
+
+<script>
+    document.addEventListener("DOMContentLoaded", () => {
+        const counters = document.querySelectorAll('.counter-anim');
+        const speed = 100; // The lower the number, the faster it counts!
+
+        counters.forEach(counter => {
+            const updateCount = () => {
+                const target = +counter.getAttribute('data-target');
+                const count = +counter.innerText;
+
+                // Calculate the increment step
+                const inc = target / speed;
+
+                if (count < target) {
+                    // Add the increment and update the text
+                    counter.innerText = Math.ceil(count + inc);
+                    // Run it again every 15 milliseconds
+                    setTimeout(updateCount, 15);
+                } else {
+                    counter.innerText = target;
+                }
+            };
+
+            updateCount();
+        });
+    });
 </script>
 
 </body>

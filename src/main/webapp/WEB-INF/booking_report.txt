@@ -409,3 +409,34 @@
   Status        : RESERVED
   Penalty Rate  : $75000.00 / overdue day (= daily rental fee)
 
+=========================================================
+  NEW BOOKING — 2026-05-21
+=========================================================
+  Booking ID    : BK_1779363146838
+  Property      : Kurunegala Mount's Top  [8c209711]
+  Seller        : De Silva
+  Buyer Account : Navod Silva
+  Buyer Name    : Bhashitha Navod
+  Buyer Email   : bhashithanavod500@gmail.com
+  Buyer Phone   : 0706451658
+  Booked On     : 2026-05-21
+  Return Date   : 2026-05-23
+  Status        : RESERVED
+  Penalty Rate  : $85000.00 / overdue day (= daily rental fee)
+
+=========================================================
+  NEW BOOKING — 2026-05-21
+=========================================================
+  Booking ID    : BK_1779364858735
+  Property      : Anuradhapura River side  [8bb3ceaa]
+  Seller        : Dinesh
+  Buyer Account : Navod Silva
+  Buyer Name    : Bhashitha Navod
+  Buyer Email   : bhashithanavod500@gmail.com
+  Buyer Phone   : 0706451658
+  Booked On     : 2026-05-21
+  Rental Start  : 2026-05-23
+  Return Date   : 2026-05-25
+  Status        : RESERVED
+  Penalty Rate  : $7500.00 / overdue day (= daily rental fee)
+

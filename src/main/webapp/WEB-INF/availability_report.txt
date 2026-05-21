@@ -4,11 +4,12 @@
   Date    : 2026-05-21
 =========================================================
   Total Listed   : 13
-  Available      : 12
-  Reserved       : 1
+  Available      : 11
+  Reserved       : 2
 
------ ACTIVE RESERVATIONS (1) -----
+----- ACTIVE RESERVATIONS (2) -----
   [CONFIRMED] Kawisigamuwa Cool Yard | Buyer: Bhashitha Navod | Return: 2026-05-21
+  [CONFIRMED] Kurunegala Mount's Top | Buyer: Bhashitha Navod | Return: 2026-05-23
 
 ----- COMPLETED TRANSACTIONS (5) -----
   Kaduwela Beach view | Buyer: Bhashi Navod | Booked: 2026-05-05 | Returned: 2026-05-07

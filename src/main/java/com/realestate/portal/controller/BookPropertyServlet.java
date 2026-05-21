@@ -36,11 +36,13 @@ public class BookPropertyServlet extends HttpServlet {
         String buyerName     = request.getParameter("buyerName");
         String buyerEmail    = request.getParameter("buyerEmail");
         String buyerPhone    = request.getParameter("buyerPhone");
+        String startDateStr  = request.getParameter("startDate");   // yyyy-MM-dd
         String returnDateStr = request.getParameter("returnDate");   // yyyy-MM-dd
         String propertyPriceStr = request.getParameter("propertyPrice"); // daily rate = penalty rate
 
         // Basic validation
         if (propertyId == null || propertyId.trim().isEmpty() ||
+                startDateStr == null || startDateStr.trim().isEmpty() ||
                 returnDateStr == null || returnDateStr.trim().isEmpty()) {
             response.sendRedirect("properties?error=missing_fields");
             return;
@@ -62,6 +64,7 @@ public class BookPropertyServlet extends HttpServlet {
                         String existPropId  = d[1];
                         String existBuyer   = d[4];
                         String existStatus  = d[10];
+                        String existStartDate = d[8];
                         String existReturnDate = d[9];
 
                         // Check for duplicate active booking
@@ -76,15 +79,21 @@ public class BookPropertyServlet extends HttpServlet {
                         if (existPropId.equals(propertyId) &&
                                 !"COMPLETED".equalsIgnoreCase(existStatus) &&
                                 !"CANCELLED".equalsIgnoreCase(existStatus)) {
-                            // Simple check: if return date is after today, property is still booked
                             try {
-                                java.time.LocalDate existingReturn = java.time.LocalDate.parse(existReturnDate);
-                                java.time.LocalDate requestedReturn = java.time.LocalDate.parse(returnDateStr);
+                                java.time.LocalDate existingStart = java.time.LocalDate.parse(existStartDate);
+                                java.time.LocalDate existingEnd = java.time.LocalDate.parse(existReturnDate);
+                                java.time.LocalDate requestedStart = java.time.LocalDate.parse(startDateStr);
+                                java.time.LocalDate requestedEnd = java.time.LocalDate.parse(returnDateStr);
                                 java.time.LocalDate today = java.time.LocalDate.now();
 
-                                if (existingReturn.isAfter(today)) {
-                                    response.sendRedirect("buyerDashboard?booking=unavailable");
-                                    return;
+                                // Check if the existing booking is still active (end date after today)
+                                if (existingEnd.isAfter(today)) {
+                                    // Check for date overlap
+                                    boolean hasOverlap = !requestedStart.isAfter(existingEnd) && !requestedEnd.isBefore(existingStart);
+                                    if (hasOverlap) {
+                                        response.sendRedirect("buyerDashboard?booking=unavailable");
+                                        return;
+                                    }
                                 }
                             } catch (Exception e) {
                                 // If date parsing fails, continue
@@ -115,7 +124,7 @@ public class BookPropertyServlet extends HttpServlet {
                 buyerName,
                 buyerEmail,
                 buyerPhone,
-                bookingDate,
+                startDateStr,
                 returnDateStr,
                 "RESERVED"       // initial status
         );
@@ -151,6 +160,7 @@ public class BookPropertyServlet extends HttpServlet {
             rw.println("  Buyer Email   : " + buyerEmail);
             rw.println("  Buyer Phone   : " + (buyerPhone.isEmpty() ? "N/A" : buyerPhone));
             rw.println("  Booked On     : " + bookingDate);
+            rw.println("  Rental Start  : " + startDateStr);
             rw.println("  Return Date   : " + returnDateStr);
             rw.println("  Status        : RESERVED");
             rw.println("  Penalty Rate  : $" + (propertyPriceStr != null && !propertyPriceStr.isEmpty() ? String.format("%.2f", Double.parseDouble(propertyPriceStr)) : "100.00") + " / overdue day (= daily rental fee)");

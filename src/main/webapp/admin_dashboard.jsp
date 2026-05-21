@@ -694,7 +694,7 @@
                                 <tr>
                                     <th>Booking ID</th><th>Property</th><th>Seller</th>
                                     <th>Buyer</th><th>Buyer Email</th>
-                                    <th>Booked On</th><th>Return Date</th><th>Status</th>
+                                    <th>Rental Start</th><th>Rental End</th><th>Status</th>
                                 </tr>
                             </thead>
                             <tbody>

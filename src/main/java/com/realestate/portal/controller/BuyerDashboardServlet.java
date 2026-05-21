@@ -209,8 +209,8 @@ public class BuyerDashboardServlet extends HttpServlet {
                     bk.put("buyerName",     d[5]);
                     bk.put("buyerEmail",    d[6]);
                     bk.put("buyerPhone",    d[7]);
-                    bk.put("bookingDate",   d[8]);
-                    bk.put("returnDate",    d[9]);
+                    bk.put("bookingDate",   d[8]);  // Start date
+                    bk.put("returnDate",    d[9]);  // End date
                     bk.put("status",        d[10]);
 
                     // Use the property's own daily price as the penalty rate

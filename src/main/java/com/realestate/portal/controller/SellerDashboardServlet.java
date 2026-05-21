@@ -311,8 +311,8 @@ public class SellerDashboardServlet extends HttpServlet {
                     bk.put("buyerName",     d[5]);
                     bk.put("buyerEmail",    d[6]);
                     bk.put("buyerPhone",    d[7]);
-                    bk.put("bookingDate",   d[8]);
-                    bk.put("returnDate",    d[9]);
+                    bk.put("bookingDate",   d[8]);  // Start date
+                    bk.put("returnDate",    d[9]);  // End date
                     bk.put("status",        d[10]);
 
                     // Use the property's own daily price as the penalty rate
@@ -399,7 +399,10 @@ public class SellerDashboardServlet extends HttpServlet {
                 if (startStr != null && endStr != null) {
                     java.time.LocalDate start = java.time.LocalDate.parse(startStr, dtf);
                     java.time.LocalDate end   = java.time.LocalDate.parse(endStr,   dtf);
-                    long days = java.time.temporal.ChronoUnit.DAYS.between(start, end);
+                    // Calculate based on actual days from start to completion date (or today if later)
+                    // This ensures we charge until the moment the seller clicks 'Complete'
+                    java.time.LocalDate effectiveEnd = today.isAfter(end) ? today : end;
+                    long days = java.time.temporal.ChronoUnit.DAYS.between(start, effectiveEnd) + 1;
                     if (days <= 0) days = 1;
                     rentalEarnings += days * rate;
                 }
@@ -433,7 +436,8 @@ public class SellerDashboardServlet extends HttpServlet {
             }
         }
 
-        // Add penalty fees to total earnings
+        // Update total earnings to include penalty fees separately tracked
+        // Note: totalEarnings already includes rentalEarnings. We add penaltyFees here.
         totalEarnings += totalPenaltyFees;
 
         // ── Write availability report to disk ─────────────────────────────────

@@ -191,14 +191,17 @@ public class CompleteBookingServlet extends HttpServlet {
                                         double dailyRate) {
         try {
             LocalDate start        = LocalDate.parse(startDateStr, DTF);
-            LocalDate end          = LocalDate.parse(endDateStr,   DTF);
             LocalDate today        = LocalDate.now();
-            LocalDate effectiveEnd = today.isAfter(end) ? today : end;
-
-            long daysRented   = ChronoUnit.DAYS.between(start, effectiveEnd);
+            
+            // Calculate days from start date to TODAY (when seller clicks Complete)
+            long daysRented   = ChronoUnit.DAYS.between(start, today) + 1;
             if (daysRented <= 0) daysRented = 1;
 
+            // Calculate overdue days based on original end date
+            LocalDate end          = LocalDate.parse(endDateStr, DTF);
             long   overduedays   = today.isAfter(end) ? ChronoUnit.DAYS.between(end, today) : 0;
+            
+            // Total earned = actual days rented × daily rate
             double totalEarned   = daysRented * dailyRate;
 
             String reportPath = getServletContext().getRealPath("/WEB-INF/booking_report.txt");
@@ -212,12 +215,12 @@ public class CompleteBookingServlet extends HttpServlet {
                 rw.println("  Seller        : " + sellerName);
                 rw.println("  Buyer Name    : " + buyerName);
                 rw.println("  Rental Start  : " + startDateStr);
-                rw.println("  Return Date   : " + endDateStr);
+                rw.println("  Original End  : " + endDateStr);
                 rw.println("  Completed On  : " + today.format(DTF));
-                rw.println("  Days Rented   : " + daysRented + " day(s)");
+                rw.println("  Days Rented   : " + daysRented + " day(s) (from start to completion)");
                 rw.println("  Daily Rate    : LKR " + String.format("%.2f", dailyRate));
                 if (overduedays > 0) {
-                    rw.println("  Overdue Days  : " + overduedays + " (included in total)");
+                    rw.println("  Overdue Days  : " + overduedays + " (beyond original end date)");
                 }
                 rw.println("  ─────────────────────────────────────────────────────");
                 rw.println("  TOTAL EARNED  : LKR " + String.format("%.2f", totalEarned));
@@ -239,14 +242,13 @@ public class CompleteBookingServlet extends HttpServlet {
              LocalDate start        = LocalDate.parse(startDateStr, DTF);
              LocalDate end          = LocalDate.parse(endDateStr,   DTF);
              LocalDate today        = LocalDate.now();
-             LocalDate effectiveEnd = today.isAfter(end) ? today : end;
 
-             // Calculate rental fee (base: days × daily rate)
-             long daysRented  = ChronoUnit.DAYS.between(start, effectiveEnd);
-             if (daysRented <= 0) daysRented = 1;
-             double rentalFee = daysRented * dailyRate;
+              // Calculate rental fee based on ACTUAL days from start to completion date
+              long daysRented  = ChronoUnit.DAYS.between(start, today) + 1;
+              if (daysRented <= 0) daysRented = 1;
+              double rentalFee = daysRented * dailyRate;
 
-             // Calculate penalty fee (only if overdue)
+             // Calculate penalty fee (only if completed after original end date)
              long overduedays = today.isAfter(end) ? ChronoUnit.DAYS.between(end, today) : 0;
              double penaltyFee = overduedays > 0 ? overduedays * dailyRate : 0.0;
 
@@ -280,8 +282,10 @@ public class CompleteBookingServlet extends HttpServlet {
              }
 
              System.out.println("✅ Payment record created: " + paymentId +
+                     " | Days: " + daysRented +
                      " | Rental: LKR " + String.format("%.2f", rentalFee) +
-                     " | Penalty: LKR " + String.format("%.2f", penaltyFee));
+                     " | Penalty: LKR " + String.format("%.2f", penaltyFee) +
+                     " | Total: LKR " + String.format("%.2f", totalAmount));
          } catch (Exception e) {
              System.err.println("CompleteBookingServlet: error creating payment record: " + e.getMessage());
          }

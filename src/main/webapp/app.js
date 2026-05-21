@@ -891,12 +891,32 @@ function openDetail(id) {
                     document.getElementById('book-buyer-email').value = window.currentEmail;
                 }
 
-                // Set minimum return date to today + 1 day
+                // Set minimum start date to today
+                const today = new Date();
+                const todayStr = today.toISOString().split('T')[0];
+                document.getElementById('book-start-date').min = todayStr;
+                document.getElementById('book-start-date').value = todayStr;
+
+                // Set minimum end date to tomorrow
                 const tomorrow = new Date();
                 tomorrow.setDate(tomorrow.getDate() + 1);
-                const dateStr = tomorrow.toISOString().split('T')[0];
-                document.getElementById('book-return-date').min = dateStr;
-                document.getElementById('book-return-date').value = dateStr;
+                const tomorrowStr = tomorrow.toISOString().split('T')[0];
+                document.getElementById('book-return-date').min = tomorrowStr;
+                document.getElementById('book-return-date').value = tomorrowStr;
+
+                // Update end date min when start date changes
+                document.getElementById('book-start-date').addEventListener('change', function() {
+                    const startDate = new Date(this.value);
+                    const endDateInput = document.getElementById('book-return-date');
+                    const minEndDate = new Date(startDate);
+                    minEndDate.setDate(minEndDate.getDate() + 1);
+                    endDateInput.min = minEndDate.toISOString().split('T')[0];
+                    
+                    // If current end date is before new min, update it
+                    if (new Date(endDateInput.value) <= startDate) {
+                        endDateInput.value = minEndDate.toISOString().split('T')[0];
+                    }
+                });
 
                 console.log('✅ Booking form shown for property:', p.title);
             } else {
@@ -943,14 +963,21 @@ function validateAndSubmitBooking(event) {
         return false;
     }
 
+    const startDateInput = document.getElementById('book-start-date');
     const returnDateInput = document.getElementById('book-return-date');
     const buyerNameInput = document.getElementById('book-buyer-name');
     const buyerEmailInput = document.getElementById('book-buyer-email');
     const bookingForm = event.target;
 
+    // Check start date is selected
+    if (!startDateInput || !startDateInput.value) {
+        alert('⚠️ Please select a start date');
+        return false;
+    }
+
     // Check return date is selected
     if (!returnDateInput || !returnDateInput.value) {
-        alert('⚠️ Please select a return date');
+        alert('⚠️ Please select an end date');
         return false;
     }
 
@@ -973,13 +1000,20 @@ function validateAndSubmitBooking(event) {
         return false;
     }
 
-    // Check that return date is in the future
-    const selectedDate = new Date(returnDateInput.value + 'T00:00:00');
+    // Check that start date is today or later
+    const selectedStartDate = new Date(startDateInput.value + 'T00:00:00');
     const today = new Date();
     today.setHours(0, 0, 0, 0);
 
-    if (selectedDate <= today) {
-        alert('⚠️ Return date must be in the future (tomorrow or later)');
+    if (selectedStartDate < today) {
+        alert('⚠️ Start date must be today or in the future');
+        return false;
+    }
+
+    // Check that end date is after start date
+    const selectedEndDate = new Date(returnDateInput.value + 'T00:00:00');
+    if (selectedEndDate <= selectedStartDate) {
+        alert('⚠️ End date must be after start date');
         return false;
     }
 

@@ -409,34 +409,3 @@
   Status        : RESERVED
   Penalty Rate  : $75000.00 / overdue day (= daily rental fee)
 
-=========================================================
-  NEW BOOKING — 2026-05-21
-=========================================================
-  Booking ID    : BK_1779365074068
-  Property      : Fully Furnished ONE bedroom Condominium Apartment  [d1785225]
-  Seller        : Tharwa Broo
-  Buyer Account : Dlshara TDW
-  Buyer Name    : Dlshara TDW
-  Buyer Email   : dilsara@gmail.com
-  Buyer Phone   : 0777533278
-  Booked On     : 2026-05-21
-  Return Date   : 2026-05-24
-  Status        : RESERVED
-  Penalty Rate  : $300000.00 / overdue day (= daily rental fee)
-
-=========================================================
-  BOOKING COMPLETED — 2026-05-21
-=========================================================
-  Booking ID    : BK_1779365074068
-  Property      : Fully Furnished ONE bedroom Condominium Apartment  [d1785225]
-  Seller        : Tharwa Broo
-  Buyer Name    : Dlshara TDW
-  Rental Start  : 2026-05-21
-  Return Date   : 2026-05-24
-  Completed On  : 2026-05-21
-  Days Rented   : 3 day(s)
-  Daily Rate    : LKR 300000.00
-  ─────────────────────────────────────────────────────
-  TOTAL EARNED  : LKR 900000.00
-  Property Status → Restored to 'For Rent' (Available)
-

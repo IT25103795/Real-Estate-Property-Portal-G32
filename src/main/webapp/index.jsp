@@ -2955,10 +2955,17 @@
                     <input type="email" name="buyerEmail" id="book-buyer-email" class="contact-form-input" placeholder="Email Address" required style="width: 100%;"/>
                     <input type="tel" name="buyerPhone" id="book-buyer-phone" class="contact-form-input" placeholder="Phone Number" style="width: 100%;"/>
 
-                    <div style="display: flex; flex-direction: column; gap: 5px;">
-                        <label style="font-size: 0.75rem; color: var(--ink4); text-transform: uppercase; letter-spacing: 0.5px; font-weight: 600;">Return Date *</label>
-                        <input type="date" name="returnDate" id="book-return-date" class="contact-form-input" required style="width: 100%;"/>
-                        <small style="color: var(--ink4); font-size: 0.8rem;">When will you return the property?</small>
+                    <div style="display: flex; gap: 10px;">
+                        <div style="display: flex; flex-direction: column; gap: 5px; flex: 1;">
+                            <label style="font-size: 0.75rem; color: var(--ink4); text-transform: uppercase; letter-spacing: 0.5px; font-weight: 600;">Start Date *</label>
+                            <input type="date" name="startDate" id="book-start-date" class="contact-form-input" required style="width: 100%;"/>
+                            <small style="color: var(--ink4); font-size: 0.8rem;">When will you start renting?</small>
+                        </div>
+                        <div style="display: flex; flex-direction: column; gap: 5px; flex: 1;">
+                            <label style="font-size: 0.75rem; color: var(--ink4); text-transform: uppercase; letter-spacing: 0.5px; font-weight: 600;">End Date *</label>
+                            <input type="date" name="returnDate" id="book-return-date" class="contact-form-input" required style="width: 100%;"/>
+                            <small style="color: var(--ink4); font-size: 0.8rem;">When will you return?</small>
+                        </div>
                     </div>
 
                     <button type="submit" class="btn-contact" style="margin-top: 15px; width: 100%; background: var(--green); font-weight: 700;">🔖 Reserve Now</button>

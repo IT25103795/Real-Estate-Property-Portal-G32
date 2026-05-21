@@ -857,7 +857,7 @@
 
             <c:if test="${param.confirmed == 'success'}">
                 <div style="background:rgba(26,86,219,0.08);border:1px solid rgba(26,86,219,0.3);border-radius:8px;padding:12px 16px;margin-bottom:16px;font-size:0.9rem;color:#1a56db;font-weight:600;">
-                    ✅ Booking confirmed! The property is now marked as <strong>Sold</strong> for the rental period.
+                    ✅ Booking confirmed! The property is now marked as <strong>Booked</strong> for the rental period.
                 </div>
             </c:if>
             <c:if test="${param.completed == 'success'}">
@@ -873,8 +873,8 @@
                         <th>Property</th>
                         <th>Buyer</th>
                         <th>Contact</th>
-                        <th>Booked On</th>
-                        <th>Return Date</th>
+                        <th>Start Date</th>
+                        <th>End Date</th>
                         <th>Status</th>
                         <th>Penalty</th>
                         <th>Action</th>
@@ -1000,8 +1000,8 @@
                         <th>Booking ID</th>
                         <th>Property</th>
                         <th>Buyer</th>
-                        <th>Booked On</th>
-                        <th>Returned On</th>
+                        <th>Rental Start</th>
+                        <th>Rental End</th>
                         <th>Booking Status</th>
                         <th style="width:100px;">Action</th>
                     </tr>
@@ -1035,7 +1035,7 @@
                             </c:forEach>
                         </c:when>
                         <c:otherwise>
-                            <tr><td colspan="8" style="text-align:center; padding:36px; opacity:0.6;">No completed transactions yet.</td></tr>
+                            <tr><td colspan="7" style="text-align:center; padding:36px; opacity:0.6;">No completed transactions yet.</td></tr>
                         </c:otherwise>
                     </c:choose>
                     </tbody>

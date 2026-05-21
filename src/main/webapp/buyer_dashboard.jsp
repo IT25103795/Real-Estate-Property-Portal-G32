@@ -996,8 +996,9 @@
                 <th>Booking ID</th>
                 <th>Property</th>
                 <th>Seller</th>
-                <th>Booked On</th>
-                <th>Return Date</th>
+                <th>Rental Start</th>
+                <th>Rental End</th>
+                <th>Time Remaining</th>
                 <th>Status</th>
                 <th>Daily Rate</th>
                 <th>Penalty Fee</th>
@@ -1023,6 +1024,30 @@
                                         ⏰ ${bk.daysOverdue} day(s) overdue
                                     </div>
                                 </c:if>
+                            </td>
+                            <td>
+                                <c:choose>
+                                    <c:when test="${bk.status == 'OVERDUE'}">
+                                        <div style="color:var(--red); font-weight:700;">⏳ Overdue</div>
+                                    </c:when>
+                                    <c:when test="${bk.status == 'COMPLETED'}">
+                                        <span style="opacity:0.4;">—</span>
+                                    </c:when>
+                                    <c:otherwise>
+                                        <c:if test="${not empty bk.daysRemaining}">
+                                            <div style="font-weight:700; color:#0d9e6e;">
+                                                <c:choose>
+                                                    <c:when test="${bk.daysRemaining > 0}">
+                                                        ${bk.daysRemaining}d ${bk.hoursRemaining}h ${bk.minutesRemaining}m
+                                                    </c:when>
+                                                    <c:otherwise>
+                                                        ${bk.hoursRemaining}h ${bk.minutesRemaining}m
+                                                    </c:otherwise>
+                                                </c:choose>
+                                            </div>
+                                        </c:if>
+                                    </c:otherwise>
+                                </c:choose>
                             </td>
                             <td>
                                 <c:choose>
@@ -1084,7 +1109,7 @@
                     </c:forEach>
                 </c:when>
                 <c:otherwise>
-                    <tr><td colspan="8" style="text-align:center; padding:40px; opacity:0.6;">You have no bookings yet.</td></tr>
+                    <tr><td colspan="9" style="text-align:center; padding:40px; opacity:0.6;">You have no bookings yet.</td></tr>
                 </c:otherwise>
             </c:choose>
             </tbody>

@@ -225,6 +225,20 @@ public class BuyerDashboardServlet extends HttpServlet {
                             penalty = daysOverdue * dailyRate;
                             bk.put("status", "OVERDUE");
                             bk.put("daysOverdue", String.valueOf(daysOverdue));
+                        } else if (!"COMPLETED".equalsIgnoreCase(d[10]) && !"OVERDUE".equalsIgnoreCase(d[10])) {
+                            // Calculate time remaining for active (RESERVED) bookings
+                            java.time.LocalDateTime returnDateTime = returnDate.atTime(23, 59, 59);
+                            java.time.LocalDateTime now = java.time.LocalDateTime.now();
+
+                            if (now.isBefore(returnDateTime)) {
+                                long daysRemaining = java.time.temporal.ChronoUnit.DAYS.between(now, returnDateTime);
+                                long hoursRemaining = java.time.temporal.ChronoUnit.HOURS.between(now, returnDateTime) % 24;
+                                long minutesRemaining = java.time.temporal.ChronoUnit.MINUTES.between(now, returnDateTime) % 60;
+
+                                bk.put("daysRemaining", String.valueOf(daysRemaining));
+                                bk.put("hoursRemaining", String.valueOf(hoursRemaining));
+                                bk.put("minutesRemaining", String.valueOf(minutesRemaining));
+                            }
                         }
                     } catch (Exception ignored) {}
                     bk.put("penaltyFee", String.format("%.2f", penalty));

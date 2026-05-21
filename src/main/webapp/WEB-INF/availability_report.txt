@@ -1,20 +1,20 @@
 =========================================================
   NESTIQ — PROPERTY AVAILABILITY REPORT
   Seller  : De Silva
-  Date    : 2026-05-21
+  Date    : 2026-05-22
 =========================================================
   Total Listed   : 13
-  Available      : 11
-  Reserved       : 2
+  Available      : 12
+  Reserved       : 1
 
------ ACTIVE RESERVATIONS (2) -----
-  [CONFIRMED] Kawisigamuwa Cool Yard | Buyer: Bhashitha Navod | Return: 2026-05-21
+----- ACTIVE RESERVATIONS (1) -----
   [CONFIRMED] Kurunegala Mount's Top | Buyer: Bhashitha Navod | Return: 2026-05-23
 
------ COMPLETED TRANSACTIONS (5) -----
+----- COMPLETED TRANSACTIONS (6) -----
   Kaduwela Beach view | Buyer: Bhashi Navod | Booked: 2026-05-05 | Returned: 2026-05-07
   Kaduwela Beach view | Buyer: Ralph Will | Booked: 2026-05-05 | Returned: 2026-05-08
   Kawisigamuwa Cool Yard | Buyer: john william | Booked: 2026-05-18 | Returned: 2026-05-19
   Rantambe New Billet | Buyer: john william | Booked: 2026-05-18 | Returned: 2026-05-19
   Kurunegala Mount's Top | Buyer: Bhashitha Navod | Booked: 2026-05-18 | Returned: 2026-05-20
+  Kawisigamuwa Cool Yard | Buyer: Bhashitha Navod | Booked: 2026-05-20 | Returned: 2026-05-21
 =========================================================

@@ -11,7 +11,7 @@ ba4ccf7e,Awissawella Pro State,7000000.0,Rathnapura,Apartment,Sold,De Silva,asse
 a59d6d6b,Mount Laviniya Pro Yard,30000000,Mount Laviniya,House,Sold,De Silva,assets/images/property-types/house.jpg,5,6,Discover your dream home in the heart of Mount Lavinia. The 'Mount Lawiniya Pro Yard' is an expansive 5-bedroom residence offering unparalleled comfort and space. Featuring 6 full bathrooms—ensuring ultimate privacy and convenience for a large family and guests—this house is designed for effortless living. Perfectly situated to enjoy the vibrant coastal lifestyle while remaining close to all modern city conveniences. An exceptional opportunity to own a substantial property in a highly sought-after location.
 cfbc6b3c,Nittambuwa Smart Home,20000000.0,Gampaha,House,Sold,Dinesh,assets/images/property-types/apartment.jpg,6,6
 a4441c7d,Nugegoda up-Rise,7500000,Nugegoda,House,Sold,De Silva,assets/images/property-types/house.jpg,2,2
-9f4e6bca,Kawisigamuwa Cool Yard,75000.0,Ibbagamuwa,Villa,Sold,De Silva,assets/images/property-types/villa.jpg,4,4,Best for Holiday vacations to stay here !
+9f4e6bca,Kawisigamuwa Cool Yard,75000.0,Ibbagamuwa,Villa,For Rent,De Silva,assets/images/property-types/villa.jpg,4,4,Best for Holiday vacations to stay here !
 5625c066,Rathkarawa Premium Site,15000000,Rathkarawa,House,For Sale,John Fane,assets/images/property-types/house.jpg,4,3,Premium residential site in Rathkarawa area
 c151fd4d,The Hortan Yard ,65000000,Nuwara Eliya,House,For Sale,Don Lee,assets/images/property-types/house.jpg,6,6,Explore the Beauty near your own property !
 ca8d1b41,Galle resort,75000,Galle,Villa,Sold,jack william,assets/images/property-types/villa.jpg,04,04

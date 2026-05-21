@@ -440,3 +440,20 @@
   Status        : RESERVED
   Penalty Rate  : $7500.00 / overdue day (= daily rental fee)
 
+=========================================================
+  BOOKING COMPLETED — 2026-05-22
+=========================================================
+  Booking ID    : BK_1779266504485
+  Property      : Kawisigamuwa Cool Yard  [9f4e6bca]
+  Seller        : De Silva
+  Buyer Name    : Bhashitha Navod
+  Rental Start  : 2026-05-20
+  Original End  : 2026-05-21
+  Completed On  : 2026-05-22
+  Days Rented   : 3 day(s) (from start to completion)
+  Daily Rate    : LKR 75000.00
+  Overdue Days  : 1 (beyond original end date)
+  ─────────────────────────────────────────────────────
+  TOTAL EARNED  : LKR 225000.00
+  Property Status → Restored to 'For Rent' (Available)
+

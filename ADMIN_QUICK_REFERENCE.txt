@@ -1,28 +1,28 @@
 ╔════════════════════════════════════════════════════════════════════════════╗
-║                     NESTIQ ADMIN PANEL - QUICK REFERENCE                  ║
+║                     NESTIQ ADMIN PANEL - QUICK REFERENCE                   ║
 ╚════════════════════════════════════════════════════════════════════════════╝
 
 ┌────────────────────────────────────────────────────────────────────────────┐
 │                         🔐 ADMIN LICENSE KEY 🔐                            │
 ├────────────────────────────────────────────────────────────────────────────┤
 │                                                                            │
-│                  436FD - 7UH5R - F12W3 - 8HY5R                            │
+│                  436FD - 7UH5R - F12W3 - 8HY5R                             │
 │                                                                            │
-│  ⚠️  KEEP THIS KEY SECURE - ONLY SHARE WITH AUTHORIZED ADMINS             │
+│  ⚠️  KEEP THIS KEY SECURE - ONLY SHARE WITH AUTHORIZED ADMINS               │
 └────────────────────────────────────────────────────────────────────────────┘
 
 ┌────────────────────────────────────────────────────────────────────────────┐
 │                         📍 ADMIN REGISTRATION STEPS                        │
 ├────────────────────────────────────────────────────────────────────────────┤
 │                                                                            │
-│  1. Click "Create account" button on homepage                             │
-│  2. Select "Admin" role (👑)                                              │
-│  3. Enter Full Name, Email                                                │
-│  4. Admin License Key: 436FD - 7UH5R - F12W3 - 8HY5R                     │
+│  1. Click "Create account" button on homepage                              │
+│  2. Select "Admin" role (👑)                                               │
+│  3. Enter Full Name, Email                                                 │
+│  4. Admin License Key: 436FD - 7UH5R - F12W3 - 8HY5R                       │
 │  5. Password: Optional                                                     │
-│  6. Click "Create Account"                                                │
-│  7. Go to Login page and sign in                                          │
-│  8. Automatically redirected to /adminDashboard                           │
+│  6. Click "Create Account"                                                 │
+│  7. Go to Login page and sign in                                           │
+│  8. Automatically redirected to /adminDashboard                            │
 │                                                                            │
 └────────────────────────────────────────────────────────────────────────────┘
 

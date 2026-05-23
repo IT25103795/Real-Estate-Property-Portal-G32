@@ -616,8 +616,7 @@
         <!-- ─────────────────────────────────────────────────────────────── -->
         <!--Profile-section -->
         <div id="myModal" style="display:none; position:fixed; z-index:1; left:0; top:0; width:100%; height:100%; background-color:rgba(0,0,0,0.4);">
-            <div style="background-color:#111827; margin: 120px auto; padding:40px; width:fit-content; border-radius:10px; box-shadow: 8px 8px 25px black;
-">
+            <div style="background-color:#111827; margin: 120px auto; padding:40px; width:fit-content; border-radius:10px; box-shadow: 8px 8px 25px black;">
                 <span id="closeBtn" style="cursor:pointer; float:right;"><i class="fa-solid fa-xmark"></i></span>
                 <p> </p><br>
                 <div class="profile-section">

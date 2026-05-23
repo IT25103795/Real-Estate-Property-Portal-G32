@@ -18,7 +18,7 @@ ca8d1b41,Galle resort,75000,Galle,Villa,Sold,jack william,assets/images/property
 5b26becd,Trinco City Center ,7000000000,Trincomale,Apartment,Sold,Dinesh,assets/images/property-types/apartment.jpg,0,0,Can be available different markets inside the City Center for Businessmen.
 8c209711,Kurunegala Mount's Top,85000,Kurunegala,Villa,For Rent,De Silva,assets/images/property-types/villa.jpg,0,0,
 50c5b2e3,Weerakodiyana,20000,Dummalasoriya,House,For Rent,Tharwa Broo,assets/images/property-types/house.jpg,2,1,1 Bath tub with 2 bed room From dummalasoriya Werakodiyana
-ff992024,Chilaw Hotel rooms,250000,Chilaw,House,For Sale,Tharwa Broo,assets/images/property-types/house.jpg,5,2,With  5 Bed Room And 2 Bath tubs With Chilaw hotel room
+ff992024,Chilaw Hotel rooms,250000.0,Chilaw,House,For Rent,Tharwa Broo,assets/images/property-types/house.jpg,5,2,With  5 Bed Room And 2 Bath tubs With Chilaw hotel room
 04ef6ca1,Wadduwa Trophy ,8500000.0,Wadduwa,House,Sold,De Silva,assets/images/property-types/house.jpg,3,3
 35f6f89d,Rantambe New Billet,4500,Rantambe,Apartment,For Rent,De Silva,assets/images/property-types/apartment.jpg,2,2,
 8bb3ceaa,Anuradhapura River side,7500,Anuradhapura,Villa,For Rent,Dinesh,assets/images/property-types/villa.jpg,2,2,

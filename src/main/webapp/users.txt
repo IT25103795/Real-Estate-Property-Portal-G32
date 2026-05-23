@@ -1,1 +1,21 @@
 admin,admin123,ADMIN
+
+<div class="modal-box" style="max-width: 500px;">
+        <span class="close-btn" onclick="closeEditBookingModal()">&times;</span>
+        <h3 class="card-title">✏️ Edit Booking</h3>
+        <p style="color: var(--ink); opacity: 0.7; margin-bottom: 20px;">Update your return date for this booking.</p>
+
+        <form action="updateBooking" method="post" style="display: flex; flex-direction: column; gap: 16px;">
+            <input type="hidden" name="bookingId" id="edit-booking-id">
+
+            <div class="form-group">
+                <label style="font-weight: 600;">New Return Date</label>
+                <input type="date" name="returnDate" id="edit-return-date" required style="padding: 10px; border: 1.5px solid var(--line); border-radius: 6px; background: var(--bg); color: var(--ink);">
+            </div>
+
+            <div style="display: flex; gap: 10px; margin-top: 10px;">
+                <button type="submit" class="btn" style="flex: 1;">💾 Update Booking</button>
+                <button type="button" class="btn" style="flex: 1; background: var(--line); color: var(--ink);" onclick="closeEditBookingModal()">Cancel</button>
+            </div>
+        </form>
+    </div>

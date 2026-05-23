@@ -7,6 +7,7 @@
     <meta charset="UTF-8">
     <title>Buyer Dashboard - NESTIQ</title>
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css">
     <style>
         /* ── PREMIUM NESTIQ VARIABLES ── */
         :root {
@@ -20,7 +21,7 @@
         }
         body { font-family: var(--font-sans); background: var(--bg2); color: var(--ink); margin: 0; padding: 30px; transition: background 0.3s, color 0.3s; }
 
-        .dashboard-container { max-width: 1600px; margin: 0 auto; }
+        .dashboard-container { max-width: 80%; margin: 0 auto; }
         .header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 30px; }
 
         /* ── STAT CARDS GRID ── */
@@ -31,6 +32,7 @@
             margin-bottom: 28px;
         }
         .stat-card {
+            width: 100%;
             background: var(--bg);
             border: 1px solid var(--line);
             border-radius: var(--r);
@@ -256,15 +258,15 @@
         /* ── PROFILE & STATS 2X2 GRID LAYOUT ── */
         .profile-stats-grid {
             display: grid;
-            grid-template-columns: 1fr 1fr;
+            /*grid-template-columns: 1fr 1fr;*/
             gap: 24px;
             margin-bottom: 24px;
         }
 
         .stats-2x2-grid {
-            display: grid;
+            display: flex;
             grid-template-columns: 1fr 1fr;
-            grid-template-rows: 1fr 1fr;
+            /*grid-template-rows: 1fr 1fr;*/
             gap: 16px;
             align-content: center;
         }
@@ -417,6 +419,30 @@
             z-index: 1;
         }
 
+        .account-tab button{
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: #0d9e6e;
+            border: none;
+            transition: background-color 0.3s ease-in-out;
+            color: whitesmoke;
+
+        }
+        .account-tab button:hover{
+            background: #0c7652;
+        }
+        .fa-regular{
+            display: flex;
+        }
+
+        /* .modal-overlay{
+            margin: auto;
+        }
+        .modal-box{
+            margin: auto;
+        } */
+
         .replace-dropdown-list { max-height: 300px; overflow-y: auto; }
         .replace-dropdown-list::-webkit-scrollbar { width: 5px; }
         .replace-dropdown-list::-webkit-scrollbar-thumb { background: var(--line); border-radius: 10px; }
@@ -558,6 +584,7 @@
             <!-- ── END NOTIFICATION BELL ── -->
 
             <button class="btn btn-outline" onclick="window.location.href='properties?tab=browse'">🏠 Browse Properties</button>
+            <div class="account-tab"><button id="openBtn" ><i class="fa-regular fa-circle-user fa-2xl"></i></button></div>
             <form action="logout" method="post" style="display:inline;">
                 <button type="submit" class="btn" style="background: var(--red);">Logout</button>
             </form>
@@ -567,6 +594,11 @@
     <!-- ── PROFILE & STATS GRID LAYOUT ───────────────────────────── -->
     <div class="profile-stats-grid">
         <!-- Profile Section -->
+        <div id="myModal" style="display:none; position:fixed; z-index:1; left:0; top:0; width:100%; height:100%; background-color:rgba(0,0,0,0.4);">
+            <div style="background-color:#111827; margin: 120px auto; padding:40px; width:fit-content; border-radius:10px; box-shadow: 8px 8px 25px black;">
+                <span id="closeBtn" style="cursor:pointer; float:right;"><i class="fa-solid fa-xmark"></i></span>
+                <p> </p><br>
+
         <div class="profile-section">
             <div class="profile-header">
                 <h3>Personal Information</h3>
@@ -613,7 +645,8 @@
                 </form>
             </div>
         </div>
-
+            </div>
+        </div>
         <!-- 2x2 Stat Cards Grid -->
         <div class="stats-2x2-grid">
             <div class="stat-card">
@@ -1091,13 +1124,13 @@
                             <td>
                                 <c:if test="${bk.status != 'COMPLETED'}">
                                     <div style="display: flex; gap: 8px;">
-                                        <button type="button" class="btn-action" style="color:var(--accent);"
+                                        <button type="button" id="bkopenBtn" class="btn-action" style="color:var(--accent);"
                                                 onclick="openEditBookingModal('${bk.bookingId}', '${bk.returnDate}')">
                                             Edit
                                         </button>
                                         <form action="cancelBooking" method="post" style="margin:0;" onsubmit="return confirm('⚠️ Are you sure you want to cancel this booking?\n\nThis will permanently remove the booking from the system and notify the seller.');">
                                             <input type="hidden" name="bookingId" value="${bk.bookingId}">
-                                            <button type="submit" class="btn-action" style="color:var(--red);">Cancel</button>
+                                            <button type="submit" class="btn-action" id="bkcloseBtn" style="color:var(--red);">Cancel</button>
                                         </form>
                                     </div>
                                 </c:if>
@@ -1121,6 +1154,22 @@
 
 <script>
     // Bulletproof direct function - customized for superEditBtn and emoji-free text!
+    //open profile section in popups
+    const modal = document.getElementById("myModal");
+    const btn = document.getElementById("openBtn");
+    const span = document.getElementById("closeBtn");
+
+    // Open modal on click
+    btn.onclick = function () {
+        modal.style.display = "block";
+
+    }
+
+    // Close modal when clicking (x)
+    span.onclick = function () {
+        modal.style.display = "none";
+    }
+
     function toggleEditMode() {
         const btn = document.getElementById('superEditBtn'); // Ensure ID matches!
         const inputs = document.querySelectorAll('#profileForm input[type="text"], #profileForm input[type="email"], #profileForm input[type="password"]');
@@ -1360,25 +1409,31 @@
 </div>
 
 <!-- Edit Booking Modal -->
-<div class="modal-overlay" id="editBookingModal" style="display: none;">
-    <div class="modal-box" style="max-width: 500px;">
-        <span class="close-btn" onclick="closeEditBookingModal()">&times;</span>
-        <h3 class="card-title">✏️ Edit Booking</h3>
-        <p style="color: var(--ink); opacity: 0.7; margin-bottom: 20px;">Update your return date for this booking.</p>
+<div id="bkmyModal"
+     style="display: none; position:fixed; z-index:1; left:0; top:0; width:100%; height:100%; background-color:rgba(0,0,0,0.4);">
+    <div style="background-color:#111827; margin:15% auto; padding:20px; width:fit-content;">
+<%--        <span id="closeBtn" style="cursor:pointer; float:right;">&times;</span>--%>
+        <div class="modal-overlay" id="editBookingModal" style="display: none; max-width: 290px;">
+            <div class="modal-box" style="max-width: 500px;">
+<%--                <span class="close-btn" onclick="closeEditBookingModal()">&times;</span>--%>
+                <h3 class="card-title">✏️ Edit Booking</h3>
+                <p style="color: var(--ink); opacity: 0.7; margin-bottom: 20px;">Update your return date for this booking.</p>
 
-        <form action="updateBooking" method="post" style="display: flex; flex-direction: column; gap: 16px;">
-            <input type="hidden" name="bookingId" id="edit-booking-id">
+                <form action="updateBooking" method="post" style="display: flex; flex-direction: column; gap: 16px;">
+                    <input type="hidden" name="bookingId" id="edit-booking-id">
 
-            <div class="form-group">
-                <label style="font-weight: 600;">New Return Date</label>
-                <input type="date" name="returnDate" id="edit-return-date" required style="padding: 10px; border: 1.5px solid var(--line); border-radius: 6px; background: var(--bg); color: var(--ink);">
+                    <div class="form-group">
+                        <label style="font-weight: 600;">New Return Date</label>
+                        <input type="date" name="returnDate" id="edit-return-date" required style="padding: 10px; border: 1.5px solid var(--line); border-radius: 6px; background: var(--bg); color: var(--ink);">
+                    </div>
+
+                    <div style="display: flex; gap: 10px; margin-top: 10px;">
+                        <button type="submit" class="btn" style="flex: 1;">💾 Update Booking</button>
+                        <button type="button" class="btn" style="flex: 1; background: var(--line); color: var(--ink);" onclick="closeEditBookingModal()">Cancel</button>
+                    </div>
+                </form>
             </div>
-
-            <div style="display: flex; gap: 10px; margin-top: 10px;">
-                <button type="submit" class="btn" style="flex: 1;">💾 Update Booking</button>
-                <button type="button" class="btn" style="flex: 1; background: var(--line); color: var(--ink);" onclick="closeEditBookingModal()">Cancel</button>
-            </div>
-        </form>
+        </div>
     </div>
 </div>
 
@@ -1386,6 +1441,20 @@
     function openEditBookingModal(bookingId, currentReturnDate) {
         document.getElementById('edit-booking-id').value = bookingId;
         document.getElementById('edit-return-date').value = currentReturnDate;
+        const bkmodal = document.getElementById("bkmyModal");
+        const bkbtn = document.getElementById("bkopenBtn");
+        const bkspan = document.getElementById("bkcloseBtn");
+
+
+        bkbtn.onclick = function () {
+            bkmodal.style.display = "block";
+            document.getElementById('editBookingModal').style.display = 'block';
+        }
+
+        bkspan.onclick = function () {
+            bkmodal.style.display = "none";
+            document.getElementById('editBookingModal').style.display = 'none';
+        }
 
         // Set minimum date to today + 1 day
         const tomorrow = new Date();
@@ -1393,10 +1462,12 @@
         const dateStr = tomorrow.toISOString().split('T')[0];
         document.getElementById('edit-return-date').min = dateStr;
 
-        document.getElementById('editBookingModal').style.display = 'flex';
+
     }
 
     function closeEditBookingModal() {
+        const bkmodal = document.getElementById("bkmyModal");
+        bkmodal.style.display = "none";
         document.getElementById('editBookingModal').style.display = 'none';
     }
 

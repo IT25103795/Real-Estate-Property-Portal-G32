@@ -7,6 +7,22 @@ if (window.localStorage.getItem('nestiq_theme') === 'dark') {
     });
 }
 
+// ── SKELETON CARD HELPER ──────────────────────────────
+function skeletonCards(count) {
+    const card =
+        '<div class="skeleton-card">' +
+            '<div class="skeleton skeleton-img"></div>' +
+            '<div class="skeleton-body">' +
+                '<div class="skeleton skeleton-line price"></div>' +
+                '<div class="skeleton skeleton-line medium"></div>' +
+                '<div class="skeleton skeleton-line short"></div>' +
+                '<div class="skeleton skeleton-line full" style="margin-top:6px;"></div>' +
+                '<div class="skeleton skeleton-line full"></div>' +
+            '</div>' +
+        '</div>';
+    return Array(count).fill(card).join('');
+}
+
 function toggleTheme() {
     const html = window.document.documentElement;
     const btn = window.document.getElementById('theme-toggle');
@@ -45,14 +61,20 @@ const TESTIMONIALS = [
     { name:"Ashan Dias", role:"Renting in Malabe", img:"https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=100&q=80", text:"The entire process was transparent, fast and stress-free. Kavindi found us the perfect annex near the campus. Exceptional service from start to finish.", stars:5 }
 ];
 
-let currentFilters = { soldStatus: 'all', status: 'all', type: 'all', city: 'all', beds: 'any', priceMin: 0, priceMax: Infinity };
+let currentFilters = { status: 'all', type: 'all', city: 'all', beds: 'any', priceMin: 0, priceMax: Infinity };
 // Removed: Unused variable savedIds
 
 // ── ROUTER ────────────────────────────
 function showPage(name) {
     document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
     const pageObj = document.getElementById('page-' + name);
-    if(pageObj) pageObj.classList.add('active');
+    if (pageObj) {
+        pageObj.classList.add('active');
+        // Wow page transition — fade + lift
+        pageObj.style.animation = 'none';
+        pageObj.offsetHeight; // force reflow
+        pageObj.style.animation = 'pageIn .5s cubic-bezier(.16,1,.3,1) both';
+    }
 
     document.querySelectorAll('.nav-links a').forEach(a => a.classList.remove('active'));
     const navItem = document.getElementById('nav-' + name);
@@ -114,7 +136,9 @@ function renderHomeFeaturedProperties() {
     const grid = document.getElementById('home-prop-grid');
     if (!grid || typeof window.properties === 'undefined') return;
 
-    // Filter properties based on both the type filter and city search
+    // Show skeletons, then render real cards after browser paints them
+    grid.innerHTML = skeletonCards(4);
+    setTimeout(function() {
     let filtered = (window.properties || []).filter(p => {
         // Combined filter for status (sale/rent) and type (apartment/house)
         const statusOrType = homeFilterType.toLowerCase();
@@ -168,7 +192,7 @@ function renderHomeFeaturedProperties() {
             </div>
             <div class="prop-body">
                 ${isSold ? '<span class="sold-tape">🔴 Sold</span>' : ''}
-                <div class="prop-price">LKR ${displayPrice} ${rentSuffixSimple}</div>
+                <div class="prop-price">$${displayPrice} ${rentSuffixSimple}</div>
                 <div class="prop-name">${p.title}</div>
                 <div class="prop-loc">
                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>
@@ -188,6 +212,7 @@ function renderHomeFeaturedProperties() {
             </div>
         </div>`;
     }).join('');
+    }, 500);
 }
 
 function renderTestimonials() {
@@ -321,7 +346,7 @@ function setBeds(btn, value) {
 }
 
 function resetFilters() {
-    currentFilters = { soldStatus: 'all', status: 'all', type: 'all', city: 'all', beds: 'any', priceMin: 0, priceMax: Infinity };
+    currentFilters = { status: 'all', type: 'all', city: 'all', beds: 'any', priceMin: 0, priceMax: Infinity };
     const priceSelect = document.getElementById('priceRangeSelect');
     if (priceSelect) priceSelect.value = 'all';
     currentListingsPage = 0;  // Reset to first page
@@ -379,9 +404,9 @@ function buildPriceRangeDropdown() {
     }
 
     function fmt(n) {
-        if (n >= 1000000) return 'LKR ' + (n / 1000000).toLocaleString(undefined, {maximumFractionDigits: 1}) + 'M';
-        if (n >= 1000)    return 'LKR ' + Math.round(n / 1000) + 'K';
-        return 'LKR ' + n.toLocaleString();
+        if (n >= 1000000) return '$' + (n / 1000000).toLocaleString(undefined, {maximumFractionDigits: 1}) + 'M';
+        if (n >= 1000)    return '$' + Math.round(n / 1000) + 'K';
+        return '$' + n.toLocaleString();
     }
 
     // Remember current selection so it survives a rebuild
@@ -447,24 +472,6 @@ function applyFilters() {
     if(typeof window.properties === 'undefined') return;
 
     let filtered = (window.properties || []).filter(p => {
-        // STATUS (Sold / Booked / Available / All) filter
-        let matchSoldStatus = true;
-        if (currentFilters.soldStatus !== 'all') {
-            const s = p.status ? p.status.trim().toLowerCase() : '';
-            const isBookedRental = s === 'sold' && window.propertyBookingEndDates && window.propertyBookingEndDates[String(p.id)];
-
-            if (currentFilters.soldStatus === 'sold') {
-                // Permanently sold (NOT booked)
-                matchSoldStatus = s === 'sold' && !isBookedRental;
-            } else if (currentFilters.soldStatus === 'booked') {
-                // Booked rentals (sold status with active booking)
-                matchSoldStatus = isBookedRental;
-            } else if (currentFilters.soldStatus === 'available') {
-                // Available (not sold at all)
-                matchSoldStatus = s !== 'sold';
-            }
-        }
-
         let matchStatus = currentFilters.status === 'all' || (() => {
             const s = p.status ? p.status.toLowerCase() : '';
             if (currentFilters.status === 'sale') return s === 'for sale';
@@ -490,7 +497,7 @@ function applyFilters() {
             matchBeds = propBeds >= minBeds;
         }
 
-        return matchSoldStatus && matchStatus && matchType && matchCity && matchPrice && matchBeds;
+        return matchStatus && matchType && matchCity && matchPrice && matchBeds;
     });
 
     allFilteredProperties = sortProperties(filtered);
@@ -503,6 +510,10 @@ function renderListings() {
     const countEl = document.getElementById('listings-count');
     const loadMoreBtn = document.getElementById('listings-load-more');
     if (!grid) return;
+
+    // Show skeletons, then render after browser paints
+    grid.innerHTML = skeletonCards(6);
+    setTimeout(function() {
 
     if (allFilteredProperties.length === 0) {
         grid.innerHTML = '<p style="grid-column: 1/-1; text-align: center; color: var(--ink3); padding: 40px; font-weight: 500;">No properties match your filters.</p>';
@@ -522,50 +533,20 @@ function renderListings() {
         const safeStatus   = p.status ? p.status.toLowerCase() : 'sale';
         const isSold       = safeStatus === 'sold';
         const isRent       = !isSold && safeStatus.includes('rent');
-        const isBookedRental = isSold && window.propertyBookingEndDates && window.propertyBookingEndDates[String(p.id)];
         const realSeller   = (p.seller && p.seller !== "null" && p.seller.trim() !== "") ? p.seller : "Verified Seller";
         const agent        = getAgentForSeller(realSeller);
         const typeLabel    = p.type ? p.type.charAt(0).toUpperCase() + p.type.slice(1) : 'Property';
-        const statusTag    = isBookedRental ? 'Booked' : (isSold ? 'Sold' : (isRent ? 'For Rent' : 'For Sale'));
-        const tagClass     = isBookedRental ? 'tag-booked' : (isSold ? 'tag-sold' : (isRent ? 'tag-rent' : 'tag-sale'));
+        const statusTag    = isSold ? 'Sold' : (isRent ? 'For Rent' : 'For Sale');
+        const tagClass     = isSold ? 'tag-sold' : (isRent ? 'tag-rent' : 'tag-sale');
         const rentSuffix   = isRent ? '<span style="font-size:0.58em;font-weight:400;color:var(--ink4)">/day</span>' : '';
-
-        // Build overlay HTML based on sold/booked status
-        let overlayHTML = '';
-        if (isSold) {
-            if (isBookedRental) {
-                overlayHTML = `<div class="sold-img-overlay booked-overlay"><div class="sold-title">BOOKED</div><div class="sold-message">This property has been booked until <strong style="color:#fff;font-size:1.1rem;">${window.propertyBookingEndDates[String(p.id)]}</strong></div></div>`;
-            } else {
-                overlayHTML = '<div class="sold-img-overlay"><div class="sold-title">SOLD</div><div class="sold-message">This property has been sold and is no longer available</div></div>';
-            }
-        }
-
-        // Build tape/badge HTML
-        let tapeHTML = '';
-        if (isBookedRental) {
-            tapeHTML = '<span class="sold-tape" style="background:rgba(16,185,129,0.15);color:#10b981;border-bottom:2px solid #10b981;">✅ Booked</span>';
-        } else if (isSold) {
-            tapeHTML = '<span class="sold-tape"> Sold</span>';
-        }
-
-        // Build list tape HTML
-        let listTapeHTML = '';
-        if (isBookedRental) {
-            listTapeHTML = '<span class="plc-sold-tape" style="background:rgba(16,185,129,0.15);color:#10b981;border-bottom:2px solid #10b981;">✅ Booked</span>';
-        } else if (isSold) {
-            listTapeHTML = '<span class="plc-sold-tape"> Sold</span>';
-        }
-
-        // Build tag style for booked rental
-        const bookedTagStyle = isBookedRental ? ' style="background:rgba(16,185,129,0.15);color:#10b981;border:1px solid rgba(16,185,129,0.3);"' : '';
 
         if (currentViewMode === 'list') {
             // ── LIST ROW ──
             return `<div class="prop-card prop-card--list${isSold ? ' prop-card--sold' : ''}" onclick="openDetail('${p.id}')">
                 <div class="plc-img">
                     <img src="${p.image}" alt="${p.title}">
-                    <span class="prop-tag ${tagClass} plc-tag"${bookedTagStyle}>${statusTag}</span>
-                    ${overlayHTML}
+                    <span class="prop-tag ${tagClass} plc-tag">${statusTag}</span>
+                    ${isSold ? '<div class="sold-img-overlay"><div class="sold-title">SOLD</div><div class="sold-message">This property has been sold and is no longer available</div></div>' : ''}
                 </div>
                 <div class="plc-body">
                     <div class="plc-type">🏠 ${typeLabel}</div>
@@ -578,8 +559,8 @@ function renderListings() {
                     </div>
                 </div>
                 <div class="plc-right">
-                    ${listTapeHTML}
-                    <div class="plc-price">LKR ${displayPrice}${rentSuffix}</div>
+                    ${isSold ? '<span class="plc-sold-tape">🔴 Sold</span>' : ''}
+                    <div class="plc-price">$${displayPrice}${rentSuffix}</div>
                     <div class="plc-agent">
                         <img src="${agent.img}" alt="${realSeller}">
                         <span>${realSeller}</span>
@@ -593,17 +574,17 @@ function renderListings() {
             <div class="prop-img-wrap">
                 <img src="${p.image}" alt="${p.title}">
                 <div class="prop-tags">
-                    <span class="prop-tag ${tagClass}"${bookedTagStyle}>${statusTag}</span>
+                    <span class="prop-tag ${tagClass}">${statusTag}</span>
                 </div>
                 ${window.currentRole === 'BUYER' && !isSold ? `
                 <button class="heart-btn${window.favPropertyIds && window.favPropertyIds.has(p.id) ? ' heart-btn--saved' : ''}"
                     title="${window.favPropertyIds && window.favPropertyIds.has(p.id) ? 'Remove from Favorites' : 'Save to Favorites'}"
                     onclick="event.stopPropagation(); toggleFavorite(this, '${p.id}')">&#10084;</button>` : ''}
-                ${overlayHTML}
+                ${isSold ? '<div class="sold-img-overlay"><div class="sold-title">SOLD</div><div class="sold-message">This property has been sold and is no longer available</div></div>' : ''}
             </div>
             <div class="prop-body">
-                ${tapeHTML}
-                <div class="prop-price">LKR ${displayPrice} ${rentSuffix}</div>
+                ${isSold ? '<span class="sold-tape">🔴 Sold</span>' : ''}
+                <div class="prop-price">$${displayPrice} ${rentSuffix}</div>
                 <div class="prop-name">${p.title}</div>
                 <div style="display:flex;align-items:center;gap:8px;margin-bottom:6px;">
                     <span style="font-size:0.78rem;font-weight:600;color:var(--accent);background:var(--accent-l);padding:3px 10px;border-radius:6px;text-transform:capitalize;">🏠 ${typeLabel}</span>
@@ -643,6 +624,7 @@ function renderListings() {
             loadMoreBtn.style.display = 'flex';
         }
     }
+    }, 500);
 }
 
 function loadMoreListings() {
@@ -656,11 +638,6 @@ function openDetail(id) {
     const p = (window.properties || []).find(prop => String(prop.id) === String(id));
     if (!p) { console.error("Property not found!"); return; }
 
-    fetch('trackView', {
-        method: 'POST',
-        body: new URLSearchParams({ propertyId: id })
-    }).catch(() => {});
-
     document.getElementById('detail-main-img').src = p.image;
     document.getElementById('detail-title').innerText = p.title;
     document.getElementById('detail-address-text').innerText = p.location;
@@ -668,21 +645,12 @@ function openDetail(id) {
     const displayPrice = typeof p.price === 'number' ? p.price.toLocaleString() : p.price;
     const isSoldDetail = p.status && String(p.status).toLowerCase() === 'sold';
     const isRentDetail = !isSoldDetail && p.status && String(p.status).toLowerCase().includes('rent');
-    document.getElementById('detail-price').innerHTML = "LKR " + displayPrice + (isRentDetail ? ' <span style="font-size:0.55em;font-weight:400;color:var(--ink4)">/day</span>' : '');
+    document.getElementById('detail-price').innerHTML = "$" + displayPrice + (isRentDetail ? ' <span style="font-size:0.55em;font-weight:400;color:var(--ink4)">/day</span>' : '');
     const priceLabelEl = document.getElementById('detail-price-label');
     if (priceLabelEl) priceLabelEl.innerText = isRentDetail ? 'Daily Rental Price' : (isSoldDetail ? 'Sold Price' : 'Listing Price');
 
     const favInput = document.getElementById('fav-property-id');
     if (favInput) favInput.value = String(id);
-
-    // Hide "Save to Dashboard" button for sold properties
-    const saveBtnContainer = document.getElementById('fav-property-id');
-    if (saveBtnContainer) {
-        const saveForm = saveBtnContainer.closest('form');
-        if (saveForm) {
-            saveForm.style.display = isSoldDetail ? 'none' : 'block';
-        }
-    }
 
     // Set description
     const detailDescEl = document.getElementById('detail-desc');
@@ -794,65 +762,6 @@ function openDetail(id) {
         console.log('Is Buyer:', isBuyer);
         console.log('Current Role:', window.currentRole);
 
-        // ── SOLD STATUS BANNER & INQUIRY FORM TOGGLE ──
-        const soldBanner = document.getElementById('sold-status-banner');
-        const inquiryWrapper = document.getElementById('inquiry-form-wrapper');
-        if (soldBanner && inquiryWrapper) {
-            if (isSold) {
-                // Show sold/rented banner; hide inquiry form
-                soldBanner.style.display = 'block';
-                inquiryWrapper.style.display = 'none';
-
-                // Check if this property has an active booking end date (confirmed rental)
-                const bookingEndDate = window.propertyBookingEndDates && window.propertyBookingEndDates[String(id)];
-
-                const soldIcon = document.getElementById('sold-icon');
-                const soldTitleText = document.getElementById('sold-title-text');
-                const soldMessage = document.getElementById('sold-message');
-                const soldSellerImg = document.getElementById('sold-seller-img');
-                const soldSellerName = document.getElementById('sold-seller-name');
-                const soldSellerTitle = document.getElementById('sold-seller-title');
-
-                if (bookingEndDate) {
-                    // ✅ CONFIRMED RENTAL: Show green "Booked until" message
-                    soldBanner.style.background = 'rgba(13,158,110,0.08)';
-                    soldBanner.style.borderColor = 'rgba(13,158,110,0.3)';
-                    if (soldIcon) soldIcon.innerHTML = '✅';
-                    if (soldTitleText) {
-                        soldTitleText.style.color = '#0d9e6e';
-                        soldTitleText.innerText = 'PROPERTY BOOKED';
-                    }
-                    if (soldMessage) {
-                        soldMessage.style.color = '#0d9e6e';
-                        soldMessage.innerHTML = `This property is currently <strong>booked</strong> and unavailable for new reservations until <strong style="color:#10b981;font-size:1rem;">${bookingEndDate}</strong>. It will become available again after this date. The due date may be extended or early!`;
-                    }
-                    if (soldSellerImg) soldSellerImg.src = agent.img || '';
-                    if (soldSellerName) soldSellerName.innerText = realSeller;
-                    if (soldSellerTitle) soldSellerTitle.innerText = agent.title || 'Real Estate Professional';
-                } else {
-                    // 🔴 PERMANENTLY SOLD: Show red "Sold" message
-                    soldBanner.style.background = 'rgba(224,40,40,0.09)';
-                    soldBanner.style.borderColor = 'rgba(224,40,40,0.35)';
-                    if (soldIcon) soldIcon.innerHTML = '🔴';
-                    if (soldTitleText) {
-                        soldTitleText.style.color = '#c0392b';
-                        soldTitleText.innerText = 'PROPERTY SOLD';
-                    }
-                    if (soldMessage) {
-                        soldMessage.style.color = '#c0392b';
-                        soldMessage.innerHTML = `This property has been <strong>sold</strong> and is <strong>no longer available</strong> for purchase or booking. Contact details have been disabled.`;
-                    }
-                    if (soldSellerImg) soldSellerImg.src = agent.img || '';
-                    if (soldSellerName) soldSellerName.innerText = realSeller;
-                    if (soldSellerTitle) soldSellerTitle.innerText = agent.title || 'Real Estate Professional';
-                }
-            } else {
-                // Not sold — hide banner, show inquiry form normally
-                soldBanner.style.display = 'none';
-                inquiryWrapper.style.display = 'block';
-            }
-        }
-
         if (bookingForm) {
             if (isRent && isBuyer) {
                 // Show booking form for "For Rent" properties AND logged-in BUYER users
@@ -891,37 +800,28 @@ function openDetail(id) {
                     document.getElementById('book-buyer-email').value = window.currentEmail;
                 }
 
-                // Set minimum start date to today
-                const today = new Date();
-                const todayStr = today.toISOString().split('T')[0];
-                document.getElementById('book-start-date').min = todayStr;
-                document.getElementById('book-start-date').value = todayStr;
-
-                // Set minimum end date to tomorrow
+                // Set minimum return date to today + 1 day
                 const tomorrow = new Date();
                 tomorrow.setDate(tomorrow.getDate() + 1);
-                const tomorrowStr = tomorrow.toISOString().split('T')[0];
-                document.getElementById('book-return-date').min = tomorrowStr;
-                document.getElementById('book-return-date').value = tomorrowStr;
-
-                // Update end date min when start date changes
-                document.getElementById('book-start-date').addEventListener('change', function() {
-                    const startDate = new Date(this.value);
-                    const endDateInput = document.getElementById('book-return-date');
-                    const minEndDate = new Date(startDate);
-                    minEndDate.setDate(minEndDate.getDate() + 1);
-                    endDateInput.min = minEndDate.toISOString().split('T')[0];
-
-                    // If current end date is before new min, update it
-                    if (new Date(endDateInput.value) <= startDate) {
-                        endDateInput.value = minEndDate.toISOString().split('T')[0];
-                    }
-                });
+                const dateStr = tomorrow.toISOString().split('T')[0];
+                document.getElementById('book-return-date').min = dateStr;
+                document.getElementById('book-return-date').value = dateStr;
 
                 console.log('✅ Booking form shown for property:', p.title);
             } else {
                 // Hide booking form for "For Sale" / "Sold" properties or if not a logged-in buyer
                 bookingForm.style.display = 'none';
+                // Show a "sold" notice if the property is sold
+                const soldNoticeId = 'sold-property-notice';
+                let existing = document.getElementById(soldNoticeId);
+                if (existing) existing.remove();
+                if (isSold) {
+                    const notice = document.createElement('div');
+                    notice.id = soldNoticeId;
+                    notice.innerHTML = '🏷️ <strong>This property has been sold.</strong> It is no longer available for booking or purchase.';
+                    notice.style.cssText = 'background:rgba(224,40,40,0.08);border:1px solid rgba(224,40,40,0.3);border-radius:8px;padding:14px 16px;font-size:0.88rem;color:#c0392b;line-height:1.5;margin-top:8px;';
+                    bookingForm.parentNode.insertBefore(notice, bookingForm.nextSibling);
+                }
                 console.log('❌ Booking form hidden - isRent:', isRent, 'isBuyer:', isBuyer, 'isSold:', isSold);
             }
         }
@@ -963,21 +863,14 @@ function validateAndSubmitBooking(event) {
         return false;
     }
 
-    const startDateInput = document.getElementById('book-start-date');
     const returnDateInput = document.getElementById('book-return-date');
     const buyerNameInput = document.getElementById('book-buyer-name');
     const buyerEmailInput = document.getElementById('book-buyer-email');
     const bookingForm = event.target;
 
-    // Check start date is selected
-    if (!startDateInput || !startDateInput.value) {
-        alert('⚠️ Please select a start date');
-        return false;
-    }
-
     // Check return date is selected
     if (!returnDateInput || !returnDateInput.value) {
-        alert('⚠️ Please select an end date');
+        alert('⚠️ Please select a return date');
         return false;
     }
 
@@ -1000,20 +893,13 @@ function validateAndSubmitBooking(event) {
         return false;
     }
 
-    // Check that start date is today or later
-    const selectedStartDate = new Date(startDateInput.value + 'T00:00:00');
+    // Check that return date is in the future
+    const selectedDate = new Date(returnDateInput.value + 'T00:00:00');
     const today = new Date();
     today.setHours(0, 0, 0, 0);
 
-    if (selectedStartDate < today) {
-        alert('⚠️ Start date must be today or in the future');
-        return false;
-    }
-
-    // Check that end date is after start date
-    const selectedEndDate = new Date(returnDateInput.value + 'T00:00:00');
-    if (selectedEndDate <= selectedStartDate) {
-        alert('⚠️ End date must be after start date');
+    if (selectedDate <= today) {
+        alert('⚠️ Return date must be in the future (tomorrow or later)');
         return false;
     }
 
@@ -1423,21 +1309,23 @@ function toggleFavorite(btn, propertyId) {
         },
         body: formData.toString()
     })
-        .then(res => res.json())
-        .then(data => {
-            if (data.status === 'ok') {
-                if (isSaved) {
-                    // Remove from favorites
-                    window.favPropertyIds.delete(propertyId);
-                    btn.classList.remove('heart-btn--saved');
-                    btn.title = 'Save to Favorites';
-                } else {
-                    // Add to favorites
-                    window.favPropertyIds.add(propertyId);
-                    btn.classList.add('heart-btn--saved');
-                    btn.title = 'Remove from Favorites';
-                }
+    .then(res => res.json())
+    .then(data => {
+        if (data.status === 'ok') {
+            if (isSaved) {
+                // Remove from favorites
+                window.favPropertyIds.delete(propertyId);
+                btn.classList.remove('heart-btn--saved');
+                btn.title = 'Save to Favorites';
+            } else {
+                // Add to favorites
+                window.favPropertyIds.add(propertyId);
+                btn.classList.add('heart-btn--saved');
+                btn.title = 'Remove from Favorites';
             }
-        })
-        .catch(err => console.error('Favorite toggle failed:', err));
+            // Refresh cart instantly after favPropertyIds is updated
+            if (typeof buildCartPanel === 'function') buildCartPanel();
+        }
+    })
+    .catch(err => console.error('Favorite toggle failed:', err));
 }

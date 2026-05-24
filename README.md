@@ -1,7 +1,8 @@
-[README.md](https://github.com/user-attachments/files/27712987/README.md)
 # 🏠 NESTIQ — Real Estate Portal
 
 > A full-stack Java EE web application for browsing, listing, and managing real estate properties — built as a Group 32 OOP project.
+>
+> **Latest Update:** May 2026 - Enhanced with premium dark theme, advanced booking system, inquiry messaging, seller analytics, and comprehensive admin dashboard.
 
 ---
 
@@ -29,51 +30,77 @@ NESTIQ is a real estate web portal where users can register as **Buyers** or **S
 
 ### 👤 Authentication & Roles
 - User registration with role selection (Buyer / Seller / Admin)
-- Secure admin registration via a unique licence key
-- Session-based login/logout
+- Secure admin registration via unique license key: `436FD - 7UH5R - F12W3 - 8HY5R`
+- Session-based login/logout with role-based access control
+- Profile management with update functionality
 
 ### 🏡 Property Listings
 - Add, update, and delete property listings (Sellers)
-- Search and filter properties (Buyers)
-- Mark properties as Sold
+- Advanced search and filter by location, type, price range (Buyers)
+- Mark properties as Sold or For Rent
 - Property types: House, Apartment, Villa
+- Premium amenities support for Villas
+- Property view tracking and analytics
+- Automatic rental expiry and restoration
 
-### 📅 Bookings
-- Book property viewings (Buyers)
-- Manage and update bookings
-- Cancel or complete bookings
-- Booking history and reports
+### 📅 Bookings & Rentals
+- Book property viewings and rentals (Buyers)
+- Manage and update bookings with date changes
+- Cancel bookings with seller notifications
+- Complete bookings with automatic payment processing
+- Overdue detection with penalty fee calculation
+- Rental expiry tracking with automatic restoration
+- Booking history and detailed reports
+- Real-time countdown timers for active rentals
 
 ### 💬 Inquiries & Messaging
-- Submit inquiries on listings
-- Threaded inquiry replies between Buyer and Seller
-- Read/unread tracking per user
+- Submit inquiries on property listings
+- Threaded inquiry system with back-and-forth conversations
+- Base64-encoded message content for security
+- Read/unread tracking per user with notification badges
+- Real-time notification system for new messages
+- Inquiry status management (Open/Closed)
 
-### ⭐ Reviews
-- Submit and manage reviews on properties
-- Verified and public review types
-- Admin moderation (delete reviews)
+### ⭐ Reviews & Ratings
+- Submit verified and public reviews on properties
+- Star rating system (1-5 stars)
+- Admin moderation (delete inappropriate reviews)
+- Review display on seller dashboards
+- Verified buyer review badges
 
-### 🔖 Favourites
-- Save and remove favourite properties
-- Search saved properties (via Binary Search Tree)
-- Sort saved listings
+### 🔖 Favorites & Saved Properties
+- Save and remove favorite properties
+- Binary Search Tree (BST) implementation for efficient searching
+- Sort saved listings by price, date, or title
+- Bulk removal of favorites
+- Replace favorites with other properties
 
-### 📢 Announcements
-- Admin can post system-wide announcements
-- Per-user read tracking
+### 📢 Announcements & Notifications
+- Admin can post system-wide announcements with priority levels
+- Per-user read tracking with persistent storage
+- Notification badge counters in dashboards
+- Role-based announcement filtering
+- Real-time notification updates
 
 ### 👑 Admin Dashboard
-- Overview statistics: total users, buyers, sellers, admins, properties, market value
-- User management (view, delete)
-- Property management (view, delete)
-- Review moderation
-- Role management
+- Comprehensive statistics: total users, buyers, sellers, admins, properties, market value
+- User management (view, delete, role-based filtering)
+- Property management (view, delete, status tracking)
+- Review moderation and deletion
+- Announcement broadcasting system
+- Booking oversight and reporting
+- Sold properties archive management
+- System-wide earnings tracking
 
-### 🎨 UI/UX
-- Dark / Light mode toggle
-- Responsive design (mobile-friendly)
-- Page transition animations
+### 🎨 UI/UX Enhancements
+- Premium dark/light mode toggle with localStorage persistence
+- Responsive design (mobile-friendly across all devices)
+- Smooth page transition animations
+- Professional gradient effects and shadows
+- Telegram-style notification badges
+- Modern card-based layouts with hover effects
+- Sticky navigation and sidebars
+- Custom scrollbar styling
 
 ---
 
@@ -83,12 +110,14 @@ NESTIQ is a real estate web portal where users can register as **Buyers** or **S
 |---|---|
 | Language | Java 8 |
 | Web Framework | Java Servlets + JSP |
-| Frontend | HTML, CSS, JavaScript (vanilla) |
-| Build Tool | Apache Maven |
+| Frontend | HTML5, CSS3, JavaScript (vanilla) |
+| Build Tool | Apache Maven 3.x |
 | Server | Apache Tomcat 7/8 (via SmartTomcat) |
 | Templating | JSTL 1.2 |
-| Data Storage | Flat files (`.txt`, `.tsv`) |
+| Data Storage | Flat files (`.txt`, `.tsv`) with UTF-8 encoding |
 | IDE | IntelliJ IDEA |
+| Chart Library | Chart.js 4.4.0 |
+| Fonts | Google Fonts (Outfit, Playfair Display, DM Mono)
 
 ---
 
@@ -98,41 +127,77 @@ NESTIQ is a real estate web portal where users can register as **Buyers** or **S
 src/
 ├── main/
 │   ├── java/com/realestate/portal/
-│   │   ├── controller/        # All Servlet controllers
+│   │   ├── controller/        # All Servlet controllers (40+ servlets)
 │   │   │   ├── LoginServlet.java
 │   │   │   ├── RegisterServlet.java
 │   │   │   ├── PropertyServlet.java
 │   │   │   ├── AdminDashboardServlet.java
+│   │   │   ├── AdminAnnouncementServlet.java
 │   │   │   ├── BuyerDashboardServlet.java
 │   │   │   ├── SellerDashboardServlet.java
+│   │   │   ├── SellerAnalyticsServlet.java
 │   │   │   ├── BookPropertyServlet.java
+│   │   │   ├── UpdateBookingServlet.java
+│   │   │   ├── CancelBookingServlet.java
+│   │   │   ├── CompleteBookingServlet.java
+│   │   │   ├── ConfirmBookingServlet.java
 │   │   │   ├── SearchServlet.java
 │   │   │   ├── SearchSavedServlet.java   # Uses BST for search
+│   │   │   ├── SortSavedServlet.java
 │   │   │   ├── ReviewServlet.java
+│   │   │   ├── DeleteReviewServlet.java
 │   │   │   ├── SubmitInquiryServlet.java
-│   │   │   └── ... (30+ servlets)
+│   │   │   ├── ReplyInquiryServlet.java
+│   │   │   ├── MarkInquiryReadServlet.java
+│   │   │   ├── SaveFavoriteServlet.java
+│   │   │   ├── RemoveFavoriteServlet.java
+│   │   │   ├── ReplaceFavoriteServlet.java
+│   │   │   ├── BulkRemoveFavoriteServlet.java
+│   │   │   ├── MarkAsSoldServlet.java
+│   │   │   ├── UpdateProfileServlet.java
+│   │   │   ├── RentalExpiryCheckerServlet.java
+│   │   │   └── ... (and more)
 │   │   ├── model/             # Domain model classes
 │   │   │   ├── User.java
 │   │   │   ├── Property.java
 │   │   │   ├── Reservation.java
 │   │   │   ├── Review.java
+│   │   │   ├── PublicReview.java
+│   │   │   ├── VerifiedReview.java
 │   │   │   ├── InquiryThread.java
-│   │   │   └── InquiryMessage.java
+│   │   │   ├── InquiryMessage.java
+│   │   │   └── PaymentRecord.java
 │   │   └── service/
 │   │       └── LoginService.java
 │   └── webapp/
 │       ├── index.jsp              # Landing / Registration / Login
-│       ├── admin_dashboard.jsp
-│       ├── buyer_dashboard.jsp
-│       ├── seller_dashboard.jsp
-│       ├── seller_home.jsp
+│       ├── admin_dashboard.jsp    # Admin control panel
+│       ├── buyer_dashboard.jsp    # Buyer dashboard
+│       ├── seller_dashboard.jsp   # Seller dashboard
+│       ├── seller_home.jsp        # Seller home page
+│       ├── seller_analytics.jsp   # Seller analytics
+│       ├── announcements.jsp      # Announcements page
 │       ├── app.js                 # Main client-side logic
-│       ├── page-transitions.js
+│       ├── page-transitions.js    # Page animation system
 │       ├── assets/images/         # Property type images
+│       ├── images/                # Background images
 │       └── WEB-INF/
 │           ├── web.xml
-│           ├── announcements.jsp
-│           └── *.txt / *.tsv      # Flat-file data store
+│           ├── users.txt          # User accounts
+│           ├── properties.txt     # Property listings
+│           ├── bookings.txt       # Booking records
+│           ├── reviews.txt        # User reviews
+│           ├── favorites.txt      # Saved favorites
+│           ├── inquiry_threads.tsv # Inquiry thread metadata
+│           ├── inquiry_messages.tsv # Individual messages (Base64)
+│           ├── inquiry_reads.tsv  # Read tracking
+│           ├── announcements.txt  # Admin announcements
+│           ├── announcement_reads.txt # Announcement read status
+│           ├── sold_properties.txt # Sold property archive
+│           ├── payments.txt       # Payment records
+│           ├── property_views.txt # View tracking
+│           ├── availability_report.txt # Auto-generated reports
+│           └── booking_report.txt # Booking reports
 pom.xml
 ```
 
@@ -174,51 +239,133 @@ pom.xml
 
 | Role | Access |
 |---|---|
-| **Buyer** | Browse listings, book viewings, save favourites, submit inquiries, write reviews |
-| **Seller** | List/manage properties, view bookings, respond to inquiries |
-| **Admin** | Full access — manage all users, properties, reviews, and announcements |
+| **Buyer** | Browse listings, book viewings/rentals, save favorites, submit inquiries, write reviews, manage bookings, receive notifications |
+| **Seller** | List/manage properties, view bookings, respond to inquiries, track analytics, manage earnings, confirm/complete bookings |
+| **Admin** | Full access — manage all users, properties, reviews, announcements, monitor system-wide statistics and earnings |
 
 ### Admin Registration
-During sign-up, select the **Admin** role and enter the admin licence key when prompted.
+During sign-up, select the **Admin** role (👑) and enter the admin license key when prompted:
+```
+436FD - 7UH5R - F12W3 - 8HY5R
+```
 
 ---
 
 ## Key Modules
 
 ### 🔍 Search (Binary Search Tree)
-`SearchSavedServlet` uses a custom BST (`PropertyBST`) to efficiently search through a user's saved properties by title or keyword.
+`SearchSavedServlet` uses a custom BST (`PropertyBST`) to efficiently search through a user's saved properties by title or keyword. This provides O(log n) search performance for large favorite lists.
 
-### 📊 Sorting
-`SortSavedServlet` provides sorting of saved listings by price, date, or other criteria.
+### 📊 Sorting & Filtering
+`SortSavedServlet` provides sorting of saved listings by price, date, or title. Advanced filtering options include location, property type, and dynamic price ranges.
 
 ### 📋 Booking Lifecycle
-Bookings flow through states: **Pending → Confirmed → Completed / Cancelled**, managed by dedicated servlets for each transition.
+Bookings flow through states: **Pending → Confirmed → Reserved → Completed / Cancelled**, managed by dedicated servlets for each transition. The system includes:
+- Automatic overdue detection with penalty fee calculation
+- Real-time countdown timers for active rentals
+- Rental expiry tracking with automatic property restoration
+- Payment record generation for completed transactions
 
 ### 💬 Inquiry Threading
-Inquiries are modelled as threads (`InquiryThread`) with individual messages (`InquiryMessage`), supporting back-and-forth conversations between buyer and seller.
+Inquiries are modelled as threads (`InquiryThread`) with individual messages (`InquiryMessage`), supporting back-and-forth conversations between buyer and seller. Messages are Base64-encoded for security and include read/unread tracking.
+
+### 📈 Seller Analytics
+The `SellerAnalyticsServlet` provides comprehensive performance metrics including:
+- Property views, inquiries, favorites, and bookings counts
+- Total earnings from sold properties and rental fees
+- Penalty fee tracking for overdue rentals
+- Availability report generation
+
+### ⏰ Rental Expiry System
+`RentalExpiryCheckerServlet` automatically monitors rental bookings and restores expired rental properties to "Available" status, ensuring accurate inventory management.
+
+### 🎨 Theme Management
+Premium dark/light mode implementation with:
+- Telegram-style toggle buttons
+- localStorage persistence across sessions
+- Smooth CSS transitions between themes
+- Professional gradient effects and shadows in dark mode
 
 ---
 
 ## Data Storage
 
-This project uses **flat-file persistence** (no external database required):
+This project uses **flat-file persistence** with UTF-8 encoding (no external database required):
 
-| File | Contents |
-|---|---|
-| `users.txt` | Registered user accounts |
-| `properties.txt` | Property listings |
-| `bookings.txt` | Booking records |
-| `reviews.txt` | User reviews |
-| `favorites.txt` | Saved favourites per user |
-| `inquiry_threads.tsv` | Inquiry thread metadata |
-| `inquiry_messages.tsv` | Individual inquiry messages |
-| `announcements.txt` | Admin announcements |
-| `sold_properties.txt` | Archive of sold listings |
+| File | Contents | Format |
+|---|---|---|
+| `users.txt` | Registered user accounts (BUYER, SELLER, ADMIN) | CSV |
+| `properties.txt` | Property listings with status tracking | CSV |
+| `bookings.txt` | Booking records with lifecycle states | Pipe-delimited |
+| `reviews.txt` | User reviews (Public/Verified types) | CSV |
+| `favorites.txt` | Saved favorites per user | CSV |
+| `inquiry_threads.tsv` | Inquiry thread metadata | TSV |
+| `inquiry_messages.tsv` | Individual inquiry messages (Base64 encoded) | TSV |
+| `inquiry_reads.tsv` | Read status tracking per user/thread | TSV |
+| `announcements.txt` | Admin announcements with priority levels | CSV |
+| `announcement_reads.txt` | Per-user announcement read tracking | CSV |
+| `sold_properties.txt` | Archive of sold listings | Pipe-delimited |
+| `payments.txt` | Payment records with fee breakdowns | Pipe-delimited |
+| `property_views.txt` | Property view tracking | Pipe-delimited |
+| `availability_report.txt` | Auto-generated availability reports | Text |
+| `booking_report.txt` | Comprehensive booking reports | Text |
 
 All data files are stored under `src/main/webapp/WEB-INF/` and are not publicly accessible.
+
+---
+
+## Recent Enhancements (2026)
+
+### 🎨 Premium UI/UX
+- **Dark Mode Enhancement**: Professional dark theme with vibrant purple accents, deep space backgrounds, and enhanced shadows
+- **Light Mode Refinement**: Clean modern interface with royal blue palette and premium gradients
+- **Responsive Design**: Mobile-first approach ensuring seamless experience across all devices
+- **Animation System**: Smooth page transitions, hover effects, and micro-interactions
+
+### 💰 Advanced Booking & Payment System
+- **Rental Fee Calculation**: Dynamic pricing based on daily rates × rental duration
+- **Penalty System**: Automatic overdue detection with per-day penalty fees
+- **Payment Records**: Detailed fee breakdowns (rental fees + penalty fees)
+- **Booking Reports**: Auto-generated comprehensive booking and availability reports
+
+### 📊 Analytics & Reporting
+- **Seller Dashboard**: Real-time performance metrics and earnings tracking
+- **Admin Overview**: System-wide statistics and user management
+- **Property Analytics**: View counts, inquiry rates, favorite saves, booking conversions
+- **Earnings Calculation**: Multi-method calculation from sold properties and rentals
+
+### 🔔 Notification System
+- **Real-time Badges**: Unread message and announcement counters
+- **Multi-channel**: Chat messages, system announcements, booking updates
+- **Read Tracking**: Persistent read status across sessions
+- **Priority Levels**: High/Medium/Low priority for announcements
+
+### 🔐 Security Enhancements
+- **Base64 Encoding**: All inquiry messages encoded for security
+- **Session Validation**: Role-based access control on all protected routes
+- **Admin Key Protection**: Secure license key validation for admin registration
+- **Data Isolation**: All sensitive data stored in WEB-INF directory
 
 ---
 
 ## Group
 
 **Group 32** — OOP Project, 2026
+
+### Team Members
+- IT25103795 (Project Lead)
+
+---
+
+## License
+
+This project is developed as part of the Object-Oriented Programming course curriculum.
+
+---
+
+## Acknowledgments
+
+- Google Fonts for premium typography (Outfit, Playfair Display, DM Mono)
+- Chart.js for analytics visualization
+- Apache Tomcat for servlet container
+- JSTL for JSP templating

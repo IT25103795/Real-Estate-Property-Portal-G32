@@ -457,3 +457,20 @@
   TOTAL EARNED  : LKR 225000.00
   Property Status → Restored to 'For Rent' (Available)
 
+=========================================================
+  BOOKING COMPLETED — 2026-05-23
+=========================================================
+  Booking ID    : BK_1779262635770
+  Property      : Ambewela Farm View  [4103559b]
+  Seller        : Dinesh
+  Buyer Name    : Dlshara TDW
+  Rental Start  : 2026-05-20
+  Original End  : 2026-05-21
+  Completed On  : 2026-05-23
+  Days Rented   : 4 day(s) (from start to completion)
+  Daily Rate    : LKR 10500.00
+  Overdue Days  : 2 (beyond original end date)
+  ─────────────────────────────────────────────────────
+  TOTAL EARNED  : LKR 42000.00
+  Property Status → Restored to 'For Rent' (Available)
+

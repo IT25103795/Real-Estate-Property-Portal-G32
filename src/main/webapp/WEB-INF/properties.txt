@@ -21,7 +21,7 @@ ca8d1b41,Galle resort,75000,Galle,Villa,Sold,jack william,assets/images/property
 ff992024,Chilaw Hotel rooms,250000.0,Chilaw,House,For Rent,Tharwa Broo,assets/images/property-types/house.jpg,5,2,With  5 Bed Room And 2 Bath tubs With Chilaw hotel room
 04ef6ca1,Wadduwa Trophy ,8500000.0,Wadduwa,House,Sold,De Silva,assets/images/property-types/house.jpg,3,3
 35f6f89d,Rantambe New Billet,4500,Rantambe,Apartment,For Rent,De Silva,assets/images/property-types/apartment.jpg,2,2,
-8bb3ceaa,Anuradhapura River side,7500,Anuradhapura,Villa,For Rent,Dinesh,assets/images/property-types/villa.jpg,2,2,
+8bb3ceaa,Anuradhapura River side,7500,Anuradhapura,Villa,Sold,Dinesh,assets/images/property-types/villa.jpg,2,2,
 4103559b,Ambewela Farm View,10500.0,Nuwara Eliya,Villa,Sold,Dinesh,assets/images/property-types/villa.jpg,1,1,
 aaf9cfed,Ja - Ela Zoo Side,5000000,Ja - Ela,House,For Sale,De Silva,assets/images/property-types/house.jpg,2,2,The smartest home you can ever find in Ja - Ela !
 5fa30def,Mahaiyawa  Mount Villa,78500,Kandy,Villa,For Rent,Dinesh,assets/images/property-types/villa.jpg,0,0,

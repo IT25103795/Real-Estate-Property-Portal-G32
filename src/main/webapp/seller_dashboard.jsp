@@ -8,6 +8,7 @@
     <meta charset="UTF-8">
     <title>Seller Dashboard - NESTIQ</title>
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css">
     <style>
         /* Reusing your slick NESTIQ variables */
         :root {
@@ -27,7 +28,7 @@
         /* ── ENHANCED STAT CARDS ── */
         .stats-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
             gap: 16px;
             margin-bottom: 28px;
         }
@@ -97,8 +98,9 @@
             margin-bottom: 24px;
             box-shadow: 0 4px 16px rgba(0,0,0,.04);
             transition: box-shadow 0.3s ease, transform 0.3s ease;
-            width: 100%;
             box-sizing: border-box;
+            width: 100%;
+
         }
         [data-theme="dark"] .card {
             box-shadow: 0 4px 20px rgba(0,0,0,0.3), 0 0 0 1px rgba(255,255,255,0.05);
@@ -120,7 +122,7 @@
         }
 
         /* Forms & Buttons */
-        .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+        .form-grid { display: grid; gap: 14px; }
         .form-group { display: flex; flex-direction: column; gap: 5px; }
         label { font-size: 0.82rem; font-weight: 600; }
         input, select, textarea {
@@ -248,22 +250,24 @@
         /* The Edit Modal */
         .modal-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.6); display: none; align-items: center; justify-content: center; z-index: 1000; }
         .modal-overlay.open { display: flex; }
-        .modal-box { background: var(--bg); padding: 30px; border-radius: var(--r); width: 100%; max-width: 500px; }
+        .modal-box { overflow: scroll; height: 550px; background: var(--bg); padding: 30px; border-radius: var(--r); width: 100%; max-width: 500px; }
         .close-btn { float: right; cursor: pointer; font-weight: bold; font-size: 1.2rem; color: var(--ink); }
+        .modal-box::-webkit-scrollbar {display: none;}
 
         /* Container styling to match your dark theme */
         /* Container styling adapting to Light/Dark Mode */
         .profile-section {
-            background: var(--bg); /* Automatically shifts between light/dark background */
-            border: 1px solid var(--line); /* Adds a subtle, elegant outline */
+            background: var(--bg2); /* Automatically shifts between light/dark background */
+            /*border: 1px solid var(--line); !* Adds a subtle, elegant outline *!*/
             box-shadow: 0 4px 16px rgba(0,0,0,.04); /* Soft shadow to lift it off the page */
             padding: 25px;
             border-radius: var(--r);
             margin-bottom: 30px;
-            margin-left: 80px; /* More push to right to give stats more left space */
+            /*margin-left: 80px; !* More push to right to give stats more left space *!*/
             color: var(--ink); /* Automatically shifts text color */
             max-width: 380px;
             min-width: 340px;
+            display: block;
         }
 
         /* ── SELLER STATS ROW (profile + stats side-by-side) ── */
@@ -271,9 +275,9 @@
             display: flex;
             gap: 20px;
             align-items: flex-start;
-            margin-bottom: 0;
+            margin: auto;
             flex-wrap: wrap;
-            width: 100%;
+            width: 80%;
             justify-content: space-between;
         }
         .seller-top-row .profile-section {
@@ -405,6 +409,23 @@
             background-color: #059669;
         }
 
+        .account-tab button{
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: #0d9e6e;
+            border: none;
+            transition: background-color 0.3s ease-in-out;
+            color: whitesmoke;
+
+        }
+        .account-tab button:hover{
+            background: #0c7652;
+        }
+        .fa-regular{
+            display: flex;
+        }
+
         /* ── INQUIRY CHAT MODAL (WhatsApp-like) ── */
         .chat-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.6); display: none; align-items: center; justify-content: center; z-index: 1200; padding: 18px; }
         .chat-overlay.open { display: flex; }
@@ -491,6 +512,7 @@
 
             <button class="btn" onclick="window.location.href='sellerAnalytics'" style="background: rgba(26,86,219,0.1); color: var(--accent); border-color: rgba(26,86,219,0.3);">📊 Analytics</button>
             <button class="btn" onclick="window.location.href='properties'" style="background: var(--line); color: var(--ink);">🏠 Go to Homepage</button>
+            <div class="account-tab"><button id="openBtn" ><i class="fa-regular fa-circle-user fa-2xl"></i></button></div>
             <form action="logout" method="post" style="display:inline;">
                 <button type="submit" class="btn" style="background: #e02828;">Logout</button>
             </form>
@@ -500,62 +522,9 @@
     <!-- ── SELLER TOP ROW: Personal Info + Stats Cards ── -->
     <div class="seller-top-row">
 
-        <div class="profile-section">
-            <div class="profile-header">
-                <h3>Personal Information</h3>
-                <button type="button" id="superEditBtn" class="edit-btn" onclick="toggleEditMode()">Edit</button>
-            </div>
-
-            <form action="UpdateProfileServlet" method="POST" id="profileForm">
-                <input type="hidden" name="oldEmail" value="<%= session.getAttribute("loggedEmail") %>">
-
-                <div class="form-group">
-                    <label style="color: var(--ink); opacity: 0.6; font-size: 0.85rem; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 5px;">NAME</label>
-                    <input type="text" name="newName" value="<%= session.getAttribute("loggedUser") %>" readonly class="readonly-input">
-                </div>
-
-                <div class="form-group" style="margin-top: 15px;">
-                    <label style="color: var(--ink); opacity: 0.6; font-size: 0.85rem; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 5px;">EMAIL</label>
-                    <input type="email" name="newEmail" value="<%= session.getAttribute("loggedEmail") %>" readonly class="readonly-input">
-                </div>
-
-                <div class="form-group" style="position: relative; margin-top: 15px;">
-                    <label style="color: var(--ink); opacity: 0.6; font-size: 0.85rem; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 5px;">PASSWORD</label>
-                    <input type="password" id="pwdInput" name="newPassword" value="<%= session.getAttribute("loggedPassword") %>" readonly class="readonly-input" style="padding-right: 35px; width: 100%; box-sizing: border-box;">
-
-                    <span onclick="togglePassword()" style="position: absolute; right: 10px; top: 32px; cursor: pointer; color: #a0aabf; transition: 0.2s;">
-                    <svg id="eyeOpen" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                        <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
-                        <circle cx="12" cy="12" r="3"></circle>
-                    </svg>
-                    <svg id="eyeClosed" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display: none;">
-                        <path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"></path>
-                        <line x1="1" y1="1" x2="23" y2="23"></line>
-                    </svg>
-                </span>
-                </div>
-
-                <button type="submit" id="saveProfileBtn" class="save-btn" style="display: none;">Save Changes</button>
-            </form>
-
-            <c:if test="${param.profile == 'success'}">
-                <div style="background: rgba(13,158,110,0.1); border: 1px solid #0d9e6e; color: #0d9e6e; padding: 12px 16px; border-radius: 8px; margin-top: 15px; font-weight: 600; text-align: center;">
-                    ✅ Profile credentials updated successfully!
-                </div>
-            </c:if>
-            <div style="margin-top: 30px; padding-top: 20px; border-top: 1px solid var(--line); text-align: center;">
-                <form action="DeleteAccountServlet" method="POST" style="margin: 0;" onsubmit="return confirm('⚠️ WARNING: Are you absolutely sure you want to permanently delete your account? This action cannot be undone and you will lose all saved properties.');">
-                    <input type="hidden" name="userEmail" value="<%= session.getAttribute("loggedEmail") %>">
-                    <button type="submit" style="background: transparent; color: var(--red); border: none; font-size: 0.85rem; font-weight: 600; cursor: pointer; text-decoration: underline;">
-                        Delete My Account
-                    </button>
-                </form>
-            </div>
-        </div>
-        <!-- end .profile-section -->
 
         <!-- ── STATS + INQUIRIES ROW ─────────────────────────────────────── -->
-        <div class="stats-inquiries-row" style="display: grid; grid-template-columns: 1fr 400px; gap: 20px; margin-bottom: 24px;">
+        <div class="stats-inquiries-row" style="grid-template-columns: 1fr 400px; gap: 20px; margin-bottom: 24px; width: 100%">
 
             <!-- Left: Stat Cards -->
             <div class="stats-grid" style="margin-bottom: 0;">
@@ -584,7 +553,7 @@
                 </div>
 
                 <!-- Total Penalty Fees Card -->
-                <div class="stat-card" style="--card-accent:#ef4444;">
+                <div class="stat-card" style="--card-accent:#8b5cf6;">
                     <div class="stat-icon" style="background:rgba(239,68,68,0.10);">⚠️</div>
                     <div class="stat-value">LKR <fmt:formatNumber value="${not empty totalPenaltyFees ? totalPenaltyFees : 0}" pattern="#,##0"/></div>
                     <div class="stat-label">Total Penalty Fees</div>
@@ -613,7 +582,7 @@
             </div>
 
             <!-- Right: Buyer Inquiries Card -->
-            <div class="card" style="margin-bottom: 0; padding: 20px;">
+            <div class="card" style="margin-bottom: 0; margin-top: 20px; padding: 20px;">
                 <h3 class="card-title" style="font-size: 1.1rem; margin-bottom: 16px; padding-bottom: 12px;">📩 Buyer Inquiries</h3>
 
                 <div style="display: flex; flex-direction: column; gap: 12px;">
@@ -643,8 +612,68 @@
                     </div>
                 </div>
             </div>
-        </div>
+
         <!-- ─────────────────────────────────────────────────────────────── -->
+        <!--Profile-section -->
+        <div id="myModal" style="display:none; position:fixed; z-index:1; left:0; top:0; width:100%; height:100%; background-color:rgba(0,0,0,0.4);">
+            <div style="background-color: var(--bg2); margin: 120px auto; padding:40px; width:fit-content; border-radius:10px; box-shadow: 8px 8px 25px black;">
+                <span id="closeBtn" style="cursor:pointer; float:right;"><i class="fa-solid fa-xmark"></i></span>
+                <p> </p><br>
+                <div class="profile-section">
+                    <div class="profile-header">
+                        <h3>Personal Information</h3>
+                        <button type="button" id="superEditBtn" class="edit-btn" onclick="toggleEditMode()">Edit</button>
+                    </div>
+
+                    <form action="UpdateProfileServlet" method="POST" id="profileForm">
+                        <input type="hidden" name="oldEmail" value="<%= session.getAttribute("loggedEmail") %>">
+
+                        <div class="form-group">
+                            <label style="color: var(--ink); opacity: 0.6; font-size: 0.85rem; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 5px;">NAME</label>
+                            <input type="text" name="newName" value="<%= session.getAttribute("loggedUser") %>" readonly class="readonly-input">
+                        </div>
+
+                        <div class="form-group" style="margin-top: 15px;">
+                            <label style="color: var(--ink); opacity: 0.6; font-size: 0.85rem; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 5px;">EMAIL</label>
+                            <input type="email" name="newEmail" value="<%= session.getAttribute("loggedEmail") %>" readonly class="readonly-input">
+                        </div>
+
+                        <div class="form-group" style="position: relative; margin-top: 15px;">
+                            <label style="color: var(--ink); opacity: 0.6; font-size: 0.85rem; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 5px;">PASSWORD</label>
+                            <input type="password" id="pwdInput" name="newPassword" value="<%= session.getAttribute("loggedPassword") %>" readonly class="readonly-input" style="padding-right: 35px; width: 100%; box-sizing: border-box;">
+
+                            <span onclick="togglePassword()" style="position: absolute; right: 10px; top: 32px; cursor: pointer; color: #a0aabf; transition: 0.2s;">
+                    <svg id="eyeOpen" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+                        <circle cx="12" cy="12" r="3"></circle>
+                    </svg>
+                    <svg id="eyeClosed" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display: none;">
+                        <path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"></path>
+                        <line x1="1" y1="1" x2="23" y2="23"></line>
+                    </svg>
+                </span>
+                        </div>
+                        <button type="submit" id="saveProfileBtn" class="save-btn" style="display: none;">Save Changes</button>
+                    </form>
+
+                    <c:if test="${param.profile == 'success'}">
+                        <div style="background: rgba(13,158,110,0.1); border: 1px solid #0d9e6e; color: #0d9e6e; padding: 12px 16px; border-radius: 8px; margin-top: 15px; font-weight: 600; text-align: center;">
+                            ✅ Profile credentials updated successfully!
+                        </div>
+                    </c:if>
+                    <div style="margin-top: 30px; padding-top: 20px; border-top: 1px solid var(--line); text-align: center;">
+                        <form action="DeleteAccountServlet" method="POST" style="margin: 0;" onsubmit="return confirm('⚠️ WARNING: Are you absolutely sure you want to permanently delete your account? This action cannot be undone and you will lose all saved properties.');">
+                            <input type="hidden" name="userEmail" value="<%= session.getAttribute("loggedEmail") %>">
+                            <button type="submit" style="background: transparent; color: var(--red); border: 2px solid red; width: 250px; height: 30px; border-radius: 8px; font-size: 0.85rem; font-weight: 600; cursor: pointer;">
+                                Delete My Account
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--end profilesection -->
+    </div>
 
         <!-- Clearfix for flex row -->
         <div style="clear: both; width: 100%;"></div>
@@ -662,15 +691,14 @@
                 <div class="form-group"><label>Bed Rooms</label><input type="number" name="bedrooms" min="0" required></div>
                 <div class="form-group"><label>Bath Tubs</label><input type="number" name="bathrooms" min="0" required></div>
                 <div class="form-group"><label>Status</label>
-                    <select name="status" id="add-status-select" onchange="updatePriceLabel('add')">
+                    <select name="status" id="add-status-select" onchange="updatePriceLabel('add')" required>
+                        <option value=""selected >Choose a Ststus</option>
                         <option>For Sale</option>
                         <option>For Rent</option>
                     </select>
                 </div>
-                <div class="form-group"><label>Description</label><textarea name="description" rows="3"></textarea></div>
-                <div class="form-group" style="display: flex; align-items: flex-end;">
-                    <button type="submit" class="btn" style="width: 100%;">➕ Add Property</button>
-                </div>
+                <div class="form-group"><label>Description</label><textarea name="description" rows="6" style="resize: none;"></textarea></div>
+                <button type="submit" class="btn" style="width: 30%; margin: 20px auto"><i class="fa-solid fa-plus"></i> Add Property</button>
             </form>
         </div>
 
@@ -1140,7 +1168,8 @@
                     <div class="form-group"><label>Bed Rooms</label><input type="number" name="bedrooms" id="edit-bedrooms" min="0" required></div>
                     <div class="form-group"><label>Bath Tubs</label><input type="number" name="bathrooms" id="edit-bathrooms" min="0" required></div>
                     <div class="form-group"><label>Status</label>
-                        <select name="status" id="edit-status-select" onchange="updatePriceLabel('edit')">
+                        <select name="status" id="edit-status-select" onchange="updatePriceLabel('edit')" required>
+                            <option value="" selected>Choose a Ststus</option>
                             <option>For Sale</option>
                             <option>For Rent</option>
                         </select>
@@ -1148,6 +1177,8 @@
                 </div>
                 <div class="form-group"><label>Description</label><textarea name="description" id="edit-description" rows="3"></textarea></div>
                 <button type="submit" class="btn">💾 Save Changes</button>
+                <button type="Reset" class="btn"> Reset</button>
+                <button onclick="closeEditModal()" class="btn">Close</button>
             </form>
         </div>
     </div>
@@ -1156,6 +1187,20 @@
 
     <script>
         // Bulletproof direct function - customized for superEditBtn and emoji-free text!
+        //open profile section in popups
+        const modal = document.getElementById("myModal");
+        const btn = document.getElementById("openBtn");
+        const span = document.getElementById("closeBtn");
+
+        // Open modal on click
+        btn.onclick = function () {
+            modal.style.display = "block";
+        }
+
+        // Close modal when clicking (x)
+        span.onclick = function () {
+            modal.style.display = "none";
+        }
         function toggleEditMode() {
             const btn = document.getElementById('superEditBtn'); // Ensure ID matches!
             const inputs = document.querySelectorAll('#profileForm input[type="text"], #profileForm input[type="email"], #profileForm input[type="password"]');
@@ -1470,6 +1515,6 @@
 
     <!-- Page Transition Animation System -->
     <script src="page-transitions.js"></script>
-
+</div>
 </body>
 </html>

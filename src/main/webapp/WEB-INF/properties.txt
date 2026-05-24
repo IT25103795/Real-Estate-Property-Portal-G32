@@ -11,17 +11,17 @@ ba4ccf7e,Awissawella Pro State,7000000.0,Rathnapura,Apartment,Sold,De Silva,asse
 a59d6d6b,Mount Laviniya Pro Yard,30000000,Mount Laviniya,House,Sold,De Silva,assets/images/property-types/house.jpg,5,6,Discover your dream home in the heart of Mount Lavinia. The 'Mount Lawiniya Pro Yard' is an expansive 5-bedroom residence offering unparalleled comfort and space. Featuring 6 full bathrooms—ensuring ultimate privacy and convenience for a large family and guests—this house is designed for effortless living. Perfectly situated to enjoy the vibrant coastal lifestyle while remaining close to all modern city conveniences. An exceptional opportunity to own a substantial property in a highly sought-after location.
 cfbc6b3c,Nittambuwa Smart Home,20000000.0,Gampaha,House,Sold,Dinesh,assets/images/property-types/apartment.jpg,6,6
 a4441c7d,Nugegoda up-Rise,7500000,Nugegoda,House,Sold,De Silva,assets/images/property-types/house.jpg,2,2
-9f4e6bca,Kawisigamuwa Cool Yard,75000.0,Ibbagamuwa,Villa,For Rent,De Silva,assets/images/property-types/villa.jpg,4,4,Best for Holiday vacations to stay here !
+9f4e6bca,Kawisigamuwa Cool Yard,75000.0,Ibbagamuwa,Villa,Sold,De Silva,assets/images/property-types/villa.jpg,4,4,Best for Holiday vacations to stay here !
 5625c066,Rathkarawa Premium Site,15000000,Rathkarawa,House,For Sale,John Fane,assets/images/property-types/house.jpg,4,3,Premium residential site in Rathkarawa area
 c151fd4d,The Hortan Yard ,65000000,Nuwara Eliya,House,For Sale,Don Lee,assets/images/property-types/house.jpg,6,6,Explore the Beauty near your own property !
 ca8d1b41,Galle resort,75000,Galle,Villa,Sold,jack william,assets/images/property-types/villa.jpg,04,04
 5b26becd,Trinco City Center ,7000000000,Trincomale,Apartment,Sold,Dinesh,assets/images/property-types/apartment.jpg,0,0,Can be available different markets inside the City Center for Businessmen.
-8c209711,Kurunegala Mount's Top,85000,Kurunegala,Villa,Sold,De Silva,assets/images/property-types/villa.jpg,0,0,
+8c209711,Kurunegala Mount's Top,85000,Kurunegala,Villa,For Rent,De Silva,assets/images/property-types/villa.jpg,0,0,
 50c5b2e3,Weerakodiyana,20000,Dummalasoriya,House,For Rent,Tharwa Broo,assets/images/property-types/house.jpg,2,1,1 Bath tub with 2 bed room From dummalasoriya Werakodiyana
-ff992024,Chilaw Hotel rooms,250000,Chilaw,House,For Sale,Tharwa Broo,assets/images/property-types/house.jpg,5,2,With  5 Bed Room And 2 Bath tubs With Chilaw hotel room
+ff992024,Chilaw Hotel rooms,250000.0,Chilaw,House,For Rent,Tharwa Broo,assets/images/property-types/house.jpg,5,2,With  5 Bed Room And 2 Bath tubs With Chilaw hotel room
 04ef6ca1,Wadduwa Trophy ,8500000.0,Wadduwa,House,Sold,De Silva,assets/images/property-types/house.jpg,3,3
 35f6f89d,Rantambe New Billet,4500,Rantambe,Apartment,For Rent,De Silva,assets/images/property-types/apartment.jpg,2,2,
-8bb3ceaa,Anuradhapura River side,7500,Anuradhapura,Villa,Sold,Dinesh,assets/images/property-types/villa.jpg,2,2,
-4103559b,Ambewela Farm View,10500.0,Nuwara Eliya,Villa,For Rent,Dinesh,assets/images/property-types/villa.jpg,1,1,
+8bb3ceaa,Anuradhapura River side,7500,Anuradhapura,Villa,For Rent,Dinesh,assets/images/property-types/villa.jpg,2,2,
+4103559b,Ambewela Farm View,10500.0,Nuwara Eliya,Villa,Sold,Dinesh,assets/images/property-types/villa.jpg,1,1,
 aaf9cfed,Ja - Ela Zoo Side,5000000,Ja - Ela,House,For Sale,De Silva,assets/images/property-types/house.jpg,2,2,The smartest home you can ever find in Ja - Ela !
 5fa30def,Mahaiyawa  Mount Villa,78500,Kandy,Villa,For Rent,Dinesh,assets/images/property-types/villa.jpg,0,0,

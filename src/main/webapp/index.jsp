@@ -243,7 +243,7 @@
         [data-theme="dark"] .nav-logo:hover {
             text-shadow: 0 0 25px rgba(157, 142, 238, 0.6), 0 0 40px rgba(157, 142, 238, 0.3);
         }
-
+        
         /* Animated gradient text for NESTIQ */
         .nav-logo-text {
             background: linear-gradient(135deg, var(--ink) 0%, var(--accent) 50%, var(--ink) 100%);
@@ -262,13 +262,13 @@
             animation-duration: 1.5s;
             filter: brightness(1.1);
         }
-
+        
         /* Premium dot with pulse animation */
-        .nav-logo .dot {
-            width: 8px;
-            height: 8px;
-            background: var(--accent);
-            border-radius: 50%;
+        .nav-logo .dot { 
+            width: 8px; 
+            height: 8px; 
+            background: var(--accent); 
+            border-radius: 50%; 
             display: inline-block;
             position: relative;
             box-shadow: 0 0 0 0 rgba(157, 142, 238, 0.7);

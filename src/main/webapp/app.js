@@ -911,7 +911,7 @@ function openDetail(id) {
                     const minEndDate = new Date(startDate);
                     minEndDate.setDate(minEndDate.getDate() + 1);
                     endDateInput.min = minEndDate.toISOString().split('T')[0];
-
+                    
                     // If current end date is before new min, update it
                     if (new Date(endDateInput.value) <= startDate) {
                         endDateInput.value = minEndDate.toISOString().split('T')[0];

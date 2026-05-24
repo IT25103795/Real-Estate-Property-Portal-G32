@@ -275,10 +275,10 @@
             margin: 0;
         }
         .profile-section {
-            background: var(--bg); /* Automatically shifts between light/dark background */
-            border: 1px solid var(--line); /* Adds a subtle, elegant outline */
+            background: var(--bg2); /* Automatically shifts between light/dark background */
+            /*border: 1px solid var(--line); !* Adds a subtle, elegant outline *!*/
             box-shadow: 0 4px 16px rgba(0,0,0,.04); /* Soft shadow to lift it off the page */
-            padding: 25px;
+            padding: 20px;
             border-radius: var(--r);
             margin-bottom: 30px;
             color: var(--ink); /* Automatically shifts text color */
@@ -442,6 +442,9 @@
         .modal-box{
             margin: auto;
         } */
+         input::-webkit-calendar-picker-indicator{
+            background-color: var(--bg2);
+         }
 
         .replace-dropdown-list { max-height: 300px; overflow-y: auto; }
         .replace-dropdown-list::-webkit-scrollbar { width: 5px; }
@@ -595,7 +598,7 @@
     <div class="profile-stats-grid">
         <!-- Profile Section -->
         <div id="myModal" style="display:none; position:fixed; z-index:1; left:0; top:0; width:100%; height:100%; background-color:rgba(0,0,0,0.4);">
-            <div style="background-color:#111827; margin: 120px auto; padding:40px; width:fit-content; border-radius:10px; box-shadow: 8px 8px 25px black;">
+            <div style="background-color:var(--bg2); margin: 120px auto; padding:20px; width:fit-content; border-radius:10px; box-shadow: 8px 8px 25px black;">
                 <span id="closeBtn" style="cursor:pointer; float:right;"><i class="fa-solid fa-xmark"></i></span>
                 <p> </p><br>
 
@@ -639,7 +642,7 @@
             <div style="margin-top: 30px; padding-top: 20px; border-top: 1px solid var(--line); text-align: center;">
                 <form action="DeleteAccountServlet" method="POST" style="margin: 0;" onsubmit="return confirm('⚠️ WARNING: Are you absolutely sure you want to permanently delete your account? This action cannot be undone and you will lose all saved properties.');">
                     <input type="hidden" name="userEmail" value="<%= session.getAttribute("loggedEmail") %>">
-                    <button type="submit" style="background: transparent; color: var(--red); border: none; font-size: 0.85rem; font-weight: 600; cursor: pointer; text-decoration: underline;">
+                    <button type="submit" style="background: transparent; color: var(--red); border: 2px solid red; font-size: 0.85rem; border-radius: 8px; font-weight: 600; cursor: pointer; padding: 5px">
                         Delete My Account
                     </button>
                 </form>
@@ -1410,10 +1413,10 @@
 
 <!-- Edit Booking Modal -->
 <div id="bkmyModal"
-     style="display: none; position:fixed; z-index:1; left:0; top:0; width:100%; height:100%; background-color:rgba(0,0,0,0.4);">
-    <div style="background-color:#111827; margin:15% auto; padding:20px; width:fit-content;">
+     style="display: none; position:fixed; z-index:1; left:0; top:0; width:100%; height:100%; background-color:rgba(0,0,0,0.4); ">
+    <div style="background-color:var(--bg2); margin:15% auto; padding:20px; width:fit-content; border-radius: 8px;">
 <%--        <span id="closeBtn" style="cursor:pointer; float:right;">&times;</span>--%>
-        <div class="modal-overlay" id="editBookingModal" style="display: none; max-width: 290px;">
+        <div class="modal-overlay" id="editBookingModal" style="display: none; max-width: 290px; ">
             <div class="modal-box" style="max-width: 500px;">
 <%--                <span class="close-btn" onclick="closeEditBookingModal()">&times;</span>--%>
                 <h3 class="card-title">✏️ Edit Booking</h3>

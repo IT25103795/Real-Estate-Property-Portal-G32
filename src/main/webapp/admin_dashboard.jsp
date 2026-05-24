@@ -74,19 +74,31 @@
             letter-spacing: 1.2px; padding: 8px 12px 6px;
         }
         .nav-item {
-            display: flex; align-items: center; gap: 10px;
-            padding: 10px 14px; border-radius: 9px;
-            border: none; background: transparent; color: var(--ink); opacity: 0.65;
-            font-family: var(--font-sans); font-size: 0.9rem; font-weight: 600;
-            cursor: pointer; transition: all 0.18s; width: 100%; text-align: left;
-            margin-bottom: 2px; white-space: nowrap;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 10px 14px;
+            border-radius: 9px;
+            border: none;
+            background: transparent;
+            color: var(--ink);
+            opacity: 0.65;
+            font-family: var(--font-sans);
+            font-size: 0.9rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.18s;
+            width: 100%;
+            text-align: left;
+            margin-bottom: 2px;
+            white-space: nowrap;
         }
         .nav-item:hover { opacity: 1; background: var(--bg2); }
         [data-theme="dark"] .nav-item:hover {
             background: rgba(59,130,246,0.08);
             box-shadow: inset 0 0 0 1px rgba(59,130,246,0.1);
         }
-        .nav-item { opacity: 1; background: var(--bg2); color: var(--accent); font-weight: 700; }
+        .nav-item { opacity: 1; background: var(--bg2); color: var(--accent); font-weight: 500; }
         [data-theme="dark"] .nav-item.active {
             background: linear-gradient(135deg, rgba(59,130,246,0.15), rgba(96,165,250,0.08));
             box-shadow: 0 0 0 1px rgba(59,130,246,0.2), inset 0 1px 0 rgba(255,255,255,0.05);
@@ -171,10 +183,25 @@
 
         /* ══ CARDS ══ */
         .card {
-            background: var(--bg); border: 1px solid var(--line);
-            border-radius: var(--r); padding: 24px;
-            margin-bottom: 20px; box-shadow: var(--shadow);
+            background: var(--bg);
+            border: 1px solid var(--line);
+            border-radius: var(--r);
+            padding: 24px;
+            margin-bottom: 20px;
+            box-shadow: var(--shadow);
             transition: box-shadow 0.3s ease, transform 0.3s ease;
+            overflow: scroll;
+        }
+        .recent-card{
+            background: var(--bg);
+            border: 1px solid var(--line);
+            border-radius: var(--r);
+            padding: 24px;
+            margin-bottom: 20px;
+            box-shadow: var(--shadow);
+            transition: box-shadow 0.3s ease, transform 0.3s ease;
+            overflow: scroll;
+            height: 400px;
         }
         [data-theme="dark"] .card {
             box-shadow: 0 4px 24px rgba(0,0,0,0.4), 0 0 0 1px rgba(255,255,255,0.06);
@@ -254,7 +281,7 @@
 
         /* ══ CHARTS ══ */
         .charts-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px; margin-bottom: 20px; }
-        .chart-card { background: var(--bg); border: 1px solid var(--line); border-radius: var(--r); padding: 24px; box-shadow: var(--shadow); }
+        .chart-card { background: var(--bg); border: 1px solid var(--line); border-radius: var(--r); padding: 30px; box-shadow: var(--shadow); height: 400px; }
         .chart-card canvas { max-height: 240px; }
         .chart-title { font-size: 0.95rem; font-weight: 700; margin-bottom: 16px; display: flex; align-items: center; gap: 6px; }
 
@@ -509,7 +536,7 @@
                     </div>
 
                     <!-- RECENT ACTIVITY -->
-                    <div class="card" style="margin-bottom:0;">
+                    <div class="recent-card" style="margin-bottom:0;">
                         <div class="card-title">⚡ Recent Activity</div>
                         <div class="activity-feed" id="activity-feed">
                             <!-- populated by JS from table data -->

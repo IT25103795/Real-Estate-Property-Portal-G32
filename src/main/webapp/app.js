@@ -211,12 +211,13 @@ function renderHomeAgents() {
     const grid = document.getElementById('home-agents-grid');
     if(!grid) return;
     grid.innerHTML = AGENTS.slice(0, 4).map((a, i) => `
-    <div class="agent-card" style="animation-delay:${i*0.06}s">
+    <div class="agent-card" style="animation-delay:${i*0.06}s" onclick="openAgentModal(${a.id})" role="button" tabindex="0" aria-label="View profile of ${a.name}">
         <div class="agent-card-img"><img src="${a.img}" alt="${a.name}" loading="lazy"/></div>
         <div class="agent-card-body">
             <div class="agent-card-name">${a.name}</div>
             <div class="agent-card-role">${a.title}</div>
             <div style="font-size:.78rem;color:var(--ink4);margin-bottom:14px">${a.agency} · ${a.years} yrs exp</div>
+            <div style="font-size:.75rem;color:var(--accent);font-weight:500;text-align:center;padding-top:10px;border-top:1px solid var(--line2);">View Profile →</div>
         </div>
     </div>`).join('');
 }
@@ -227,7 +228,7 @@ let currentAgentFilter = 'all';
 function agentCardTemplate(a, i = 0) {
     const safeRating = (typeof a.rating === 'number') ? a.rating.toFixed(1) : (a.rating || '4.8');
     return `
-    <div class="agent-card" style="animation-delay:${i * 0.05}s">
+    <div class="agent-card" style="animation-delay:${i * 0.05}s" onclick="openAgentModal(${a.id})" role="button" tabindex="0" aria-label="View profile of ${a.name}">
         <div class="agent-card-img">
             <img src="${a.img}" alt="${a.name}" loading="lazy" onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=600&q=80&fit=crop';"/>
         </div>
@@ -248,6 +249,9 @@ function agentCardTemplate(a, i = 0) {
                     <div class="ac-stat-val">${safeRating}</div>
                     <div class="ac-stat-label">Rating</div>
                 </div>
+            </div>
+            <div style="margin-top:14px;padding-top:12px;border-top:1px solid var(--line2);font-size:.75rem;color:var(--accent);font-weight:500;text-align:center;">
+                View Full Profile →
             </div>
         </div>
     </div>`;
@@ -275,6 +279,60 @@ function filterAgents(btn, spec) {
     currentAgentFilter = spec || 'all';
     renderAgentsFull();
 }
+
+// ── AGENT PROFILE MODAL ──────────────────────
+function openAgentModal(agentId) {
+    const a = AGENTS.find(x => x.id === agentId);
+    if (!a) return;
+
+    const safeRating = (typeof a.rating === 'number') ? a.rating.toFixed(1) : (a.rating || '4.8');
+    const stars = '★'.repeat(Math.round(a.rating)) + '☆'.repeat(5 - Math.round(a.rating));
+
+    // Hero & avatar
+    document.getElementById('agent-modal-hero-img').src = a.img;
+    document.getElementById('agent-modal-hero-img').alt = a.name;
+    document.getElementById('agent-modal-avatar').src = a.img;
+    document.getElementById('agent-modal-avatar').alt = a.name;
+
+    // Text fields
+    document.getElementById('agent-modal-name').textContent = a.name;
+    document.getElementById('agent-modal-role').textContent = a.title;
+    document.getElementById('agent-modal-agency').textContent = a.agency;
+    document.getElementById('agent-modal-rating').innerHTML =
+        `<span style="letter-spacing:1px">${stars}</span><span>${safeRating} / 5.0</span>`;
+    document.getElementById('agent-modal-spec-text').textContent = a.spec.charAt(0).toUpperCase() + a.spec.slice(1) + ' Specialist';
+
+    // Stats
+    document.getElementById('agent-modal-listings').textContent = a.listings;
+    document.getElementById('agent-modal-sold').textContent = a.sold;
+    document.getElementById('agent-modal-years').textContent = a.years;
+
+    // Contact
+    document.getElementById('agent-modal-phone').textContent = a.phone;
+    const emailEl = document.getElementById('agent-modal-email');
+    emailEl.textContent = a.email;
+    emailEl.href = 'mailto:' + a.email;
+    document.getElementById('agent-modal-call-btn').href = 'tel:' + a.phone.replace(/\s/g, '');
+    document.getElementById('agent-modal-email-btn').href = 'mailto:' + a.email;
+
+    // Open
+    document.getElementById('agent-modal-overlay').classList.add('open');
+    document.body.style.overflow = 'hidden';
+}
+
+function closeAgentModal() {
+    document.getElementById('agent-modal-overlay').classList.remove('open');
+    document.body.style.overflow = '';
+}
+
+function handleAgentModalBackdrop(e) {
+    if (e.target === document.getElementById('agent-modal-overlay')) closeAgentModal();
+}
+
+// Close modal with Escape key
+document.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape') closeAgentModal();
+});
 
 // 🔥 THE FACE ROUTER 🔥
 function getAgentForSeller(sellerName) {
@@ -911,7 +969,7 @@ function openDetail(id) {
                     const minEndDate = new Date(startDate);
                     minEndDate.setDate(minEndDate.getDate() + 1);
                     endDateInput.min = minEndDate.toISOString().split('T')[0];
-                    
+
                     // If current end date is before new min, update it
                     if (new Date(endDateInput.value) <= startDate) {
                         endDateInput.value = minEndDate.toISOString().split('T')[0];

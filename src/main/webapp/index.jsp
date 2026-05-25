@@ -243,7 +243,7 @@
         [data-theme="dark"] .nav-logo:hover {
             text-shadow: 0 0 25px rgba(157, 142, 238, 0.6), 0 0 40px rgba(157, 142, 238, 0.3);
         }
-        
+
         /* Animated gradient text for NESTIQ */
         .nav-logo-text {
             background: linear-gradient(135deg, var(--ink) 0%, var(--accent) 50%, var(--ink) 100%);
@@ -262,13 +262,13 @@
             animation-duration: 1.5s;
             filter: brightness(1.1);
         }
-        
+
         /* Premium dot with pulse animation */
-        .nav-logo .dot { 
-            width: 8px; 
-            height: 8px; 
-            background: var(--accent); 
-            border-radius: 50%; 
+        .nav-logo .dot {
+            width: 8px;
+            height: 8px;
+            background: var(--accent);
+            border-radius: 50%;
             display: inline-block;
             position: relative;
             box-shadow: 0 0 0 0 rgba(157, 142, 238, 0.7);
@@ -1067,6 +1067,119 @@
         .ac-stat:not(:last-child) { border-right: 1px solid var(--line2); }
         .ac-stat-val { font-size: 1.1rem; font-weight: 700; color: var(--ink); }
         .ac-stat-label { font-size: .68rem; color: var(--ink4); font-weight: 400; margin-top: 2px; }
+
+        /* ── AGENT PROFILE MODAL ── */
+        .agent-modal-overlay {
+            position: fixed; inset: 0; z-index: 3000;
+            background: rgba(15,17,23,.55); backdrop-filter: blur(6px);
+            display: flex; align-items: center; justify-content: center;
+            opacity: 0; pointer-events: none;
+            transition: opacity .25s ease;
+            padding: 20px;
+        }
+        .agent-modal-overlay.open { opacity: 1; pointer-events: all; }
+        .agent-modal-box {
+            background: var(--bg); border-radius: var(--r3);
+            width: 100%; max-width: 560px; max-height: 90vh; overflow-y: auto;
+            box-shadow: var(--shadow-xl);
+            transform: scale(.93) translateY(16px);
+            transition: transform .3s cubic-bezier(.34,1.56,.64,1);
+            position: relative;
+        }
+        .agent-modal-overlay.open .agent-modal-box { transform: none; }
+        .agent-modal-hero {
+            position: relative; height: 200px; overflow: hidden;
+            border-radius: var(--r3) var(--r3) 0 0;
+        }
+        .agent-modal-hero img {
+            width: 100%; height: 100%; object-fit: cover; object-position: top;
+        }
+        .agent-modal-hero-gradient {
+            position: absolute; inset: 0;
+            background: linear-gradient(to top, rgba(15,17,23,.75) 0%, transparent 55%);
+        }
+        .agent-modal-close {
+            position: absolute; top: 14px; right: 14px;
+            width: 34px; height: 34px; border-radius: 50%;
+            background: rgba(255,255,255,.18); backdrop-filter: blur(8px);
+            border: 1px solid rgba(255,255,255,.3);
+            display: flex; align-items: center; justify-content: center;
+            cursor: pointer; font-size: 1.1rem; color: #fff;
+            transition: background .2s;
+        }
+        .agent-modal-close:hover { background: rgba(255,255,255,.32); }
+        .agent-modal-avatar {
+            position: absolute; bottom: -36px; left: 28px;
+            width: 72px; height: 72px; border-radius: 50%;
+            border: 3px solid var(--bg);
+            object-fit: cover; box-shadow: var(--shadow);
+        }
+        .agent-modal-body { padding: 52px 28px 28px; }
+        .agent-modal-name {
+            font-family: var(--font-serif); font-size: 1.5rem;
+            font-weight: 700; color: var(--ink); margin-bottom: 2px;
+        }
+        .agent-modal-role {
+            font-size: .78rem; color: var(--accent); font-weight: 600;
+            letter-spacing: .5px; text-transform: uppercase; margin-bottom: 4px;
+        }
+        .agent-modal-agency {
+            font-size: .85rem; color: var(--ink3); margin-bottom: 20px;
+        }
+        .agent-modal-stats {
+            display: grid; grid-template-columns: repeat(3,1fr);
+            gap: 1px; background: var(--line); border-radius: var(--r);
+            overflow: hidden; margin-bottom: 22px;
+        }
+        .ams-item {
+            background: var(--bg2); padding: 14px 10px; text-align: center;
+        }
+        .ams-val {
+            font-size: 1.3rem; font-weight: 700; color: var(--ink); line-height: 1;
+        }
+        .ams-label { font-size: .68rem; color: var(--ink4); margin-top: 3px; }
+        .agent-modal-divider {
+            height: 1px; background: var(--line); margin: 18px 0;
+        }
+        .agent-modal-info-row {
+            display: flex; align-items: center; gap: 10px;
+            margin-bottom: 12px; font-size: .88rem; color: var(--ink2);
+        }
+        .agent-modal-info-row svg {
+            width: 16px; height: 16px; flex-shrink: 0; color: var(--accent);
+        }
+        .agent-modal-info-row a { color: var(--accent); }
+        .agent-modal-spec-badge {
+            display: inline-flex; align-items: center; gap: 5px;
+            padding: 4px 12px; border-radius: 99px;
+            background: var(--accent-l); color: var(--accent);
+            font-size: .75rem; font-weight: 600; text-transform: capitalize;
+            border: 1px solid rgba(37,99,235,.18); margin-bottom: 16px;
+        }
+        .agent-modal-cta {
+            display: flex; gap: 10px; margin-top: 20px;
+        }
+        .agent-modal-cta a {
+            flex: 1; padding: 11px 0; border-radius: var(--r);
+            text-align: center; font-size: .85rem; font-weight: 600;
+            transition: all var(--t); cursor: pointer;
+        }
+        .agent-modal-cta .btn-primary-modal {
+            background: var(--accent); color: #fff;
+        }
+        .agent-modal-cta .btn-primary-modal:hover { background: var(--accent2); }
+        .agent-modal-cta .btn-ghost-modal {
+            border: 1.5px solid var(--line); color: var(--ink2);
+            background: none;
+        }
+        .agent-modal-cta .btn-ghost-modal:hover { border-color: var(--accent); color: var(--accent); }
+        .agent-modal-rating {
+            display: flex; align-items: center; gap: 5px;
+            font-size: .82rem; color: var(--amber); margin-bottom: 16px;
+        }
+        .agent-modal-rating span { color: var(--ink3); font-size: .8rem; }
+        [data-theme="dark"] .agent-modal-box { background: var(--bg); }
+        [data-theme="dark"] .ams-item { background: var(--bg2); }
 
         /* ── AUTH PAGES (FIXED BULLETPROOF) ── */
         /* ── AUTH PAGES (FOOLPROOF HTML FIX) ── */
@@ -3530,6 +3643,55 @@
         }
     });
 </script>
+
+<!-- ── AGENT PROFILE MODAL ── -->
+<div class="agent-modal-overlay" id="agent-modal-overlay" onclick="handleAgentModalBackdrop(event)">
+    <div class="agent-modal-box" id="agent-modal-box">
+        <div class="agent-modal-hero" id="agent-modal-hero">
+            <img id="agent-modal-hero-img" src="" alt="" />
+            <div class="agent-modal-hero-gradient"></div>
+            <button class="agent-modal-close" onclick="closeAgentModal()" aria-label="Close">&#x2715;</button>
+            <img class="agent-modal-avatar" id="agent-modal-avatar" src="" alt="" />
+        </div>
+        <div class="agent-modal-body">
+            <div class="agent-modal-name" id="agent-modal-name"></div>
+            <div class="agent-modal-role" id="agent-modal-role"></div>
+            <div class="agent-modal-agency" id="agent-modal-agency"></div>
+            <div class="agent-modal-rating" id="agent-modal-rating"></div>
+            <div class="agent-modal-spec-badge" id="agent-modal-spec">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="12" height="12"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                <span id="agent-modal-spec-text"></span>
+            </div>
+            <div class="agent-modal-stats">
+                <div class="ams-item">
+                    <div class="ams-val" id="agent-modal-listings"></div>
+                    <div class="ams-label">Active Listings</div>
+                </div>
+                <div class="ams-item">
+                    <div class="ams-val" id="agent-modal-sold"></div>
+                    <div class="ams-label">Properties Sold</div>
+                </div>
+                <div class="ams-item">
+                    <div class="ams-val" id="agent-modal-years"></div>
+                    <div class="ams-label">Years Exp.</div>
+                </div>
+            </div>
+            <div class="agent-modal-divider"></div>
+            <div class="agent-modal-info-row">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 12 19.79 19.79 0 01.19 3.38 2 2 0 012.18 1h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L6.91 8.09a16 16 0 006 6l.56-.56a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z"/></svg>
+                <span id="agent-modal-phone"></span>
+            </div>
+            <div class="agent-modal-info-row">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+                <a id="agent-modal-email" href=""></a>
+            </div>
+            <div class="agent-modal-cta">
+                <a class="btn-primary-modal" id="agent-modal-call-btn" href="">&#128222; Call Now</a>
+                <a class="btn-ghost-modal" id="agent-modal-email-btn" href="">&#9993; Send Email</a>
+            </div>
+        </div>
+    </div>
+</div>
 
 </body>
 </html>

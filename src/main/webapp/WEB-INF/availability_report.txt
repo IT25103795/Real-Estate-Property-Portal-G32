@@ -1,20 +1,20 @@
 =========================================================
   NESTIQ — PROPERTY AVAILABILITY REPORT
-  Seller  : Dinesh
+  Seller  : De Silva
   Date    : 2026-05-25
 =========================================================
-  Total Listed   : 7
-  Available      : 6
-  Reserved       : 1
+  Total Listed   : 13
+  Available      : 13
+  Reserved       : 0
 
------ ACTIVE RESERVATIONS (1) -----
-  [CONFIRMED] Anuradhapura River side | Buyer: Bhashitha Navod | Return: 2026-05-27
+----- ACTIVE RESERVATIONS (0) -----
 
------ COMPLETED TRANSACTIONS (6) -----
-  Kiribathgoda new building | Buyer: Sadun Priya | Booked: 2026-05-04 | Returned: 2026-05-06
-  Hegalla beach Villa | Buyer: Bhashi Navod | Booked: 2026-05-06 | Returned: 2026-05-07
-  Anuradhapura River side | Buyer: Dinindu | Booked: 2026-05-18 | Returned: 2026-05-19
-  Ambewela Farm View | Buyer: Dinindu | Booked: 2026-05-18 | Returned: 2026-05-21
-  Ambewela Farm View | Buyer: Dlshara TDW | Booked: 2026-05-20 | Returned: 2026-05-21
-  Mahaiyawa  Mount Villa | Buyer: Bhashitha Navod | Booked: 2026-05-25 | Returned: 2026-05-26
+----- COMPLETED TRANSACTIONS (7) -----
+  Kaduwela Beach view | Buyer: Bhashi Navod | Booked: 2026-05-05 | Returned: 2026-05-07
+  Kaduwela Beach view | Buyer: Ralph Will | Booked: 2026-05-05 | Returned: 2026-05-08
+  Kawisigamuwa Cool Yard | Buyer: john william | Booked: 2026-05-18 | Returned: 2026-05-19
+  Rantambe New Billet | Buyer: john william | Booked: 2026-05-18 | Returned: 2026-05-19
+  Kurunegala Mount's Top | Buyer: Bhashitha Navod | Booked: 2026-05-18 | Returned: 2026-05-20
+  Kawisigamuwa Cool Yard | Buyer: Bhashitha Navod | Booked: 2026-05-20 | Returned: 2026-05-21
+  Kurunegala Mount's Top | Buyer: Bhashitha Navod | Booked: 2026-05-21 | Returned: 2026-05-23
 =========================================================

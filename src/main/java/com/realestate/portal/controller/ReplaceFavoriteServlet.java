@@ -56,6 +56,11 @@ public class ReplaceFavoriteServlet extends HttpServlet {
                 }
             }
         } catch (Exception ignored) {}
+// ── PROPERTY AVAILABILITY GUARD ──────────────────────────────
+// Before replacing a favorite, we verify the new property:
+//   1. Actually exists in properties.txt
+//   2. Is NOT marked as Sold (status col index 5)
+// If either check fails, buyer is redirected with ?replace=unavailable
 
         if (!exists || isSold) {
             response.sendRedirect("buyerDashboard?replace=unavailable");

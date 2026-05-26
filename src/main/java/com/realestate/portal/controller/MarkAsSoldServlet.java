@@ -46,7 +46,7 @@ public class MarkAsSoldServlet extends HttpServlet {
                         data[5] = "Sold";
                         updatedLines.add(String.join(",", data));
                         updated = true;
-                        
+
                         // Store property data for sold notification
                         // Format: propertyId|title|price|location|imageUrl
                         soldPropertyData = propertyId + "|" + data[1] + "|" + data[2] + "|" + data[3] + "|" + (data.length > 7 ? data[7] : "");
@@ -66,8 +66,8 @@ public class MarkAsSoldServlet extends HttpServlet {
                 } catch (Exception e) {
                     System.out.println("Error saving sold status: " + e.getMessage());
                 }
-                
-                // Record the sold property with timestamp for display on homepage
+
+                // Records the sold property with timestamp for display on homepage
                 if (soldPropertyData != null) {
                     recordSoldProperty(soldPropertyData);
                 }
@@ -76,17 +76,17 @@ public class MarkAsSoldServlet extends HttpServlet {
 
         response.sendRedirect("sellerDashboard");
     }
-    
+
     private void recordSoldProperty(String propertyData) {
         try {
             String soldFilePath = getServletContext().getRealPath("/WEB-INF/sold_properties.txt");
             File soldFile = new File(soldFilePath);
-            
+
             // Get current timestamp
             LocalDateTime now = LocalDateTime.now();
             DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
             String timestamp = now.format(formatter);
-            
+
             // Check if property is already recorded to avoid duplicates
             boolean alreadyRecorded = false;
             if (soldFile.exists()) {
@@ -100,7 +100,7 @@ public class MarkAsSoldServlet extends HttpServlet {
                     }
                 }
             }
-            
+
             // Only append if not already recorded
             if (!alreadyRecorded) {
                 try (FileWriter fw = new FileWriter(soldFile, true);
@@ -108,7 +108,7 @@ public class MarkAsSoldServlet extends HttpServlet {
                      PrintWriter out = new PrintWriter(bw)) {
                     out.println(timestamp + "|" + propertyData);
                 }
-                
+
                 System.out.println("🔴 SOLD PROPERTY RECORDED: " + propertyData);
             } else {
                 System.out.println("⚠️ SOLD PROPERTY ALREADY RECORDED: " + propertyData);

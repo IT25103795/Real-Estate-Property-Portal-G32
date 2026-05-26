@@ -539,3 +539,19 @@
   Status        : RESERVED
   Penalty Rate  : $7500.00 / overdue day (= daily rental fee)
 
+=========================================================
+  NEW BOOKING — 2026-05-25
+=========================================================
+  Booking ID    : BK_1779725071996
+  Property      : Chilaw Hotel rooms  [ff992024]
+  Seller        : Tharwa Broo
+  Buyer Account : Bhashi Navod
+  Buyer Name    : Bhashitha Navod
+  Buyer Email   : bhashithanavod500@gmail.com
+  Buyer Phone   : 0706451658
+  Booked On     : 2026-05-25
+  Rental Start  : 2026-05-25
+  Return Date   : 2026-05-27
+  Status        : RESERVED
+  Penalty Rate  : $250000.00 / overdue day (= daily rental fee)
+

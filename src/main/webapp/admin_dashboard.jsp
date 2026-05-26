@@ -87,27 +87,58 @@
             font-size: 0.9rem;
             font-weight: 500;
             cursor: pointer;
-            transition: all 0.18s;
+            transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
             width: 100%;
             text-align: left;
             margin-bottom: 2px;
             white-space: nowrap;
+            position: relative;
+            overflow: hidden;
         }
-        .nav-item:hover { opacity: 1; background: var(--bg2); }
+        .nav-item::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 3px;
+            height: 100%;
+            background: var(--accent);
+            opacity: 0;
+            transition: opacity 0.25s ease;
+        }
+        .nav-item:hover { 
+            opacity: 1; 
+            background: var(--bg2); 
+            transform: translateX(4px);
+        }
+        .nav-item:hover::before {
+            opacity: 1;
+        }
         [data-theme="dark"] .nav-item:hover {
             background: rgba(59,130,246,0.08);
-            box-shadow: inset 0 0 0 1px rgba(59,130,246,0.1);
+            box-shadow: 0 2px 12px rgba(59,130,246,0.15), inset 0 0 0 1px rgba(59,130,246,0.1);
         }
-        .nav-item { opacity: 1; background: var(--bg2); color: var(--accent); font-weight: 500; }
+        .nav-item.active { opacity: 1; background: var(--bg2); color: var(--accent); font-weight: 500; }
+        .nav-item.active::before {
+            opacity: 1;
+        }
         [data-theme="dark"] .nav-item.active {
             background: linear-gradient(135deg, rgba(59,130,246,0.15), rgba(96,165,250,0.08));
             box-shadow: 0 0 0 1px rgba(59,130,246,0.2), inset 0 1px 0 rgba(255,255,255,0.05);
         }
-        .nav-item .nav-icon { font-size: 1rem; width: 20px; text-align: center; }
+        .nav-item .nav-icon { font-size: 1rem; width: 20px; text-align: center; transition: transform 0.25s ease; }
+        .nav-item:hover .nav-icon {
+            transform: scale(1.15);
+        }
         .nav-item .nav-badge {
             margin-left: auto; background: var(--accent); color: white;
             font-size: 0.68rem; font-weight: 700; padding: 2px 7px;
             border-radius: 99px; font-family: var(--font-mono);
+            transition: all 0.25s ease;
+        }
+        .nav-item:hover .nav-badge {
+            transform: scale(1.1);
+            box-shadow: 0 2px 8px rgba(37,99,235,0.3);
         }
         .sidebar-footer {
             padding: 16px 12px 20px;
@@ -118,12 +149,24 @@
             padding: 10px 12px; background: var(--amber-bg);
             border-radius: 9px; margin-bottom: 10px;
             border: 1px solid transparent;
-            transition: all 0.3s ease;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            cursor: pointer;
+        }
+        .admin-badge-pill:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 16px rgba(217,119,6,0.2);
+            border-color: rgba(217,119,6,0.3);
         }
         [data-theme="dark"] .admin-badge-pill {
             background: rgba(245,158,11,0.1);
             border-color: rgba(245,158,11,0.2);
             box-shadow: 0 2px 8px rgba(245,158,11,0.15);
+        }
+        [data-theme="dark"] .admin-badge-pill:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(245,158,11,0.25);
+            border-color: rgba(245,158,11,0.4);
+            background: rgba(245,158,11,0.15);
         }
         .admin-badge-pill .name { font-size: 0.85rem; font-weight: 700; }
         .admin-badge-pill .role { font-size: 0.73rem; opacity: 0.6; }
@@ -307,13 +350,63 @@
 
         /* ══ INFO GRID ══ */
         .info-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 16px; }
-        .info-block { background: var(--bg2); border-radius: 10px; padding: 16px; border: 1px solid var(--line); }
+        .info-block { 
+            background: var(--bg2); 
+            border-radius: 10px; 
+            padding: 16px; 
+            border: 1px solid var(--line); 
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); 
+            cursor: default; 
+        }
+        .info-block:hover {
+            transform: translateY(-4px);
+            box-shadow: var(--shadow-lg);
+        }
+        [data-theme="dark"] .info-block:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 12px 40px rgba(0,0,0,0.5), 0 0 0 1px rgba(255,255,255,0.1);
+            border-color: rgba(59,130,246,0.3);
+        }
         .info-label { font-size: 0.73rem; opacity: 0.5; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 6px; font-weight: 700; }
         .info-value { font-size: 1rem; font-weight: 700; }
 
         /* ══ CAPABILITY CARDS ══ */
         .cap-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 14px; }
-        .cap-card { padding: 16px; background: var(--bg2); border-radius: 10px; border: 1px solid var(--line); }
+        .cap-card { 
+            padding: 16px; 
+            background: var(--bg2); 
+            border-radius: 10px; 
+            border: 1px solid var(--line); 
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); 
+            cursor: default; 
+            position: relative; 
+            overflow: hidden; 
+        }
+        .cap-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 3px;
+            height: 100%;
+            background: linear-gradient(180deg, var(--accent), #3b82f6);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+        .cap-card:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-lg);
+            border-color: rgba(37,99,235,0.2);
+        }
+        .cap-card:hover::before {
+            opacity: 1;
+        }
+        [data-theme="dark"] .cap-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 12px 40px rgba(0,0,0,0.5), 0 0 0 1px rgba(255,255,255,0.1);
+            border-color: rgba(59,130,246,0.3);
+            background: rgba(59,130,246,0.05);
+        }
         .cap-icon { font-size: 1.4rem; margin-bottom: 8px; }
         .cap-title { font-weight: 700; margin-bottom: 4px; font-size: 0.9rem; }
         .cap-desc  { font-size: 0.8rem; opacity: 0.55; }

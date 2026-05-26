@@ -1229,6 +1229,17 @@
                     </div>
                 </div>
 
+                <!-- ═══ Edit Admin Credentials Section ═══ -->
+                <div class="card" style="border-left:4px solid var(--accent); margin-top:20px;">
+                    <div class="card-title">✏️ Edit Admin Credentials</div>
+                    <p style="margin-bottom:16px; opacity:0.6; font-size:0.875rem; line-height:1.6;">
+                        Update your admin username, email address, or password. Changes will take effect immediately.
+                    </p>
+                    <button class="btn" onclick="openEditAdminModal()" style="padding:12px 24px;">
+                        ✏️ Edit My Credentials
+                    </button>
+                </div>
+
                 <!-- ═══ Account Management Section ═══ -->
                 <div class="card" style="border-left:4px solid var(--red); margin-top:20px;">
                     <div class="card-title" style="color:var(--red);">⚠️ Account Management</div>
@@ -1339,6 +1350,36 @@
             <div style="display:flex; gap:10px; justify-content:flex-end; margin-top:8px;">
                 <button type="button" class="btn-ghost btn" onclick="document.getElementById('edit-ann-modal').style.display='none'">Cancel</button>
                 <button type="submit" class="btn">Save Changes</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<!-- ══════════ MODAL: EDIT ADMIN CREDENTIALS ═════════ -->
+<div id="edit-admin-modal" class="modal-overlay">
+    <div class="modal-box" style="max-width:520px; border-left:4px solid var(--accent);">
+        <div class="modal-title">✏️ Edit Admin Credentials</div>
+        <form action="UpdateProfileServlet" method="post">
+            <input type="hidden" name="oldEmail" value="${sessionScope.loggedEmail}"/>
+            <div class="form-group">
+                <label class="form-label">New Username</label>
+                <input type="text" name="newName" required class="form-input" value="${sessionScope.loggedUser}" placeholder="Enter new username"/>
+            </div>
+            <div class="form-group">
+                <label class="form-label">New Email Address</label>
+                <input type="email" name="newEmail" required class="form-input" value="${sessionScope.loggedEmail}" placeholder="Enter new email"/>
+            </div>
+            <div class="form-group">
+                <label class="form-label">New Password</label>
+                <div style="position:relative;">
+                    <input type="password" id="admin-new-password" name="newPassword" required class="form-input" value="${sessionScope.loggedPassword}" placeholder="Enter new password" style="padding-right:40px;"/>
+                    <button type="button" onclick="toggleAdminPassword()" style="position:absolute; right:10px; top:50%; transform:translateY(-50%); background:none; border:none; cursor:pointer; font-size:1.1rem; opacity:0.5; transition:opacity 0.2s;" onmouseover="this.style.opacity='1'" onmouseout="this.style.opacity='0.5'" title="Show password">👁️</button>
+                </div>
+                <p style="font-size:0.75rem; opacity:0.5; margin-top:6px;">Current password is shown by default. Change it if needed.</p>
+            </div>
+            <div style="display:flex; gap:10px; justify-content:flex-end; margin-top:24px;">
+                <button type="button" class="btn-ghost btn" onclick="document.getElementById('edit-admin-modal').style.display='none'">Cancel</button>
+                <button type="submit" class="btn">💾 Save Changes</button>
             </div>
         </form>
     </div>
@@ -1678,6 +1719,27 @@ function openEditModal(id, title, message, priority, category, expiry) {
     document.getElementById('edit-ann-modal').style.display = 'flex';
 }
 
+/* ─── EDIT ADMIN CREDENTIALS MODAL ─── */
+function openEditAdminModal() {
+    document.getElementById('edit-admin-modal').style.display = 'flex';
+}
+
+/* ─── TOGGLE ADMIN PASSWORD VISIBILITY ── */
+function toggleAdminPassword() {
+    const passwordInput = document.getElementById('admin-new-password');
+    const toggleBtn = passwordInput.parentElement.querySelector('button');
+    
+    if (passwordInput.type === 'password') {
+        passwordInput.type = 'text';
+        toggleBtn.innerHTML = '🙈';
+        toggleBtn.title = 'Hide password';
+    } else {
+        passwordInput.type = 'password';
+        toggleBtn.innerHTML = '👁️';
+        toggleBtn.title = 'Show password';
+    }
+}
+
 /* ─── DELETE ACCOUNT MODAL ─── */
 function openDeleteAccountModal() {
     document.getElementById('confirm-admin-name').value = '';
@@ -1696,7 +1758,7 @@ function validateAdminDelete() {
     return confirm('️ FINAL WARNING: Are you absolutely sure you want to permanently delete your admin account? This action CANNOT be undone!');
 }
 
-['create-ann-modal','edit-ann-modal','delete-account-modal'].forEach(function(id) {
+['create-ann-modal','edit-ann-modal','edit-admin-modal','delete-account-modal'].forEach(function(id) {
     const el = document.getElementById(id);
     if (el) el.addEventListener('click', function(e) { if (e.target === this) this.style.display = 'none'; });
 });

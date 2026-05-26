@@ -62,7 +62,9 @@ public class UpdateProfileServlet extends HttpServlet {
         session.setAttribute("loggedPassword", newPassword);
 
         // Redirect back to the dashboard with success message
-        if ("SELLER".equals(currentRole)) {
+        if ("ADMIN".equals(currentRole)) {
+            response.sendRedirect("adminDashboard?profile=success");
+        } else if ("SELLER".equals(currentRole)) {
             response.sendRedirect("sellerDashboard?profile=success");
         } else {
             response.sendRedirect("buyerDashboard?profile=success");

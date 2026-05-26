@@ -3,7 +3,7 @@ Bhashi Navod,bhashithanavod800@gmail.com,0777654321,bashimicroalok1232f@,BUYER
 Dinesh,dinesh231@gmail.com,0712345678,bashimicroalok1232f@d,SELLER
 Kavindi,kavii326@gmail.com,0765432109,bashimicroalok1232f@k,SELLER
 Ravindu Lohan,ravilohan600@gmail.com,0756789012,ravil432,BUYER
-John Carter,carterjohn241@gmail.com,0709876543,cartj4231@,ADMIN
+John Carter,carterjohn242@gmail.com,0709876543,cartj4231@,ADMIN
 Ralph Will,willral432@gmail.com,0764352343,ralph534@%,BUYER
 Asmith fogh,asfogh432@gmail.com,0786547809,fogh562@,BUYER
 John Fane,johnf234@gmail.com,0765642314,pannejon482#@,SELLER

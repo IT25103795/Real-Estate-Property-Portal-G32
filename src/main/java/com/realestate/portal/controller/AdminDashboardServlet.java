@@ -222,6 +222,13 @@ public class AdminDashboardServlet extends HttpServlet {
         request.setAttribute("totalSoldProperties", totalSoldProperties);
         request.setAttribute("totalEarnings",      totalEarnings);
 
+        // Check if profile was successfully updated
+        String profileStatus = request.getParameter("profile");
+        if ("success".equals(profileStatus)) {
+            session.setAttribute("flashMessage", "✅ Admin credentials updated successfully!");
+            session.setAttribute("flashMessageType", "success");
+        }
+
         request.getRequestDispatcher("/admin_dashboard.jsp").forward(request, response);
     }
 

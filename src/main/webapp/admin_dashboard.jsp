@@ -1228,6 +1228,22 @@
                         </div>
                     </div>
                 </div>
+
+                <!-- ═══ Account Management Section ═══ -->
+                <div class="card" style="border-left:4px solid var(--red); margin-top:20px;">
+                    <div class="card-title" style="color:var(--red);">⚠️ Account Management</div>
+                    <p style="margin-bottom:16px; opacity:0.6; font-size:0.875rem; line-height:1.6;">
+                        Warning: Deleting your admin account is permanent and cannot be undone. All your administrative privileges will be lost immediately.
+                    </p>
+                    <div style="display:flex; gap:12px; align-items:center; flex-wrap:wrap;">
+                        <button class="btn btn-danger" onclick="openDeleteAccountModal()" style="padding:12px 24px;">
+                            🗑️ Delete My Admin Account
+                        </button>
+                        <div style="opacity:0.5; font-size:0.82rem;">
+                            <span style="color:var(--red); font-weight:700;">⚠️ This action is irreversible</span>
+                        </div>
+                    </div>
+                </div>
             </div><!-- /panel-account -->
 
         </div><!-- /content -->
@@ -1304,7 +1320,7 @@
                         <option value="MAINTENANCE">🛠️ Maintenance</option>
                         <option value="UPDATE">💡 Update</option>
                         <option value="EVENT">🎉 Event</option>
-                        <option value="ALERT">⚠️ Alert</option>
+                        <option value="ALERT">️ Alert</option>
                     </select>
                 </div>
                 <div class="form-group">
@@ -1323,6 +1339,31 @@
             <div style="display:flex; gap:10px; justify-content:flex-end; margin-top:8px;">
                 <button type="button" class="btn-ghost btn" onclick="document.getElementById('edit-ann-modal').style.display='none'">Cancel</button>
                 <button type="submit" class="btn">Save Changes</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<!-- ══════════ MODAL: DELETE ADMIN ACCOUNT ═════════ -->
+<div id="delete-account-modal" class="modal-overlay">
+    <div class="modal-box" style="max-width:520px; border-left:4px solid var(--red);">
+        <div class="modal-title" style="color:var(--red);">⚠️ Delete Admin Account</div>
+        <div style="margin-bottom:20px; padding:16px; background:var(--red-bg); border-radius:10px; border:1px solid var(--red);">
+            <p style="font-weight:700; color:var(--red); margin-bottom:8px;">⚠️ This action is permanent and irreversible!</p>
+            <p style="font-size:0.875rem; opacity:0.7; line-height:1.6;">
+                Deleting your admin account will immediately revoke all administrative privileges. This cannot be undone.
+            </p>
+        </div>
+        <form action="deleteAccount" method="post" onsubmit="return validateAdminDelete();">
+            <input type="hidden" name="userEmail" value="${sessionScope.loggedEmail}"/>
+            <div class="form-group">
+                <label class="form-label">Confirm Admin Username</label>
+                <input type="text" id="confirm-admin-name" required class="form-input" placeholder="Type your admin username to confirm"/>
+                <p style="font-size:0.75rem; opacity:0.5; margin-top:6px;">Current admin: <strong>${sessionScope.loggedUser}</strong></p>
+            </div>
+            <div style="display:flex; gap:10px; justify-content:flex-end; margin-top:24px;">
+                <button type="button" class="btn-ghost btn" onclick="document.getElementById('delete-account-modal').style.display='none'">Cancel</button>
+                <button type="submit" class="btn btn-danger">🗑️ Permanently Delete Account</button>
             </div>
         </form>
     </div>
@@ -1636,7 +1677,26 @@ function openEditModal(id, title, message, priority, category, expiry) {
     document.getElementById('edit-ann-expiry').value = expiry || '';
     document.getElementById('edit-ann-modal').style.display = 'flex';
 }
-['create-ann-modal','edit-ann-modal'].forEach(function(id) {
+
+/* ─── DELETE ACCOUNT MODAL ─── */
+function openDeleteAccountModal() {
+    document.getElementById('confirm-admin-name').value = '';
+    document.getElementById('delete-account-modal').style.display = 'flex';
+}
+
+function validateAdminDelete() {
+    const inputName = document.getElementById('confirm-admin-name').value.trim();
+    const adminName = '${sessionScope.loggedUser}';
+    
+    if (inputName !== adminName) {
+        alert('Username does not match. Please type your exact admin username to confirm deletion.');
+        return false;
+    }
+    
+    return confirm('️ FINAL WARNING: Are you absolutely sure you want to permanently delete your admin account? This action CANNOT be undone!');
+}
+
+['create-ann-modal','edit-ann-modal','delete-account-modal'].forEach(function(id) {
     const el = document.getElementById(id);
     if (el) el.addEventListener('click', function(e) { if (e.target === this) this.style.display = 'none'; });
 });

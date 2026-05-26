@@ -8,7 +8,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-@WebServlet("/DeleteAccountServlet")
+@WebServlet("/deleteAccount")
 public class DeleteAccountServlet extends HttpServlet {
 
     @Override
@@ -58,11 +58,8 @@ public class DeleteAccountServlet extends HttpServlet {
             session.invalidate();
         }
 
-        if ("ADMIN".equalsIgnoreCase(role)) {
-             response.sendRedirect("adminDashboard");
-        } else {
-            request.setAttribute("successMessage", "Your account has been successfully deleted. We are sorry to see you go!");
-            request.getRequestDispatcher("/index.jsp").forward(request, response);
-        }
+        // Redirect to login page after account deletion
+        request.setAttribute("successMessage", "Your account has been successfully deleted. We are sorry to see you go!");
+        request.getRequestDispatcher("/index.jsp").forward(request, response);
     }
 }

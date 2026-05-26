@@ -1,14 +1,20 @@
 =========================================================
   NESTIQ — PROPERTY AVAILABILITY REPORT
-  Seller  : Tharwa Broo
-  Date    : 2026-05-25
+  Seller  : De Silva
+  Date    : 2026-05-26
 =========================================================
-  Total Listed   : 2
-  Available      : 1
-  Reserved       : 1
+  Total Listed   : 13
+  Available      : 13
+  Reserved       : 0
 
------ ACTIVE RESERVATIONS (1) -----
-  [CONFIRMED] Chilaw Hotel rooms | Buyer: Bhashitha Navod | Return: 2026-05-27
+----- ACTIVE RESERVATIONS (0) -----
 
------ COMPLETED TRANSACTIONS (0) -----
+----- COMPLETED TRANSACTIONS (7) -----
+  Kaduwela Beach view | Buyer: Bhashi Navod | Booked: 2026-05-05 | Returned: 2026-05-07
+  Kaduwela Beach view | Buyer: Ralph Will | Booked: 2026-05-05 | Returned: 2026-05-08
+  Kawisigamuwa Cool Yard | Buyer: john william | Booked: 2026-05-18 | Returned: 2026-05-19
+  Rantambe New Billet | Buyer: john william | Booked: 2026-05-18 | Returned: 2026-05-19
+  Kurunegala Mount's Top | Buyer: Bhashitha Navod | Booked: 2026-05-18 | Returned: 2026-05-20
+  Kawisigamuwa Cool Yard | Buyer: Bhashitha Navod | Booked: 2026-05-20 | Returned: 2026-05-21
+  Kurunegala Mount's Top | Buyer: Bhashitha Navod | Booked: 2026-05-21 | Returned: 2026-05-23
 =========================================================

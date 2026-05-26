@@ -56,5 +56,3 @@ public class RemoveFavoriteServlet extends HttpServlet {
         } else {
             response.sendRedirect("buyerDashboard");
         }
-    }
-}
